@@ -1,0 +1,9 @@
+Have you ever been disappointed when, for these wonderful holidays you so longed for, you arrive to your favorite skiing station and there is no snow? Been so frustrated when you finally reach your dream windsurf spot and there is no wind? Or that you are unable to get a glimpse of the famous Northern lights because of those bloody clouds? Then our project is for you !
+
+Through this interactive programming project we are trying to build a web based application you can play with to find the best place to be according to your weather likings.
+
+As you can see on the balsamiq prototype linked below, you only have to enter your departure place, any country you are curious to visit and which weathers you would like to have and/or the ones you would prefer to avoid and then press search. By using the GoogleMaps API along side with an API for weather forecast plus an API for flights research (if we have time), we would be able to display on our user screen the places that best match their wishes.
+
+*** link ***
+
+We plan to implement our 6 views web application using Angular framework and the small backend that would persist and process the data in Python.
