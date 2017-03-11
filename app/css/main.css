@@ -1,0 +1,15 @@
+html, body, .ng-scope, .container-fluid#main-container, .row#main-row {
+	height: 100%;
+}
+
+.input {
+	background-color: blue;
+	margin-right: 15px;
+}
+.map {
+	background-color: green;
+}
+
+.input, .map {
+	border-radius: 3px;
+}
