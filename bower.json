@@ -1,18 +1,18 @@
 {
-  "name": "dinner-planner",
-  "description": "A starter project for Interaction Programming course Lab5",
+  "name": "sunny-express",
+  "description": "Project for Interaction Programming course",
   "version": "0.0.0",
-  "homepage": "https://github.com/kth-csc-iprog/dinnerplanner-html",
+  "homepage": "https://github.com/quimarnau/sunny-express",
   "license": "MIT",
   "private": true,
   "dependencies": {
     "angular": "1.6.x",
     "angular-mocks": "1.6.x",
-    "jquery": "~2.1.1",
-    "bootstrap": "~3.x",
     "angular-route": "1.6.x",
     "angular-resource": "1.6.x",
     "angular-animate": "1.6.x",
-    "angular-cookies":"1.6.x"
+    "angular-cookies": "1.6.x",
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.x"
   }
 }

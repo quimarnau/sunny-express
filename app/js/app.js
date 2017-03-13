@@ -1,4 +1,4 @@
-var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute','ngResource']);
+var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute','ngResource','ngMaterial']);
 
 sunnyExpressApp.config(['$routeProvider',
 	function($routeProvider) {

@@ -1,9 +1,9 @@
 {
   "version": "0.0.0",
   "private": true,
-  "name": "dinner-planner",
-  "description": "A starter project for Interaction Programming course Lab5",
-  "repository": "https://github.com/kth-csc-iprog/dinnerplanner-html",
+  "name": "sunny-express",
+  "description": "Project for Interaction Programming course",
+  "repository": "https://github.com/quimarnau/sunny-express",
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.9.0",
