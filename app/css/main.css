@@ -4,21 +4,22 @@ html, body, .ng-scope, .container-fluid#main-container {
 
 div.img-responsive {
 	background: url("../images/background.jpg") no-repeat;
-	background-size: cover;
-	height: 100%;
-	width: 100%;
-	min-width: 800px;
-	position: absolute;
-	overflow-y: hidden;
 }
 
-.input {
-	background-color: blue;
+/* Search view */
+#input-container {
+	/*background-color: #1b6d85;*/
+	background-color: white;
+	/* opacity: 0.9; */
 }
-.map {
+#map-container {
 	background-color: green;
 }
 
-.input, .map {
+#input-container, #map-container{
 	border-radius: 3px;
+}
+
+#location-form {
+	background-color: white;
 }
