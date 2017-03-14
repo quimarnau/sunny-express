@@ -8,18 +8,20 @@ div.img-responsive {
 
 /* Search view */
 #input-container {
-	/*background-color: #1b6d85;*/
 	background-color: white;
-	/* opacity: 0.9; */
 }
 #map-container {
 	background-color: green;
 }
-
 #input-container, #map-container{
 	border-radius: 3px;
 }
-
 #location-form {
 	background-color: white;
+}
+
+
+/* Description view */
+.small-icon {
+	max-height: 50px;
 }
