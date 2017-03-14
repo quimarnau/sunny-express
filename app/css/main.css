@@ -20,6 +20,14 @@ div.img-responsive {
 	background-color: white;
 }
 
+button.md-button.md-icon-button, .md-datepicker-calendar-icon{
+	margin: 0px;
+	padding: 0px;
+}
+#date-departure-label, #date-return-label {
+	left: 0px;
+}
+
 
 /* Description view */
 .small-icon {

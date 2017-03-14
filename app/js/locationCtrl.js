@@ -1,28 +1,27 @@
 /**
  * TODO: reuse code and instead of having 2 functions queryCities, queryCountries build 1 querySearch
+ * TODO: show suggestions on black entry
  */
 sunnyExpressApp.controller('LocationCtrl', function () {
 
-	var self = this;
-
 	// list of cities and countries value/display objects
-	self.cities          = loadCities();
-	self.countries       = loadCountries();
+	this.cities          = loadCities();
+	this.countries       = loadCountries();
 
-	self.selectedCity    = null;
-	self.selectedCountry = null;
+	this.selectedCity    = null;
+	this.selectedCountry = null;
 
-	self.searchCity      = null;
-	self.searchCountry   = null;
+	this.searchCity      = null;
+	this.searchCountry   = null;
 
-	self.queryCities     = queryCities;
-	self.queryCountries  = queryCountries;
+	this.queryCities     = queryCities;
+	this.queryCountries  = queryCountries;
 
 	/**
 	 * Search for city
 	 */
 	function queryCities (query) {
-		var results = query ? self.cities.filter( createFilterFor(query) ) : self.cities;
+		var results = query ? this.cities.filter( createFilterFor(query) ) : this.cities;
 		return results;
 	}
 
@@ -30,7 +29,7 @@ sunnyExpressApp.controller('LocationCtrl', function () {
 	 * Search for country
 	 */
 	function queryCountries (query) {
-		var results = query ? self.countries.filter( createFilterFor(query) ) : self.countries;
+		var results = query ? this.countries.filter( createFilterFor(query) ) : this.countries;
 		return results;
 	}
 
