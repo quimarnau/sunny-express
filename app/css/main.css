@@ -22,3 +22,7 @@ div.img-responsive {
 .input, .map {
 	border-radius: 3px;
 }
+
+.small-icon {
+	max-height: 50px;
+}
