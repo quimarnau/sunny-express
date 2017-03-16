@@ -1,4 +1,4 @@
-sunnyExpressApp.factory("SunnyExpress", function ($resource, $timeout) {
+sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 	var departCity, arriveCountry = "";
 	var departDate, returnDate = new Date();
 	var minTemperature = 10, maxTemperature = 25;
@@ -7,7 +7,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $timeout) {
 	var apiKey = "4f1d06b1e44e43099b0180536171603";
 	var reqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
 
-	var resultCities = [];
 	arriveCountry = "France";
 
 	this.getDepartCity = function() {

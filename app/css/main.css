@@ -1,9 +1,14 @@
 html, body, .ng-scope, .container-fluid#main-container {
 	height: 100%;
+	width: 100%
 }
 
 div.img-responsive {
-	background: url("../images/background.jpg") no-repeat;
+
+	background: url("../images/background.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	display: compact;
 }
 
 /* Search view */
