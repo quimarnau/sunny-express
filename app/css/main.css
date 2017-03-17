@@ -17,6 +17,7 @@ div.img-responsive {
 }
 #map-container {
 	background-color: green;
+	height: 100%;
 }
 #input-container, #map-container{
 	border-radius: 3px;
@@ -37,4 +38,11 @@ button.md-button.md-icon-button, .md-datepicker-calendar-icon{
 /* Description view */
 .small-icon {
 	max-height: 50px;
+}
+
+#map {
+	bottom:0px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
 }
