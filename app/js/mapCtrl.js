@@ -1,7 +1,6 @@
 var map;
 
 function initMap() {
-	alert('hholaa');
 	var activeCity = {"name": "Paris", "lon":2.35236,"lat":48.856461};
 	var activeCityLocation = new google.maps.LatLng(activeCity.lat, activeCity.lon);
 	// Constructor creates a new map - only center and zoom are required.
