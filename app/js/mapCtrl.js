@@ -24,7 +24,7 @@ function initMap() {
 		radius: '5000'
 	}
 
-	service = new google.maps.places.PlacesService(map);
+	//service = new google.maps.places.PlacesService(map);
 	//service.nearbySearch(request, callback);
 
 }

@@ -9,7 +9,7 @@ sunnyExpressApp.config(['$routeProvider',
 		$routeProvider.
 			when('/home', {
 				templateUrl: 'partials/home.html',
-				controller: 'TestCtrl'
+				controller: 'HomeCtrl'
 			}).
 			when('/search', {
 				templateUrl: 'partials/search.html'
@@ -17,6 +17,10 @@ sunnyExpressApp.config(['$routeProvider',
 			when('/description', {
 				templateUrl: 'partials/description.html',
 				controller: 'DescriptionCtrl'
+			}).
+			when('/calendar', {
+				templateUrl: 'partials/calendar.html',
+				controller: 'CalendarCtrl'
 			}).
 			otherwise({
 				redirectTo: '/home'

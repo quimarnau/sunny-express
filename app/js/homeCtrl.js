@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('TestCtrl', function($scope, $q, SunnyExpress) {
+sunnyExpressApp.controller('HomeCtrl', function($scope, $q, SunnyExpress) {
 	
 	this.searchWeatherCity = function(numDays, city) {
 		var d = $q.defer();
