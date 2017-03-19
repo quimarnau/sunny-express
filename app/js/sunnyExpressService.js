@@ -29,7 +29,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 	}
 
 	this.setArriveCountry = function(newArriveCountry) {
-		console.log('new arrive country: ' + newArriveCountry.toString());
+		//console.log('new arrive country: ' + newArriveCountry.toString());
 		arriveCountry = newArriveCountry;
 	}
 
@@ -90,7 +90,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 				//console.log(data);
 				//alert(data.results[0].geometry.location.lat + ', ' + data.results[0].geometry.location.lng);
 				arriveCountryMap.setCenter(data.results[0].geometry.location);
-				arriveCountryMap.setZoom(6);
+				arriveCountryMap.setZoom(5);
 				console.log('done');
 			},
 			function(data) {
