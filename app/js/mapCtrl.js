@@ -36,4 +36,8 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 		SunnyExpress.setMapCenter(map);
 	}
 
+	$scope.setArriveCity = function() {
+        SunnyExpress.setArriveCountry($scope.CountryToVisit);
+	}
+
 });

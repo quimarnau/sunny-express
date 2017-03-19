@@ -29,7 +29,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 	}
 
 	this.setArriveCountry = function(newArriveCountry) {
-		alert('hola');
+		console.log('new arrive country: ' + newArriveCountry.toString());
 		arriveCountry = newArriveCountry;
 	}
 
