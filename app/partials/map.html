@@ -1,1 +1,9 @@
-<div id="map"></div>
+<div class="row">
+    <div id="map" class="col-md-11"></div>
+    <!--This is temporary I know it is ugly, do not erase it!-->
+    <button ng-click="refreshMap()" style="height: 30px;" class="col-md-1" id="search-map">Re</button>
+</div>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0&v=3&callback=initMap&libraries=places">
+</script>

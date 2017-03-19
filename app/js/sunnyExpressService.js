@@ -8,8 +8,38 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
 
+	var googleMapsApiKey = "AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0";
+	var googleMapsReqUrl = "https://maps.googleapis.com/maps/api/geocode/json?&key=";
+
+	var arriveCountryMap = undefined;
+
 	arriveCountry = "France";
 	activeCity = {"name": "Paris", "lon":2.35236,"lat":48.856461};
+
+	this.setMapCenter = function(map) {
+		console.log('before map centering\ncountry: ' + arriveCountry);
+		if (arriveCountryMap == undefined)
+			arriveCountryMap = map;
+		if (arriveCountry != "") {
+            $.ajax( {
+                url:  googleMapsReqUrl + googleMapsApiKey,
+                data: {
+                    'address': arriveCountry
+                },
+                success: function(data) {
+                    //console.log(data);
+                    //alert(data.results[0].geometry.location.lat + ', ' + data.results[0].geometry.location.lng);
+                    arriveCountryMap.setCenter(data.results[0].geometry.location);
+                    arriveCountryMap.setZoom(6);
+                    console.log('done');
+                },
+                error: function(data) {
+                    alert('error geocode api, searching for ' + arriveCountry);
+                    console.log(data);
+                }
+            });
+		}
+	}
 
 	this.getDepartCity = function() {
 		return departCity;
@@ -24,6 +54,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 	}
 
 	this.setArriveCountry = function(newArriveCountry) {
+		alert('hola');
 		arriveCountry = newArriveCountry;
 	}
 
