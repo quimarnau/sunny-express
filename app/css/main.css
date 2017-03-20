@@ -2,21 +2,19 @@ html, body, .ng-scope, .container-fluid#main-container {
 	height: 100%;
 	width: 100%
 }
-
 div.img-responsive {
-
 	background: url("../images/background.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
 	display: compact;
 }
 
+
 /* Search view */
 #input-container {
 	background-color: white;
 }
 #map-container {
-	background-color: green;
 	height: 100%;
 }
 #input-container, #map-container{
@@ -25,21 +23,21 @@ div.img-responsive {
 #location-form {
 	background-color: white;
 }
-
+#date-departure-label, #date-return-label {
+	left: 0px;
+}
+/*
 button.md-button.md-icon-button, .md-datepicker-calendar-icon{
 	margin: 0px;
 	padding: 0px;
 }
-#date-departure-label, #date-return-label {
-	left: 0px;
-}
+*/
 
 
 /* Description view */
 .small-icon {
 	max-height: 50px;
 }
-
 #map {
 	bottom:0px;
 	height: 100%;
