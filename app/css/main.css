@@ -1,6 +1,6 @@
 html, body, .ng-scope, .container-fluid#main-container {
 	height: 100%;
-	width: 100%
+	/* For the moment don't add width: 100%, it messes the date picker style */
 }
 div.img-responsive {
 	background: url("../images/background.jpg");
