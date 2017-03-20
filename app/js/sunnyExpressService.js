@@ -13,6 +13,9 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 
 	var arriveCountryMap = undefined;
 
+	var markers = [];
+	var infoviews = [];
+
 	arriveCountry = "France";
 	activeCity = {"name": "Paris", "lon":2.35236,"lat":48.856461};
 
@@ -81,10 +84,26 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 		console.log(message);
 	}
 
-	this.setMapCenter = function(map) {
+	this.setMap = function(mapElement) {
+        this.getLocationCoordinates.get({address: arriveCountry}, function(data) {
+                //console.log(data);
+                //alert(data.results[0].geometry.location.lat + ', ' + data.results[0].geometry.location.lng);
+                arriveCountryMap = new google.maps.Map(mapElement, {
+                    center: data.results[0].geometry.location,
+                    zoom: 5,
+                    mapTypeControl: false
+                });
+            },
+            function(data) {
+                alert('error geocode api, searching for ' + arriveCountry);
+                console.log(data);
+            });
+	}
+
+	this.setMapCenter = function() {
 		console.log('before map centering\ncountry: ' + arriveCountry);
 		if (arriveCountryMap == undefined)
-			arriveCountryMap = map;
+			alert('map not defined');
 		if (arriveCountry != "") {
 			this.getLocationCoordinates.get({address: arriveCountry}, function(data) {
 				//console.log(data);
@@ -98,7 +117,50 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 				console.log(data);
 			});
 		}
+	};
+
+	this.setMapInfo = function() {
+        for (var i = 0; i < markers.length; ++i)
+            markers[i].setMap(null);
+        markers = [];
+        var countryCities = this.getCountryCities();
+        if (countryCities != undefined) {
+            var infowindow = new google.maps.InfoWindow();
+            for (var i = 0; i < countryCities.length; ++i) {
+                var activeCity = countryCities[i];
+                var activeCityLocation = new google.maps.LatLng(activeCity.lat, activeCity.lon);
+                var forecastInfo = activeCity.name.toLowerCase() == "Paris".toLocaleLowerCase() ?
+                    ("<br> Date: " + this.responseParis.forecast.forecastday[0].date +
+                    "<br> Max temp: " + this.responseParis.forecast.forecastday[0].day.maxtemp_c +
+                    "<br> Min temp: " + this.responseParis.forecast.forecastday[0].day.mintemp_c) : "";
+                var marker = new google.maps.Marker({
+                    map: arriveCountryMap,
+                    position: activeCityLocation,
+                    title: activeCity.name,
+                    exp: forecastInfo
+                });
+
+                markers.push(marker);
+
+                marker.addListener('mouseover', function() {
+                    populateInfoWindow(this, infowindow);
+                });
+            }
+        }
 	}
+
+    function populateInfoWindow(marker, infowindow) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+            infowindow.marker = marker;
+            infowindow.setContent('<div>' + marker.title + '\n' + marker.exp + '</div>');
+            infowindow.open(arriveCountryMap, marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick', function() {
+                infowindow.marker = null;
+            });
+        }
+    }
 
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"})
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
