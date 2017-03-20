@@ -1,7 +1,7 @@
 sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 	var departCity, arriveCountry = "";
 	var departDate, returnDate = new Date();
-	var minTemperature = 10, maxTemperature = 25;
+	var minTemperature = -10, maxTemperature = 30;
 	var weatherPreferenceId = 1000; //Sunny
 	var activeCity = undefined;
 
