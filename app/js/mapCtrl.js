@@ -1,9 +1,9 @@
-sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
+sunnyExpressApp.controller('MapCtrl', function ($scope, $window, SunnyExpress) {
 
-	var map;
-	var markers = [];
+    var map;
+    var markers = [];
 
-    $(function () {
+    $scope.onload = function () {
         var activeCity = {"name": "Paris", "lng":2.35236,"lat":48.856461};
         var activeCityLocation = new google.maps.LatLng(activeCity.lat, activeCity.lng);
         // Constructor creates a new map - only center and zoom are required.
@@ -14,11 +14,11 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
             zoom: 12,
             mapTypeControl: false
         });
-		/*var marker = new google.maps.Marker({
-		 map: map,
-		 position: activeCityLocation,
-		 title: 'Title of marker'
-		 });//*/
+        /*var marker = new google.maps.Marker({
+         map: map,
+         position: activeCityLocation,
+         title: 'Title of marker'
+         });//*/
 
         var request = {
             location: activeCityLocation,
@@ -27,7 +27,7 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 
         //service = new google.maps.places.PlacesService(map);
         //service.nearbySearch(request, callback);
-    });
+    }
 
     function callback(results, status) {
         console.log(results);
