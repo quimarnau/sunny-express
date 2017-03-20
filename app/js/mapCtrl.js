@@ -23,7 +23,7 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, $window, SunnyExpress) {
         var request = {
             location: activeCityLocation,
             radius: '5000'
-        }
+        };
 
         //service = new google.maps.places.PlacesService(map);
         //service.nearbySearch(request, callback);
