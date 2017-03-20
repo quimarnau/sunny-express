@@ -1,8 +1,3 @@
-<div class="row"  ng-controller="MapCtrl">
+<div class="row"  ng-controller="MapCtrl" ng-init="onload()">
     <div id="map" class="col-md-12"></div>
-    <!--This is temporary I know it is ugly, do not erase it!-->
-    <div class="row col-md-12" >
-        <button ng-click="refreshMap()" style="height: 30px;" id="search-map">Refresh</button>
-        <input type="text" id="country-to-visit" ng-change="setArriveCity()" ng-model="CountryToVisit" ng-keyup="$event.keyCode == 13 ? refreshMap() : null">
-    </div>
 </div>

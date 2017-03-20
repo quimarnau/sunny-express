@@ -52,11 +52,14 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		// TODO: need to discuss when all assertions on input data will be made
 		// TODO: not disregard the possibility of removing the search button
 		SunnyExpress.setDepartCity($scope.selectedCity);
-		SunnyExpress.setArriveCountry($scope.selectedCountry);
+		SunnyExpress.setArriveCountry($scope.selectedCountry.display);
 		SunnyExpress.setDepartDate($scope.departureDate);
 		SunnyExpress.setReturnDate($scope.returnDate);
 		SunnyExpress.setMinTemperature($scope.minTemperature);
 		SunnyExpress.setMaxTemperature($scope.maxTemperature);
+
+		SunnyExpress.setMapCenter();
+		SunnyExpress.setMapInfo();
 
 		/*
 		console.log("Departure city: " + SunnyExpress.getDepartCity());
