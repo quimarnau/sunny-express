@@ -2,7 +2,7 @@
  * Angular Material (ngMaterial) used in search view, as well as ngMessages
  * @type {angular.Module} Main module of sunny express app
  */
-var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', 'ngMaterial', 'ngMessages']);
+var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', 'ngMaterial', 'ngMessages', 'materialCalendar']);
 
 sunnyExpressApp.config(['$routeProvider',
 	function($routeProvider) {
