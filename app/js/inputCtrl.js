@@ -68,9 +68,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 	 * Build cities list of key/value pairs
 	 */
 	function loadCities() {
-		var allCities = 'Paris, Budapest, Barcelona';
-
-		return allCities.split(/, +/g).map( function (city) {
+		return SunnyExpress.getCities().map( function (city) {
 			return {
 				value: city.toLowerCase(),
 				display: city
@@ -82,9 +80,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 	 * Build countries list of key/value pairs
 	 */
 	function loadCountries() {
-		var allCountries = 'France, Hungary, Spain';
-
-		return allCountries.split(/, +/g).map( function (country) {
+		return SunnyExpress.getCountries().map( function (country) {
 			return {
 				value: country.toLowerCase(),
 				display: country
