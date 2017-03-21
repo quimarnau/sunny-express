@@ -1,25 +1,27 @@
-/**
- * TODO: Replace loadCities and loadCountries by functions of the model
- * TODO:
- */
 sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 
 	//Home page text of welcome
 	$scope.welcomingTxt = SunnyExpress.getWelcomingTxt();
 	$scope.welcomingTitle = SunnyExpress.getWelcomingTitle();
 
-	$scope.selectedCity    = null;
+	/**
+	 * Parameters and functions of location inputs
+	 */
+	$scope.selectedCity = null;
 	$scope.selectedCountry = null;
 
-	$scope.searchCity      = null;
-	$scope.searchCountry   = null;
+	$scope.searchCity = null;
+	$scope.searchCountry = null;
 
-	$scope.cities          = loadCities();
-	$scope.countries       = loadCountries();
+	$scope.cities = loadCities();
+	$scope.countries = loadCountries();
 
-	$scope.queryCities     = queryCities;
-	$scope.queryCountries  = queryCountries;
+	$scope.queryCities = queryCities;
+	$scope.queryCountries = queryCountries;
 
+	/**
+	 * Parameters of date pickers
+	 */
 	$scope.departureDate = new Date();
 	$scope.returnDate = new Date($scope.departureDate.getTime());
 	$scope.returnDate.setDate($scope.departureDate.getDate() + 1);
@@ -35,14 +37,9 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 	$scope.minTemperature  = SunnyExpress.getMinTemperature();
 	$scope.maxTemperature  = SunnyExpress.getMaxTemperature();
 
-	$scope.setMinTemperature = function(temperature) {
-		SunnyExpress.setMinTemperature(temperature);
-	}
-
-	$scope.getMinTemperature = function() {
-		return SunnyExpress.getMinTemperature();
-	}
-
+	/**
+	 * Make return date posterior to departure date
+	 */
 	$scope.returnDateRangeUpdate = function() {
 		if ($scope.departureDate.getTime() >= $scope.returnDate.getTime()) {
 			$scope.returnDate = new Date($scope.departureDate.getTime());
@@ -50,18 +47,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 			$scope.minReturnDate = new Date($scope.departureDate.getTime());
 			$scope.minReturnDate.setDate($scope.departureDate.getDate() + 1);
 		}
-	}
-
-	$scope.search = function() {
-		SunnyExpress.setDepartCity($scope.selectedCity);
-		SunnyExpress.setArriveCountry($scope.selectedCountry.display);
-		SunnyExpress.setDepartDate($scope.departureDate);
-		SunnyExpress.setReturnDate($scope.returnDate);
-		SunnyExpress.setMinTemperature($scope.minTemperature);
-		SunnyExpress.setMaxTemperature($scope.maxTemperature);
-
-		SunnyExpress.setMapCenter();
-		SunnyExpress.setMapInfo();
 	}
 
 	/**
@@ -92,16 +77,14 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 	 * Search for city
 	 */
 	function queryCities (query) {
-		var results = query ? $scope.cities.filter( createFilterFor(query) ) : $scope.cities;
-		return results;
+		return query ? $scope.cities.filter( createFilterFor(query) ) : $scope.cities;
 	}
 
 	/**
 	 * Search for country
 	 */
 	function queryCountries (query) {
-		var results = query ? $scope.countries.filter( createFilterFor(query) ) : $scope.countries;
-		return results;
+		return query ? $scope.countries.filter( createFilterFor(query) ) : $scope.countries;
 	}
 
 	/**
@@ -113,6 +96,20 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		return function filterFn(item) {
 			return (item.value.indexOf(lowercaseQuery) === 0);
 		};
+	}
 
+	/**
+	 * Save input data to model
+	 */
+	$scope.search = function() {
+		SunnyExpress.setDepartCity($scope.selectedCity);
+		SunnyExpress.setArriveCountry($scope.selectedCountry.display);
+		SunnyExpress.setDepartDate($scope.departureDate);
+		SunnyExpress.setReturnDate($scope.returnDate);
+		SunnyExpress.setMinTemperature($scope.minTemperature);
+		SunnyExpress.setMaxTemperature($scope.maxTemperature);
+
+		SunnyExpress.setMapCenter();
+		SunnyExpress.setMapInfo();
 	}
 });
