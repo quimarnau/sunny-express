@@ -4,6 +4,10 @@
  */
 sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 
+	//Home page text of welcome
+	$scope.welcomingTxt = SunnyExpress.getWelcomingTxt();
+	$scope.welcomingTitle = SunnyExpress.getWelcomingTitle();
+
 	$scope.selectedCity    = null;
 	$scope.selectedCountry = null;
 
