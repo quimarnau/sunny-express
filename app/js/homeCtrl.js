@@ -22,7 +22,12 @@ sunnyExpressApp.controller('HomeCtrl', function($scope, $q, SunnyExpress) {
 		};
 
 		$q.all(cityQueue).then(function(data) {
-			//TODO hide loading picture
+			for (var i = 0; i < data.length; i++) {
+				if (SunnyExpress.weatherConditionFilter(data[i].forecast.forecastday, numDays)) {
+					console.log(data.location.name); // It is good for the weather preference
+				};
+			};
+
 		})
 	}
 
