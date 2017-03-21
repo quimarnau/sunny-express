@@ -64,7 +64,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 
 		SunnyExpress.setMapCenter();
 		SunnyExpress.setMapInfo();
-		$scope.$emit('pet', null);
 
 		/*
 		console.log("Departure city: " + SunnyExpress.getDepartCity());
