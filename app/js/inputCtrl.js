@@ -17,25 +17,16 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 	$scope.queryCountries  = queryCountries;
 
 	$scope.departureDate = new Date();
-	$scope.returnDate = new Date(
-		$scope.departureDate.getFullYear(),
-		$scope.departureDate.getMonth(),
-		$scope.departureDate.getDate() + 1
-	);
+	$scope.returnDate = new Date($scope.departureDate.getTime());
+	$scope.returnDate.setDate($scope.departureDate.getDate() + 1);
 
-	$scope.minDepartureDate = $scope.departureDate;
-	$scope.minReturnDate = $scope.returnDate;
+	$scope.minDepartureDate = new Date($scope.departureDate.getTime());
+	$scope.minReturnDate = new Date($scope.returnDate.getTime());
 
-	$scope.maxReturnDate = new Date(
-		$scope.minDepartureDate.getFullYear(),
-		$scope.minDepartureDate.getMonth(),
-		$scope.minDepartureDate.getDate() + 14
-	);
-	$scope.maxDepartureDate = new Date(
-		$scope.maxReturnDate.getFullYear(),
-		$scope.maxReturnDate.getMonth(),
-		$scope.maxReturnDate.getDate() - 1
-	);
+	$scope.maxReturnDate = new Date($scope.minDepartureDate.getTime());
+	$scope.maxReturnDate.setDate($scope.minDepartureDate.getDate() + 9);
+	$scope.maxDepartureDate = new Date($scope.maxReturnDate.getTime());
+	$scope.maxDepartureDate.setDate($scope.maxReturnDate.getDate() - 1);
 
 	$scope.minTemperature  = SunnyExpress.getMinTemperature();
 	$scope.maxTemperature  = SunnyExpress.getMaxTemperature();
@@ -48,9 +39,16 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		return SunnyExpress.getMinTemperature();
 	}
 
+	$scope.returnDateRangeUpdate = function() {
+		if ($scope.departureDate.getTime() >= $scope.returnDate.getTime()) {
+			$scope.returnDate = new Date($scope.departureDate.getTime());
+			$scope.returnDate.setDate($scope.departureDate.getDate() + 1);
+			$scope.minReturnDate = new Date($scope.departureDate.getTime());
+			$scope.minReturnDate.setDate($scope.departureDate.getDate() + 1);
+		}
+	}
+
 	$scope.search = function() {
-		// TODO: need to discuss when all assertions on input data will be made
-		// TODO: not disregard the possibility of removing the search button
 		SunnyExpress.setDepartCity($scope.selectedCity);
 		SunnyExpress.setArriveCountry($scope.selectedCountry.display);
 		SunnyExpress.setDepartDate($scope.departureDate);
@@ -60,15 +58,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 
 		SunnyExpress.setMapCenter();
 		SunnyExpress.setMapInfo();
-
-		/*
-		console.log("Departure city: " + SunnyExpress.getDepartCity());
-		console.log("Arrival country: " + SunnyExpress.getArriveCountry());
-		console.log("Depart date:" + SunnyExpress.getDepartDate());
-		console.log("Return date:" + SunnyExpress.getReturnDate());
-		console.log("Min temp:" + SunnyExpress.getMinTemperature());
-		console.log("Max temp:" + SunnyExpress.getMaxTemperature());
-		*/
 	}
 
 	/**
