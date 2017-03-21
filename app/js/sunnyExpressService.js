@@ -86,7 +86,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 		 	 	cities.push(countryCitiesDb[countries[i]][j].name);
 		 	 }; 
 		};
-		return cities;
+		return cities.sort();
 	}
 
 	//Home page text
