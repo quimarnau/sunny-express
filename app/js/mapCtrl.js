@@ -23,6 +23,10 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, $window, SunnyExpress) {
         //service.nearbySearch(request, callback);
     }
 
+    $scope.$on('pet', function(event, args) {
+        alert('hola');
+    });
+
     function callback(results, status) {
         console.log(results);
     }
