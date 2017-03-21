@@ -61,13 +61,10 @@ div.img-responsive {
 #date-departure-label, #date-return-label {
 	left: 0px;
 }
-/*
-button.md-button.md-icon-button, .md-datepicker-calendar-icon{
-	margin: 0px;
-	padding: 0px;
+#search-btn {
+	float: right;
+	margin: 15px 0px 0px 0px;
 }
-*/
-
 
 /* Description view */
 .small-icon {

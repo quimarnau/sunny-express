@@ -1,7 +1,8 @@
-<md-content class="md-padding" id="location-form" ng-controller="InputCtrl as ctrl" ng-cloack>
-	<form ng-submit="$event.preventDefault()" name="locationForm">
+<div ng-controller="InputCtrl as ctrl" ng-cloack>
+	<md-content class="md-padding" id="location-form">
+		<form name="inputForm">
 
-			<md-autocomplete flex required
+			<md-autocomplete flex required md-require-match
 			                 md-input-name="departureCity"
 			                 md-no-cache="ctrl.noCache"
 			                 md-selected-item="selectedCity"
@@ -9,95 +10,86 @@
 			                 md-items="item in queryCities(searchCity)"
 			                 md-item-text="item.display"
 			                 md-min-length="0"
-			                 md-require-match
-			                 md-floating-label="Depart from">
+			                 md-floating-label="Depart from"
+			                 md-clear-button="true">
 				<md-item-template>
 					<span md-highlight-text="searchCity" md-highlight-flags="^i">{{item.display}}</span>
 				</md-item-template>
 				<md-not-found>
-					No cities matching "{{searchCity()}}" were found.
+					No cities matching "{{searchCity}}" were found.
 				</md-not-found>
-				<div ng-messages="locationForm.departureCity.$error" ng-if="locationForm.departureCity.$touched">
+				<div ng-messages="inputForm.departureCity.$error" ng-if="inputForm.departureCity.$touched">
 					<div ng-message="required">You <b>must</b> enter your city.</div>
 					<div ng-message="md-require-match">Please select an existing city.</div>
 				</div>
 			</md-autocomplete>
 
 			<md-autocomplete flex required
-						           md-input-name="arrivalCountry"
-						           md-no-cache="ctrl.noCache"
-						           md-selected-item="selectedCountry"
-						           md-search-text="searchCountry"
-						           md-items="item in queryCountries(searchCountry)"
-						           md-item-text="item.display"
-						           md-min-length="0"
-						           md-require-match
-						           md-floating-label="Arrive to">
+			                 md-input-name="arrivalCountry"
+			                 md-no-cache="ctrl.noCache"
+			                 md-selected-item="selectedCountry"
+			                 md-search-text="searchCountry"
+			                 md-items="item in queryCountries(searchCountry)"
+			                 md-item-text="item.display"
+			                 md-min-length="0"
+			                 md-require-match
+			                 md-floating-label="Arrive to"
+			                 md-clear-button="true">
 				<md-item-template>
 					<span md-highlight-text="searchCountry" md-highlight-flags="^i">{{item.display}}</span>
 				</md-item-template>
 				<md-not-found>
 					No countries matching "{{searchCountry}}" were found.
 				</md-not-found>
-				<div ng-messages="locationForm.arrivalCountry.$error" ng-if="locationForm.arrivalCountry.$touched">
+				<div ng-messages="inputForm.arrivalCountry.$error" ng-if="inputForm.arrivalCountry.$touched">
 					<div ng-message="required">You <b>must</b> enter a country.</div>
 					<div ng-message="md-require-match">Please select an existing country.</div>
 				</div>
 			</md-autocomplete>
 
-	</form>
+			<md-input-container>
+				<label id="date-departure-label">Depart on</label>
+				<md-datepicker required
+				               ng-change="returnDateRangeUpdate()"
+				               ng-model="departureDate"
+				               name="departureDate"
+				               md-min-date="minDepartureDate"
+				               md-max-date="maxDepartureDate">
+				</md-datepicker>
+				<div ng-messages="inputForm.departureDate.$error">
+					<div ng-message="required">This date is required!</div>
+				</div>
+			</md-input-container>
 
-	<form name="dateForm">
+			<md-input-container>
+				<label id="date-return-label">Return on</label>
+				<md-datepicker required
+				               ng-model="returnDate"
+				               name="returnDate"
+				               md-min-date="minReturnDate"
+				               md-max-date="maxReturnDate">
+				</md-datepicker>
+				<div ng-messages="inputForm.returnDate.$error">
+					<div ng-message="required">This date is required</div>
+				</div>
+			</md-input-container>
 
-		<md-input-container>
-			<label id="date-departure-label">Depart on</label>
-			<md-datepicker required
-			               ng-model="departureDate"
-			               name="departureDate"
-			               md-min-date="minDepartureDate"
-			               md-max-date="maxDepartureDate">
-			</md-datepicker>
+			<md-slider-container>
+				<icon>Min</icon> <!-- TODO: Add icons instead of text -->
+				<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
+				           min="-20" max="40" aria-label="Min" class="md-primary"></md-slider>
+			</md-slider-container>
 
-			<div ng-messages="dateForm.departureDate.$error">
-				<div ng-message="valid">The entered value is not a date!</div>
-				<div ng-message="required">This date is required!</div>
-				<div ng-message="mindate">Date is too early!</div>
-				<div ng-message="maxdate">Date is too late!</div>
-			</div>
-		</md-input-container>
+			<md-slider-container>
+				<icon>Max</icon>
+				<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
+				           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
+			</md-slider-container>
 
-		<md-input-container>
-			<label id="date-return-label">Return on</label>
-			<md-datepicker required
-			               ng-model="returnDate"
-			               name="returnDate"
-			               md-min-date="minReturnDate"
-			               md-max-date="maxReturnDate">
-			</md-datepicker>
+			<md-button ng-click="search()" type="submit" id="search-btn">Search</md-button>
 
-			<div ng-messages="dateForm.returnDate.$error">
-				<div ng-message="valid">The entered value is not a date!</div>
-				<div ng-message="required">This date is required!</div>
-				<div ng-message="mindate">Date is too early!</div>
-				<div ng-message="maxdate">Date is too late!</div>
-			</div>
-		</md-input-container>
-	</form>
+		</form>
+	</md-content>
+</div>
 
-	<form>
-		<md-slider-container>
-			<icon>Min</icon> <!-- TODO: Add icons instead of text -->
-			<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
-			           min="-20" max="40" aria-label="Min" class="md-primary"></md-slider>
-		</md-slider-container>
 
-		<md-slider-container>
-			<icon>Max</icon>
-			<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
-			           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
-		</md-slider-container>
-	</form>
-
-	<md-button ng-click="search()" class="md-raised md-primary">Search</md-button>
-	<md-button href="#/description" class="md-raised md-primary">Go to Description</md-button>
-</md-content>
