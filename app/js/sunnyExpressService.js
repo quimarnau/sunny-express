@@ -89,15 +89,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 		return cities.sort();
 	}
 
-	//Home page text
-	this.getWelcomingTitle = function() {
-		return welcomingTitle;
-	}
-
-	this.getWelcomingTxt = function() {
-		return welcomingTxt;
-	}
-
 	this.getActiveCity = function() {
 		return activeCity;
 	}
@@ -211,13 +202,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 		{"name":"Malmoe","lon":13.00073,"lat":55.605869},
 		{"name":"Uppsala","lon":17.64543,"lat":59.858501},
 		{"name":"Sollentuna","lon":17.95093,"lat":59.42804}]};
-
-	
-	var welcomingTitle = "Welcome to SunnyExpress search!"
-	var welcomingTxt = "Please, enter your dreaming weather conditions \
-	and locations for your short notice trip and we will help you find it \
-	for real!";
-
 
 	return this;
 });
