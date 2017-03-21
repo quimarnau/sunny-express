@@ -29,8 +29,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 
 	arriveCountry = "France";
 	activeCity = {"name": "Paris", "lon":2.35236,"lat":48.856461};
-	favourableWeatherConditions = [1189];
-	disfavourableWeatherConditions = [1006];
 
 	this.weatherConditionFilter = function(weatherForecast) {
 		var favourableDaysNum = 0;
@@ -51,8 +49,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				};
 			};
 		};
-		console.log(favourableDaysNum);
-		console.log(disfavourableDaysNum);
 
 		if((favourableDaysNum > (intervalLength/2)) && (disfavourableDaysNum == 0)) {
 			return true;
@@ -60,6 +56,23 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 			return false;
 		}
 	}
+
+	this.setFavourableWeatherConditions = function(weatherConditionsList) {
+		favourableWeatherConditions = weatherConditionsList;
+	}
+
+	this.getFavourableWeatherConditions = function() {
+		return favourableWeatherConditions;
+	}
+
+	this.setDisfavourableWeatherConditions = function(weatherConditionsList) {
+		disfavourableWeatherConditions = weatherConditionsList;
+	};
+
+	this.getDisfavourableWeatherConditions = function() {
+		return disfavourableWeatherConditions;
+	}
+
 
 	this.getDepartCity = function() {
 		return departCity;

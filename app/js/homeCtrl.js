@@ -23,14 +23,19 @@ sunnyExpressApp.controller('HomeCtrl', function($scope, $q, SunnyExpress) {
 
 		$q.all(cityQueue).then(function(data) {
 			for (var i = 0; i < data.length; i++) {
-				if (SunnyExpress.weatherConditionFilter(data[i].forecast.forecastday, numDays)) {
+				if (SunnyExpress.weatherConditionFilter(data[i].forecast.forecastday)) {
 					console.log(data.location.name); // It is good for the weather preference
 				};
 			};
 
 		})
 	}
+	var favourableWeatherConditions = [1189];
+	var disfavourableWeatherConditions = [1006];
 
+	SunnyExpress.setFavourableWeatherConditions(favourableWeatherConditions);
+	SunnyExpress.setDisfavourableWeatherConditions(disfavourableWeatherConditions);
+	console.log(SunnyExpress.weatherConditionFilter(SunnyExpress.responseParis.forecast.forecastday));
 	this.searchWeather();
 		
 });
