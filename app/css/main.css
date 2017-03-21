@@ -9,6 +9,17 @@ div.img-responsive {
 	display: compact;
 }
 
+/* Home view*/
+#top-spacing-home {
+	height:5vh;
+}
+#heart-home {
+	height: 90vh;
+}
+#bottom-spacing-home {
+	height:5vh;
+}
+
 
 /* Search view */
 #input-container {
