@@ -77,6 +77,18 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 		return Object.keys(countryCitiesDb);
 	}
 
+	this.getCities = function() {
+		cities = [];
+		countries = this.getCountries();
+
+		for (var i = 0; i < countries.length; i++) {
+		 	for (var j = 0; j < countryCitiesDb[countries[i]].length; j++) {
+		 	 	cities.push(countryCitiesDb[countries[i]][j].name);
+		 	 }; 
+		};
+		return cities;
+	}
+
 	//Home page text
 	this.getWelcomingTitle = function() {
 		return welcomingTitle;

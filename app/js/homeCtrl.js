@@ -26,7 +26,6 @@ sunnyExpressApp.controller('HomeCtrl', function($scope, $q, SunnyExpress) {
 		})
 	}
 
-
 	this.searchWeather();
 		
 });
