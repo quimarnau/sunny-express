@@ -16,6 +16,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 	var markers = [];
 	var infoviews = [];
 
+
 	arriveCountry = "France";
 	activeCity = {"name": "Paris", "lon":2.35236,"lat":48.856461};
 
@@ -74,6 +75,15 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 
 	this.getCountries = function() {
 		return Object.keys(countryCitiesDb);
+	}
+
+	//Home page text
+	this.getWelcomingTitle = function() {
+		return welcomingTitle;
+	}
+
+	this.getWelcomingTxt = function() {
+		return welcomingTxt;
 	}
 
 	this.getActiveCity = function() {
@@ -189,6 +199,12 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource) {
 		{"name":"Malmoe","lon":13.00073,"lat":55.605869},
 		{"name":"Uppsala","lon":17.64543,"lat":59.858501},
 		{"name":"Sollentuna","lon":17.95093,"lat":59.42804}]};
+
+	
+	var welcomingTitle = "Welcome to SunnyExpress search!"
+	var welcomingTxt = "Please, enter your dreaming weather conditions \
+	and locations for your short notice trip and we will help you find it \
+	for real!";
 
 
 	return this;
