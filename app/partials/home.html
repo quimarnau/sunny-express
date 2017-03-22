@@ -15,7 +15,7 @@
 					<p id="welcomingTxt"> Please, enter your dreaming weather conditions and locations for your short notice trip and we will help you find it for real! </p>
 				</div>	
 			</div>
-			<!-- TODO: Reorganize so that fit on smaller screens --> 
+			<!-- TODO: Reorganize so that fit on smaller screens = fix the alignment of calendar other way... --> 
 			<div class="row" id="body-form-home">
 				<div class="row">
 					<div class="col-md-6 col-md-offset-1">
@@ -118,43 +118,54 @@
 						</form>
 					</div>
 				</div>
-				<!-- TODO: title on how to use for user like temp label -->
+
 				<div class="row">
-					<div class="col-md-4" style="padding:10px">
-						<p>Temperatures preferably between:</p>
-					</div>
 					<div class="col-md-4">
-						<md-slider-container>
-							<img style="height: 10%" src="../images/temperature-min.png">
-							<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
-				           min="-20" max="40" aria-label="Min" class="md-primary"></md-slider>
-						</md-slider-container>
+						<div class="row">
+							<div class="col-md-12" style="padding-top:10px;padding-left:25px;">
+								<p>Temperatures preferably between:</p>
+							</div>
+						</div>
+
+						<div class="row" style="padding-bottom: 10px;">
+							<div class="col-md-12" style="padding-top:30px;padding-left:25px;">
+								<p>Select your weather preferences:</p>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-4">
-						<md-slider-container>
-							<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
-				           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
-				           <img style="height: 10%" src="../images/temperature-max.png">
-						</md-slider-container>
+
+					<div class="col-md-8">
+						<div class="row" style="padding-left:10px;padding-right:10px;">
+							<div class="col-md-6">
+								<md-slider-container>
+									<img style="height: 10%" src="../images/temperature-min.png">
+									<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
+						           min="-20" max="40" aria-label="Min" class="md-primary"></md-slider>
+								</md-slider-container>
+							</div>
+							<div class="col-md-6">
+								<md-slider-container>
+									<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
+						           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
+						           <img style="height: 10%" src="../images/temperature-max.png">
+								</md-slider-container>
+							</div>
+						</div>
+						<div class="row" style="padding-top: 10px">			
+							<div layout="row" layout-align="left" class="col-md-6">
+								<md-icon ng-repeat="i in [0,1,2,3]"
+						         		class="md-42"
+						         		md-svg-src="../images/svg/{{icons[i]}}.svg"
+						         		ng-click="incrementCounter(i)"
+						         		ng-style="{'color': statesDicc[states[i]]}">
+								</md-icon>
+							</div>
+						</div>
 					</div>
 				</div>
 
-				<div class="row" style="padding-bottom: 10px">
-					<div class="col-md-4" style="padding:10px">
-						<p>Select your weather preferences:</p>
-					</div>
-					<div layout="row" layout-align="center center" class="col-md-5">
-						<md-icon ng-repeat="i in [0,1,2,3]"
-				         		class="md-42"
-				         		md-svg-src="../images/svg/{{icons[i]}}.svg"
-				         		ng-click="incrementCounter(i)"
-				         		ng-style="{'color': statesDicc[states[i]]}">
-						</md-icon>
-					</div>
-				</div>
-
 				<div class="row">
-					<div class="col-md-6 col-md-offset-3">
+					<div class="col-md-6 col-md-offset-3" style="padding-top: 10px">
 						<md-button class="md-raised" ng-click="inputForm.$valid && search()" type="submit" id="search-btn">Search</md-button>	
 					</div>
 				</div>
