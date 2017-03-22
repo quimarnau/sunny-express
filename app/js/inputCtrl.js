@@ -54,12 +54,13 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 	var getWeatherConditions = function() {
 		var desired = [];
 		var undesired = [];
+		var conditions = SunnyExpress.getBaseConditions();
 		for (var i = 0; i < $scope.states.length; i++) {
 			if ($scope.states[i] == 1) {
-				desired.push(SunnyExpress.getBaseConditions()[i]);
+				desired.push(conditions[i]);
 			}
 			else if ($scope.states[i] == 2) {
-				undesired.push(SunnyExpress.getBaseConditions()[i]);
+				undesired.push(conditions[i]);
 			}
 		}
 		return {
@@ -133,7 +134,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 	 * Save input data to model
 	 */
 	$scope.search = function() {
-		SunnyExpress.setDepartCity($scope.selectedCity);
+		SunnyExpress.setDepartCity($scope.selectedCity.display);
 		SunnyExpress.setArriveCountry($scope.selectedCountry.display);
 		SunnyExpress.setDepartDate($scope.departureDate);
 		SunnyExpress.setReturnDate($scope.returnDate);
@@ -143,7 +144,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		var weatherConditions = getWeatherConditions();
 		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
 		SunnyExpress.setDisfavourableWeatherConditions(weatherConditions.undesired);
-		console.log(weatherConditions);
 
 		SunnyExpress.setMapCenter();
 		SunnyExpress.setMapInfo();
