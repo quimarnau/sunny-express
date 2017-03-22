@@ -141,7 +141,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 
 	var searchWeather = function() {
 		//TODO show loading picture
-		return SunnyExpress.responseParis;
 		
 		var numDays = Math.round(($scope.returnDate-$scope.departureDate)/(1000*60*60*24));
 		var cities = SunnyExpress.getCountryCities($scope.selectedCountry.display);
@@ -152,12 +151,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 		};
 
 		$q.all(cityQueue).then(function(data) {
-			for (var i = 0; i < data.length; i++) {
-				if (SunnyExpress.weatherConditionFilter(data[i].forecast.forecastday).state) {
-					console.log(SunnyExpress.resolveCity(data[i].location.lat,data[i].location.lon)); // It is good for the weather preference
-				};
-			};
-
+			SunnyExpress.setWeatherActiveCities(data);
 		})
 	}
 
@@ -179,7 +173,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
         SunnyExpress.setCityCoords();
 		SunnyExpress.setMapCenter();
 		//SunnyExpress.setMapInfo();
-		var data = searchWeather();
-		console.log(SunnyExpress.weatherConditionFilter(data.forecast.forecastday).majorityCondition);
+		
+		searchWeather();
 	}
 });
