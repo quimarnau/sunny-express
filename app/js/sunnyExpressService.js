@@ -21,6 +21,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	 								1219: [1069,1072,1114,1117,1168,1171,1204,1207,1210,1213,1216,1219,1225,1237,1249,1252,1255,1258,1261,1264,1279,1282]
 	 								};
 
+	var mapFeatures = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
 	var arriveCountryMap = undefined;
 
 	var markers = [];
@@ -29,6 +30,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 
 	arriveCountry = "France";
 	activeCity = {"name": "Paris", "lon":2.35236,"lat":48.856461};
+
+	this.setMapFeatures = function (featureName, feature) {
+		mapFeatures[featureName] = feature;
+	};
+
+	this.getMapFeatures = function () {
+		return mapFeatures;
+	};
 
 	this.weatherConditionFilter = function(weatherForecast) {
 		var favourableDaysNum = 0;
@@ -177,14 +186,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 
 	this.setMapCenter = function() {
 		console.log('before map centering\ncountry: ' + arriveCountry);
-		if (arriveCountryMap == undefined)
-			alert('map not defined');
 		if (arriveCountry != "") {
 			this.getLocationCoordinates.get({address: arriveCountry}, function(data) {
 				//console.log(data);
 				//alert(data.results[0].geometry.location.lat + ', ' + data.results[0].geometry.location.lng);
-				arriveCountryMap.setCenter(data.results[0].geometry.location);
-				arriveCountryMap.setZoom(5);
+				mapFeatures['center'] = {latitude: data.results[0].geometry.location, longitude: data.results[0].geometry.location};
+				mapFeatures['zoom'] = 5;
+				//arriveCountryMap.setCenter(data.results[0].geometry.location);
+				//arriveCountryMap.setZoom(5);
 				console.log('done');
 			},
 			function(data) {

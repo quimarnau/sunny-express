@@ -1,4 +1,10 @@
 <div class="row"  ng-controller="MapCtrl" ng-init="onload()">
     <!--<div id="map" class="col-md-12"></div>-->
-    <ui-gmap-google-map class="col-md-12" center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+    <ui-gmap-google-map class="col-md-12" center='map.center' zoom='map.zoom'>
+        <ui-gmap-marker
+                idKey='id'
+                coords='map.center'
+        >
+        </ui-gmap-marker>
+    </ui-gmap-google-map>
 </div>
