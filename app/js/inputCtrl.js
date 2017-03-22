@@ -34,6 +34,41 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 	$scope.maxTemperature  = SunnyExpress.getMaxTemperature();
 
 	/**
+	 * Parameters of weather conditions
+	 */
+	$scope.statesDicc = {"0": "none", "1": "green", "2": "red"};
+	$scope.states = [0, 0, 0, 0];
+	$scope.icons = ["day", "mostly-cloudy", "rain", "snowshowers"];
+
+	/**
+	 * Increment the icon counter
+	 * @param state Index of icon counter
+	 */
+	$scope.incrementCounter = function(index) {
+		$scope.states[index] = ++$scope.states[index]%3;
+	}
+
+	/**
+	 * Gather desired and undesired weather
+	 */
+	var getWeatherConditions = function() {
+		var desired = [];
+		var undesired = [];
+		for (var i = 0; i < $scope.states.length; i++) {
+			if ($scope.states[i] == 1) {
+				desired.push(SunnyExpress.getBaseConditions()[i]);
+			}
+			else if ($scope.states[i] == 2) {
+				undesired.push(SunnyExpress.getBaseConditions()[i]);
+			}
+		}
+		return {
+			desired: desired,
+			undesired: undesired
+		};
+	}
+
+	/**
 	 * Make return date posterior to departure date
 	 */
 	$scope.returnDateRangeUpdate = function() {
@@ -43,15 +78,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 			$scope.minReturnDate = new Date($scope.departureDate.getTime());
 			$scope.minReturnDate.setDate($scope.departureDate.getDate() + 1);
 		}
-	}
-
-
-	$scope.statesDicc = {"0": "none", "1": "green", "2": "red"};
-	$scope.states = {"0": 0,"1": 0,"2": 0,"3": 0};
-	$scope.icons = ["day", "mostly-cloudy", "rain", "snowshowers"];
-
-	$scope.incrementCounter = function(state) {
-		$scope.states[state] = ++$scope.states[state]%3;
 	}
 
 	/**
@@ -113,6 +139,11 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		SunnyExpress.setReturnDate($scope.returnDate);
 		SunnyExpress.setMinTemperature($scope.minTemperature);
 		SunnyExpress.setMaxTemperature($scope.maxTemperature);
+
+		var weatherConditions = getWeatherConditions();
+		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
+		SunnyExpress.setDisfavourableWeatherConditions(weatherConditions.undesired);
+		console.log(weatherConditions);
 
 		SunnyExpress.setMapCenter();
 		SunnyExpress.setMapInfo();

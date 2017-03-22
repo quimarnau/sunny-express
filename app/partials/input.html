@@ -4,7 +4,6 @@
 
 			<md-autocomplete flex required md-require-match
 			                 md-input-name="departureCity"
-			                 md-no-cache="ctrl.noCache"
 			                 md-selected-item="selectedCity"
 			                 md-search-text="searchCity"
 			                 md-items="item in queryCities(searchCity)"
@@ -24,15 +23,13 @@
 				</div>
 			</md-autocomplete>
 
-			<md-autocomplete flex required
+			<md-autocomplete flex required md-require-match
 			                 md-input-name="arrivalCountry"
-			                 md-no-cache="ctrl.noCache"
 			                 md-selected-item="selectedCountry"
 			                 md-search-text="searchCountry"
 			                 md-items="item in queryCountries(searchCountry)"
 			                 md-item-text="item.display"
 			                 md-min-length="0"
-			                 md-require-match
 			                 md-floating-label="Arrive to"
 			                 md-clear-button="true">
 				<md-item-template>
@@ -74,28 +71,28 @@
 				</div>
 			</md-input-container>
 
-			<md-slider-container>
-				<icon>Min</icon> <!-- TODO: Add icons instead of text -->
+			<md-slider-container class="mts-10">
+				<img src="../images/temperature-min.png">
 				<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
 				           min="-20" max="40" aria-label="Min" class="md-primary"></md-slider>
 			</md-slider-container>
 
 			<md-slider-container>
-				<icon>Max</icon>
+				<img src="../images/temperature-max.png">
 				<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
 				           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
 			</md-slider-container>
 
-			<div layout="row" layout-align="center center">
+			<div layout="row" layout-align="center center" class="mt-10">
 				<md-icon ng-repeat="i in [0,1,2,3]"
+				         class="md-42"
 				         md-svg-src="../images/svg/{{icons[i]}}.svg"
 				         ng-click="incrementCounter(i)"
 				         ng-style="{'color': statesDicc[states[i]]}">
 				</md-icon>
 			</div>
 
-
-			<md-button ng-click="search()" type="submit" id="search-btn">Search</md-button>
+			<md-button ng-click="inputForm.$valid && search()" type="submit" id="search-btn">Search</md-button>
 
 		</form>
 	</md-content>

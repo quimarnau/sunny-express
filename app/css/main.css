@@ -70,6 +70,16 @@ div.img-responsive {
 svg {
 	color: inherit;
 }
+.md-42 {
+	height: 42px;
+	width: 42px;
+}
+.mt-10 {
+	margin-top: 10px;
+}
+.mts-10 {
+	margin-top: -10px;
+}
 
 /* Description view */
 .small-icon {

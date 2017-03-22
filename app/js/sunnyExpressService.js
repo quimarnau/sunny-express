@@ -73,6 +73,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		return disfavourableWeatherConditions;
 	}
 
+	this.getBaseConditions = function() {
+		return baseConditions;
+	}
+
 
 	this.getDepartCity = function() {
 		return departCity;
