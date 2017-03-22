@@ -49,6 +49,15 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		}
 	}
 
+
+	$scope.statesDicc = {"0": "none", "1": "green", "2": "red"};
+	$scope.states = {"0": 0,"1": 0,"2": 0,"3": 0};
+	$scope.icons = ["day", "mostly-cloudy", "rain", "snowshowers"];
+
+	$scope.incrementCounter = function(state) {
+		$scope.states[state] = ++$scope.states[state]%3;
+	}
+
 	/**
 	 * Build cities list of key/value pairs
 	 */

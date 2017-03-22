@@ -65,6 +65,9 @@ div.img-responsive {
 	float: right;
 	margin: 15px 0px 0px 0px;
 }
+svg {
+	color: inherit;
+}
 
 /* Description view */
 .small-icon {

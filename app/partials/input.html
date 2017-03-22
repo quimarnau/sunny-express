@@ -86,6 +86,15 @@
 				           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
 			</md-slider-container>
 
+			<div layout="row" layout-align="center center">
+				<md-icon ng-repeat="i in [0,1,2,3]"
+				         md-svg-src="../images/svg/{{icons[i]}}.svg"
+				         ng-click="incrementCounter(i)"
+				         ng-style="{'color': statesDicc[states[i]]}">
+				</md-icon>
+			</div>
+
+
 			<md-button ng-click="search()" type="submit" id="search-btn">Search</md-button>
 
 		</form>
