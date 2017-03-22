@@ -1,18 +1,17 @@
 	<div class="container-fluid img-responsive">
 		<div class="row" id="top-spacing-home"></div>
 		<div class="row" id="center-spacing-home" ng-controller="InputCtrl as ctrl">
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-6 col-md-offset-3">
 				<!-- <ng-include src="'partials/input.html'"></ng-include>
 			</div> -->
 			<div class="row" id="header-form-home">
 				<div class="col-md-8 col-md-offset-2" align="center">
 					<img id="logo-home" src="../images/logo.png">
 					<p id="welcomingTitle">Welcome to SunnyExpress search!</p>
-					<p id="welcomingTxt"> Please, enter your dreaming weather conditions and locations for your short notice trip and we will help you find it \
-						for real! </p>
+					<p id="welcomingTxt"> Please, enter your dreaming weather conditions and locations for your short notice trip and we will help you find it for real! </p>
 				</div>	
 			</div>
-
+			<!-- TODO: Reorganize so that fit on smaller screens --> 
 			<div class="row" id="body-form-home">
 				<div class="row">
 					<div class="col-md-6">
@@ -75,7 +74,7 @@
 					<div class="col-md-6">
 						<form name="dateForm">
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12" align="right">
 									<md-input-container>
 										<md-datepicker required
 						               				   ng-change="returnDateRangeUpdate()"
@@ -93,7 +92,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12" align="right">
 							
 									<md-input-container>
 										<md-datepicker required
@@ -115,26 +114,21 @@
 				</div>
 
 				<div class="row" id="vertical-spacing-form-home"></div>
+				<!-- TODO: title on how to use for user like temp label -->
 				<div class="row">
-					<div class="col-md-1" align="center">
-						<img style="height: 50px" src="../images/temperature-min.png">
-					</div>
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<md-slider-container>
-							<icon>Minimal temperature required:</icon> <!-- TODO: Add icons instead of text -->
+							<img style="height: 40px" src="../images/temperature-min.png">
 							<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
 				           min="-20" max="40" aria-label="Min" class="md-primary"></md-slider>
 						</md-slider-container>
 					</div>
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<md-slider-container>
-							<icon>Maximal temperature desired:</icon>
 							<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
 				           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
+				           <img style="height: 40px" src="../images/temperature-max.png">
 						</md-slider-container>
-					</div>
-					<div class="col-md-1" align="center">
-						<img style="height: 50px" src="../images/temperature-max.png">
 					</div>
 				</div>
 
