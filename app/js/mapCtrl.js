@@ -1,6 +1,8 @@
 sunnyExpressApp.controller('MapCtrl', function ($scope, $window, SunnyExpress) {
 
-    var map;
+    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+
+    /*var map;
     var markers = [];
 
     $scope.onload = function () {
@@ -21,7 +23,7 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, $window, SunnyExpress) {
 
         //service = new google.maps.places.PlacesService(map);
         //service.nearbySearch(request, callback);
-    }
+    }*/
 
     function callback(results, status) {
         console.log(results);
