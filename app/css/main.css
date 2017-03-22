@@ -27,13 +27,16 @@ div.img-responsive {
 }
 
 #top-spacing-home {
-	height:3vh;
+	height:5vh;
+	width: 100vw;
 }
 #center-spacing-home {
 	height: 90vh;
+	width: 100vw;
 }
 #bottom-spacing-home {
-	height:3vh;
+	height:5vh;
+	width: 100vw;
 }
 #header-form-home {
 	background-color: white;
