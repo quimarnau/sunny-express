@@ -17,7 +17,8 @@
     "angular-sanitize": "~1.x",
     "angular-material": "~1.x",
     "jquery": "~2.1.1",
-    "bootstrap": "~3.x"
+    "bootstrap": "~3.x",
+    "angular-google-maps": "~2.4.x"
   },
   "resolutions": {
     "angular-material": "~1.x"
