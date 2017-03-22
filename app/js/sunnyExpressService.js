@@ -21,23 +21,15 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	 								1219: [1069,1072,1114,1117,1168,1171,1204,1207,1210,1213,1216,1219,1225,1237,1249,1252,1255,1258,1261,1264,1279,1282]
 	 								};
 
-	var mapFeatures = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 	var arriveCountryMap = undefined;
 
-	var markers = [];
+	var arriveCountryCityCoords = [];
 	var infoviews = [];
 
 
 	arriveCountry = "France";
 	activeCity = {"name": "Paris", "lon":2.35236,"lat":48.856461};
-
-	this.setMapFeatures = function (featureName, feature) {
-		mapFeatures[featureName] = feature;
-	};
-
-	this.getMapFeatures = function () {
-		return mapFeatures;
-	};
 
 	this.weatherConditionFilter = function(weatherForecast) {
 		var favourableDaysNum = 0;
@@ -168,7 +160,31 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		console.log(message);
 	}
 
-	this.setMap = function(mapElement) {
+    this.setMapFeatures = function (featureName, feature) {
+        mapFeatures[featureName] = feature;
+    };
+
+    this.getMapFeatures = function () {
+        return mapFeatures;
+    };
+
+    this.setCityCoords = function() {
+    	arriveCountryCityCoords = [];
+        var countryCities = this.getCountryCities();
+        if (countryCities != undefined) {
+            for (var i = 0; i < countryCities.length; ++i) {
+                var activeCity = countryCities[i];
+                var activeCityLocation = {city: activeCity.name, location: {latitude: activeCity.lat, longitude: activeCity.lon}};
+                arriveCountryCityCoords.push(activeCityLocation);
+            }
+        }
+	};
+
+    this.getCityCoords = function() {
+    	return arriveCountryCityCoords;
+	};
+
+	/*this.setMap = function(mapElement) {
         this.getLocationCoordinates.get({address: arriveCountry}, function(data) {
                 //console.log(data);
                 //alert(data.results[0].geometry.location.lat + ', ' + data.results[0].geometry.location.lng);
@@ -182,7 +198,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
                 alert('error geocode api, searching for ' + arriveCountry);
                 console.log(data);
             });
-	}
+	}*/
 
 	this.setMapCenter = function() {
 		console.log('before map centering\ncountry: ' + arriveCountry);
@@ -201,7 +217,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				console.log(data);
 			});
 		}
-	};
+	};/*
 
 	this.setMapInfo = function() {
         for (var i = 0; i < markers.length; ++i)
@@ -245,7 +261,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
                 infowindow.marker = null;
             });
         }
-    }
+    }*/
 
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});

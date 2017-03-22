@@ -1,7 +1,11 @@
-sunnyExpressApp.controller('MapCtrl', function ($scope, $window, SunnyExpress) {
+sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 
-    $scope.map = SunnyExpress.getMapFeatures();
-    $scope.id = "one";
+    SunnyExpress.setCityCoords();
+
+    $scope.mapFeatures = SunnyExpress.getMapFeatures();
+    $scope.getCityCoords = function() {
+        return SunnyExpress.getCityCoords();
+    };
 
     /*var map;
     var markers = [];

@@ -145,7 +145,8 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
 		SunnyExpress.setDisfavourableWeatherConditions(weatherConditions.undesired);
 
+        SunnyExpress.setCityCoords();
 		SunnyExpress.setMapCenter();
-		SunnyExpress.setMapInfo();
+		//SunnyExpress.setMapInfo();
 	}
 });
