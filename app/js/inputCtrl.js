@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
+sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 
 	/**
 	 * Parameters and functions of location inputs
@@ -130,6 +130,37 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		};
 	}
 
+	var searchWeatherCity = function(numDays, city) {
+		var d = $q.defer();
+		var result = SunnyExpress.getCityWeather.get({days: numDays, q: city.lat + "," + city.lon}, function() {
+			d.resolve(result);
+		});
+
+		return d.promise;
+	}
+
+	var searchWeather = function() {
+		//TODO show loading picture
+		return SunnyExpress.responseParis;
+		
+		var numDays = Math.round(($scope.returnDate-$scope.departureDate)/(1000*60*60*24));
+		var cities = SunnyExpress.getCountryCities($scope.selectedCountry.display);
+		var cityQueue = [];
+
+		for (var i = 0; i < cities.length; i++) {
+			cityQueue.push(searchWeatherCity(numDays,cities[i]));
+		};
+
+		$q.all(cityQueue).then(function(data) {
+			for (var i = 0; i < data.length; i++) {
+				if (SunnyExpress.weatherConditionFilter(data[i].forecast.forecastday)) {
+					console.log(SunnyExpress.resolveCity(data[i].location.lat,data[i].location.lon)); // It is good for the weather preference
+				};
+			};
+
+		})
+	}
+
 	/**
 	 * Save input data to model
 	 */
@@ -145,7 +176,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, SunnyExpress) {
 		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
 		SunnyExpress.setDisfavourableWeatherConditions(weatherConditions.undesired);
 
-		SunnyExpress.setMapCenter();
-		SunnyExpress.setMapInfo();
+		searchWeather();
 	}
 });

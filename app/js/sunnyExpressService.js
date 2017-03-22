@@ -156,6 +156,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		return cities.sort();
 	}
 
+	this.resolveCity = function(lat, lon) {
+		for (var i = 0; i < countryCitiesDb[arriveCountry].length; i++) {
+			if((Math.abs(countryCitiesDb[arriveCountry][i].lat - lat) <=0.5) && (Math.abs(countryCitiesDb[arriveCountry][i].lon - lon) <=0.5)) {
+				return countryCitiesDb[arriveCountry][i].name;
+			}
+		};
+	}
+
 	this.getActiveCity = function() {
 		return activeCity;
 	}
