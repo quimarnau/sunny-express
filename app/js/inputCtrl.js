@@ -153,7 +153,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 
 		$q.all(cityQueue).then(function(data) {
 			for (var i = 0; i < data.length; i++) {
-				if (SunnyExpress.weatherConditionFilter(data[i].forecast.forecastday)) {
+				if (SunnyExpress.weatherConditionFilter(data[i].forecast.forecastday).state) {
 					console.log(SunnyExpress.resolveCity(data[i].location.lat,data[i].location.lon)); // It is good for the weather preference
 				};
 			};
@@ -179,6 +179,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
         SunnyExpress.setCityCoords();
 		SunnyExpress.setMapCenter();
 		//SunnyExpress.setMapInfo();
-		searchWeather();
+		var data = searchWeather();
+		console.log(SunnyExpress.weatherConditionFilter(data.forecast.forecastday).majorityCondition);
 	}
 });

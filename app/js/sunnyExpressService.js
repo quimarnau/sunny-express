@@ -34,12 +34,19 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	this.weatherConditionFilter = function(weatherForecast) {
 		var favourableDaysNum = 0;
 		var disfavourableDaysNum = 0;
+		var majorityCondition = {1000:0,1006:0,1189:0,1219:0};
 		var intervalLength = weatherForecast.length;
+		var maxAverage = 0;
+		var minAverage = 0;
 
 		for (var i = 0; i < weatherForecast.length; i++) {
+			maxAverage += weatherForecast[i].day.maxtemp_c;
+			minAverage += weatherForecast[i].day.mintemp_c;
+			
 			for (var j = 0; j < favourableWeatherConditions.length; j++) {
 				if(weatherConditionResolveDB[favourableWeatherConditions[j]].indexOf(weatherForecast[i].day.condition.code) >= 0) {
 					favourableDaysNum++;
+					majorityCondition[favourableWeatherConditions[j]]++;
 					break;
 				}
 			};
@@ -50,11 +57,25 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				};
 			};
 		};
+		maxAverage = maxAverage / intervalLength;
+		minAverage = minAverage / intervalLength;
 
 		if((favourableDaysNum > (intervalLength/2)) && (disfavourableDaysNum == 0)) {
-			return true;
+			if(maxAverage < maxTemperature && minAverage > minTemperature){
+				majorityNum = 0;
+				majorityId = 0;
+				for (var i = 0; i < favourableWeatherConditions.length; i++) {
+					if(majorityCondition[favourableWeatherConditions[i]] > majorityNum) {
+						majorityNum = majorityCondition[favourableWeatherConditions[i]];
+						majorityId = favourableWeatherConditions[i];
+					}
+				};
+				return {"state": true, majorityCondition: majorityId};
+			} else {
+				return {"state": false, majorityCondition:0};
+			}
 		} else {
-			return false;
+			return {"state": false, majorityCondition:0};
 		}
 	}
 
