@@ -4,7 +4,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var minTemperature = -10, maxTemperature = 30;
 	var favourableWeatherConditions = [];
 	var disfavourableWeatherConditions = [];
-	var activeCity = undefined;
+	var activeCities = [];
 
 	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -29,17 +29,23 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 
 
 	arriveCountry = "France";
-	activeCity = {"name": "Paris", "lon":2.35236,"lat":48.856461};
 
 	this.weatherConditionFilter = function(weatherForecast) {
 		var favourableDaysNum = 0;
 		var disfavourableDaysNum = 0;
+		var majorityCondition = {1000:0,1006:0,1189:0,1219:0};
 		var intervalLength = weatherForecast.length;
+		var maxAverage = 0;
+		var minAverage = 0;
 
 		for (var i = 0; i < weatherForecast.length; i++) {
+			maxAverage += weatherForecast[i].day.maxtemp_c;
+			minAverage += weatherForecast[i].day.mintemp_c;
+			
 			for (var j = 0; j < favourableWeatherConditions.length; j++) {
 				if(weatherConditionResolveDB[favourableWeatherConditions[j]].indexOf(weatherForecast[i].day.condition.code) >= 0) {
 					favourableDaysNum++;
+					majorityCondition[favourableWeatherConditions[j]]++;
 					break;
 				}
 			};
@@ -50,12 +56,40 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				};
 			};
 		};
+		maxAverage = maxAverage / intervalLength;
+		minAverage = minAverage / intervalLength;
 
 		if((favourableDaysNum > (intervalLength/2)) && (disfavourableDaysNum == 0)) {
-			return true;
+			if(maxAverage < maxTemperature && minAverage > minTemperature){
+				majorityNum = 0;
+				majorityId = 0;
+				for (var i = 0; i < favourableWeatherConditions.length; i++) {
+					if(majorityCondition[favourableWeatherConditions[i]] > majorityNum) {
+						majorityNum = majorityCondition[favourableWeatherConditions[i]];
+						majorityId = favourableWeatherConditions[i];
+					}
+				};
+				return {"state": true, majorityCondition: majorityId};
+			} else {
+				return {"state": false, majorityCondition:0};
+			}
 		} else {
-			return false;
+			return {"state": false, majorityCondition:0};
 		}
+	}
+
+	this.setWeatherActiveCities = function(forecastData) {
+		activeCities = [];
+		var temp = [];
+		
+		for (var i = 0; i < forecastData.length; i++) {
+			var weatherState = this.weatherConditionFilter(forecastData[i].forecast.forecastday);
+				if(weatherState.state) {
+					var name = this.resolveCity(forecastData[i].location.lat,forecastData[i].location.lon);
+					activeCities.push({"name": name, "lat":forecastData[i].location.lat, "lon": forecastData[i].location.lon, "majorityCondition": weatherState.majorityCondition});
+				};
+		};
+		
 	}
 
 	this.setFavourableWeatherConditions = function(weatherConditionsList) {
@@ -156,12 +190,12 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		};
 	}
 
-	this.getActiveCity = function() {
-		return activeCity;
+	this.getActiveCities = function() {
+		return activeCities;
 	}
 
-	this.setActiveCity = function(city) {
-		activeCity = city;
+	this.setActiveCities = function(cities) {
+		activeCities = cities;
 	}
 
 	this.log = function (message) {
@@ -225,9 +259,9 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				console.log(data);
 			});
 		}
-	};/*
+	};
 
-	this.setMapInfo = function() {
+	/*this.setMapInfo = function() {
         for (var i = 0; i < markers.length; ++i)
             markers[i].setMap(null);
         markers = [];

@@ -4,7 +4,19 @@
         <ui-gmap-marker ng-repeat='city in getCityCoords()'
                 idKey='city.city'
                 coords='city.location'
+                events="marker.events"
+                weather='city.weather'
         >
         </ui-gmap-marker>
+        <ui-gmap-window
+                coords='infoWindow.coords'
+                show='infoWindow.showInfo'
+                closeClick='onCloseInfoWindow()'
+        >
+            <div>
+                <h2>{{infoWindow.cityName}}</h2>
+                <p>{{infoWindow.weatherResume}}</p>
+            </div>
+        </ui-gmap-window>
     </ui-gmap-google-map>
 </div>

@@ -1,10 +1,26 @@
 sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 
-    SunnyExpress.setCityCoords();
-
     $scope.mapFeatures = SunnyExpress.getMapFeatures();
     $scope.getCityCoords = function() {
         return SunnyExpress.getCityCoords();
+    };
+
+    $scope.marker = {events: {
+        mouseover: function(marker, eventName, args) {
+            $scope.infoWindow.coords = this.coords;
+            $scope.infoWindow.showInfo = true;
+            $scope.infoWindow.cityName = this.idKey;
+            $scope.infoWindow.weatherResume = 'here info about the city will be displayed';
+        }
+    }};
+
+    $scope.infoWindow = {
+        coords: { latitude: 48.856461, longitude: 2.35236 },
+        showInfo: false
+    };
+
+    $scope.onCloseInfoWindow = function() {
+        $scope.infoWindow.showInfo = false;
     };
 
     /*var map;
