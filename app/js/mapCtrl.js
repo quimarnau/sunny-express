@@ -1,6 +1,7 @@
 sunnyExpressApp.controller('MapCtrl', function ($scope, $window, SunnyExpress) {
 
-    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+    $scope.map = SunnyExpress.getMapFeatures();
+    $scope.id = "one";
 
     /*var map;
     var markers = [];
