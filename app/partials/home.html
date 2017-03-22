@@ -1,7 +1,11 @@
-	<div class="container-fluid img-responsive">
+	<div class="container-fluid">
+		<div id="bg">
+		<img src="../images/background.jpg">
+		</div>
+
 		<div class="row" id="top-spacing-home"></div>
 		<div class="row" id="center-spacing-home" ng-controller="InputCtrl as ctrl">
-			<div class="col-md-6 col-md-offset-3">
+			<div class="col-md-8 col-md-offset-2">
 				<!-- <ng-include src="'partials/input.html'"></ng-include>
 			</div> -->
 			<div class="row" id="header-form-home">
@@ -14,7 +18,7 @@
 			<!-- TODO: Reorganize so that fit on smaller screens --> 
 			<div class="row" id="body-form-home">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-6 col-md-offset-1">
 						<form ng-submit="$event.preventDefault()" name="locationForm">
 							<div class="row">
 								<div class="col-md-12">
@@ -71,11 +75,12 @@
 					</div>
 				
 			
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<form name="dateForm">
 							<div class="row">
 								<div class="col-md-12" align="right">
 									<md-input-container>
+										<label id="date-departure-label">Depart on</label>
 										<md-datepicker required
 						               				   ng-change="returnDateRangeUpdate()"
 						               				   ng-model="departureDate"
@@ -95,6 +100,7 @@
 								<div class="col-md-12" align="right">
 							
 									<md-input-container>
+										<label id="date-return-label">Return on</label>
 										<md-datepicker required
 										               ng-model="returnDate"
 										               name="returnDate"
@@ -112,29 +118,48 @@
 						</form>
 					</div>
 				</div>
-
-				<div class="row" id="vertical-spacing-form-home"></div>
 				<!-- TODO: title on how to use for user like temp label -->
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-4" style="padding:10px">
+						<p>Temperatures preferably between:</p>
+					</div>
+					<div class="col-md-4">
 						<md-slider-container>
-							<img style="height: 40px" src="../images/temperature-min.png">
+							<img style="height: 10%" src="../images/temperature-min.png">
 							<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
 				           min="-20" max="40" aria-label="Min" class="md-primary"></md-slider>
 						</md-slider-container>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<md-slider-container>
 							<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
 				           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
-				           <img style="height: 40px" src="../images/temperature-max.png">
+				           <img style="height: 10%" src="../images/temperature-max.png">
 						</md-slider-container>
 					</div>
 				</div>
 
-			</div>
-			<div>
-				<a ng-href="#!/search" class="btn btn-default">Go to Search View</a>
+				<div class="row" style="padding-bottom: 10px">
+					<div class="col-md-4" style="padding:10px">
+						<p>Select your weather preferences:</p>
+					</div>
+					<div layout="row" layout-align="center center" class="col-md-5">
+						<md-icon ng-repeat="i in [0,1,2,3]"
+				         		class="md-42"
+				         		md-svg-src="../images/svg/{{icons[i]}}.svg"
+				         		ng-click="incrementCounter(i)"
+				         		ng-style="{'color': statesDicc[states[i]]}">
+						</md-icon>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<md-button class="md-raised" ng-click="inputForm.$valid && search()" type="submit" id="search-btn">Search</md-button>	
+					</div>
+				</div>
+
+
 			</div>			
 		</div>
 		<div class="row" id="bottom-spacing-home"></div>
