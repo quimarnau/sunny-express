@@ -8,8 +8,7 @@ sunnyExpressApp.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
 			when('/home', {
-				templateUrl: 'partials/home.html',
-				controller: 'HomeCtrl'
+				templateUrl: 'partials/home.html'
 			}).
 			when('/search', {
 				templateUrl: 'partials/search.html'
