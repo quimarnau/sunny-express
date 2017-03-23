@@ -17,6 +17,10 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
         return SunnyExpress.getActiveCities();
     };
 
+    $scope.funct = function() {
+        console.log('hola');
+    };
+
     $scope.marker = {
         events: {
         mouseover: function(marker, eventName, args) {
@@ -24,7 +28,10 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
             $scope.infoWindow.showInfo = true;
             $scope.infoWindow.cityName = this.idKey;
             $scope.infoWindow.weatherResume = 'here info about the city will be displayed';
-        }
+        }/*,
+        mouseout: function(marker, eventName, args) {
+            $scope.infoWindow.showInfo = false;
+        }*/
     },
         icon: {
             url:    "../images/cloud-green.png",
