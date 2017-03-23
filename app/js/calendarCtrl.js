@@ -13,9 +13,9 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 	  $scope.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
 	};
 
-	$scope.fillCalendar = function() {
-		MaterialCalendarData.setDayContent(new Date(),'<span> oo</span>');
-
+	$scope.fillCalendar = function(date) {
+		
+		MaterialCalendarData.setDayContent(date,'<span> oo</span>');
 	};
 
 });
