@@ -4,8 +4,8 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 	 * Parameters and functions of location inputs
 	 */
 
-	$scope.selectedCity = null;
-	$scope.selectedCountry = null;
+	$scope.selectedCity = SunnyExpress.getDepartCity() != undefined ? SunnyExpress.getDepartCity() : null;
+	$scope.selectedCountry = SunnyExpress.getArriveCountry() != undefined ? SunnyExpress.getArriveCountry() : null;
 
 	$scope.searchCity = null;
 	$scope.searchCountry = null;
@@ -150,6 +150,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 		//TODO show loading picture
 		
 		var numDays = Math.round(($scope.returnDate-$scope.departureDate)/(1000*60*60*24));
+		console.log($scope.selectedCountry.display);
 		var cities = SunnyExpress.getCountryCities($scope.selectedCountry.display);
 		var cityQueue = [];
 

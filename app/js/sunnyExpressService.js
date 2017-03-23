@@ -32,8 +32,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var infoviews = [];
 
 
-	arriveCountry = "France";
-
 	this.setWindPreference = function(windState) {
 		this.windPreference = windState;
 	}
