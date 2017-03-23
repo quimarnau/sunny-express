@@ -3,8 +3,9 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 	/**
 	 * Parameters and functions of location inputs
 	 */
-	$scope.selectedCity = SunnyExpress.getDepartCity() != undefined ? SunnyExpress.getDepartCity() : null;
-	$scope.selectedCountry = SunnyExpress.getArriveCountry() != undefined ? SunnyExpress.getArriveCountry() : null;
+
+	$scope.selectedCity = null;
+	$scope.selectedCountry = null;
 
 	$scope.searchCity = null;
 	$scope.searchCountry = null;
