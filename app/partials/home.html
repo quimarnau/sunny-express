@@ -118,7 +118,7 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-4 visible-lg visible-md">
 							<div class="row">
 								<div class="col-md-12" style="padding-top:10px;padding-left:25px;">
 									<p>Temperatures preferably between:</p>
@@ -136,16 +136,17 @@
 							<div class="row" style="padding-left:10px;padding-right:10px;">
 								<div class="col-md-6">
 									<md-slider-container>
-										<img style="height: 10%" src="../images/temperature-min.png">
+										<img style="width: 10%; height:10%" src="../images/temperature-min.png">
 										<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
 							           min="-20" max="40" aria-label="Min" class="md-primary"></md-slider>
 									</md-slider-container>
 								</div>
 								<div class="col-md-6">
 									<md-slider-container>
+										<img class="visible-sm visible-xs" style="width: 10%; height:10%" src="../images/temperature-max.png">
 										<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
 							           min="-20" max="40" aria-label="Max" class="md-warn"></md-slider>
-							           <img style="height: 10%" src="../images/temperature-max.png">
+							           <img class="visible-md visible-lg" style="width: 10%; height:10%" src="../images/temperature-max.png">
 									</md-slider-container>
 								</div>
 							</div>
