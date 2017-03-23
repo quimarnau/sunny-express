@@ -86,7 +86,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 			var weatherState = this.weatherConditionFilter(forecastData[i].forecast.forecastday);
 				if(weatherState.state) {
 					var name = this.resolveCity(forecastData[i].location.lat,forecastData[i].location.lon);
-					activeCities.push({"name": name, "lat":forecastData[i].location.lat, "lon": forecastData[i].location.lon, "majorityCondition": weatherState.majorityCondition});
+					activeCities.push({"name": name, location: {"latitude":forecastData[i].location.lat, "longitude": forecastData[i].location.lon}, "majorityCondition": weatherState.majorityCondition});
 				};
 		};
 		
@@ -243,7 +243,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	}*/
 
 	this.setMapCenter = function() {
-		console.log('before map centering\ncountry: ' + arriveCountry);
+		//console.log('before map centering\ncountry: ' + arriveCountry);
 		if (arriveCountry != "") {
 			this.getLocationCoordinates.get({address: arriveCountry}, function(data) {
 				//console.log(data);
@@ -252,7 +252,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				mapFeatures['zoom'] = 5;
 				//arriveCountryMap.setCenter(data.results[0].geometry.location);
 				//arriveCountryMap.setZoom(5);
-				console.log('done');
+				//console.log('done');
 			},
 			function(data) {
 				alert('error geocode api, searching for ' + arriveCountry);

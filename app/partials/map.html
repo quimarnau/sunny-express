@@ -2,10 +2,10 @@
     <!--<div id="map" class="col-md-12"></div>-->
     <ui-gmap-google-map class="col-md-12" center='mapFeatures.center' zoom='mapFeatures.zoom'>
         <ui-gmap-marker ng-repeat='city in getCityCoords()'
-                idKey='city.city'
+                idKey='city.name'
                 coords='city.location'
                 events="marker.events"
-                weather='city.weather'
+                icon="{url: iconPath + mapConditionIdName[city.majorityCondition] + ext}"
         >
         </ui-gmap-marker>
         <ui-gmap-window

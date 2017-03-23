@@ -1,18 +1,36 @@
 sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 
-    $scope.mapFeatures = SunnyExpress.getMapFeatures();
-    $scope.getCityCoords = function() {
-        return SunnyExpress.getCityCoords();
+    $scope.mapConditionIdName = {
+        1000: "sunny",
+        1006: "cloudy",
+        1189: "rain",
+        1219: "snow"
     };
 
-    $scope.marker = {events: {
+    $scope.iconPath = '../images/icons-map/';
+    $scope.ext = '.png';
+
+    $scope.icons = ["day", "mostly-cloudy", "rain", "snowshowers"];
+
+    $scope.mapFeatures = SunnyExpress.getMapFeatures();
+    $scope.getCityCoords = function() {
+        return SunnyExpress.getActiveCities();
+    };
+
+    $scope.marker = {
+        events: {
         mouseover: function(marker, eventName, args) {
             $scope.infoWindow.coords = this.coords;
             $scope.infoWindow.showInfo = true;
             $scope.infoWindow.cityName = this.idKey;
             $scope.infoWindow.weatherResume = 'here info about the city will be displayed';
         }
-    }};
+    },
+        icon: {
+            url:    "../images/cloud-green.png",
+            size: new google.maps.Size(10, 55)
+        }
+    };
 
     $scope.infoWindow = {
         coords: { latitude: 48.856461, longitude: 2.35236 },
@@ -24,27 +42,11 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
     };
 
     /*var map;
-    var markers = [];
+    var markers = [];*/
 
     $scope.onload = function () {
-        var activeCity = {"name": "Paris", "lng":2.35236,"lat":48.856461};
-        var activeCityLocation = new google.maps.LatLng(activeCity.lat, activeCity.lng);
-        // Constructor creates a new map - only center and zoom are required.
-
-        var mapElement = document.getElementById('map');
-
-        SunnyExpress.setMap(mapElement);
-
-
-
-        var request = {
-            location: activeCityLocation,
-            radius: '5000'
-        };
-
-        //service = new google.maps.places.PlacesService(map);
-        //service.nearbySearch(request, callback);
-    }*/
+        //console.log($scope.marker.icon);
+    }
 
     function callback(results, status) {
         console.log(results);

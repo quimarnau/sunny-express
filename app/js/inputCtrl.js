@@ -169,11 +169,11 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 		var weatherConditions = getWeatherConditions();
 		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
 		SunnyExpress.setDisfavourableWeatherConditions(weatherConditions.undesired);
-
-        SunnyExpress.setCityCoords();
-		SunnyExpress.setMapCenter();
-		//SunnyExpress.setMapInfo();
 		
 		searchWeather();
+
+        SunnyExpress.setCityCoords();
+        SunnyExpress.setMapCenter();
+        console.log(SunnyExpress.getActiveCities());
 	}
 });
