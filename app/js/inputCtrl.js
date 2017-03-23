@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
+sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyExpress) {
 
 	/**
 	 * Parameters and functions of location inputs
@@ -181,4 +181,11 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
         SunnyExpress.setCityCoords();
         SunnyExpress.setMapCenter();
 	}
+
+	/**
+	 * Change from home view to search view
+	 */
+	 $scope.goToSearch = function () {
+  		$location.path('/search');
+  	};
 });
