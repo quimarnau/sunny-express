@@ -5,6 +5,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var favourableWeatherConditions = [];
 	var disfavourableWeatherConditions = [];
 	var activeCities = [];
+	var iconsState = [0, 0, 0, 0];
 
 	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -112,6 +113,13 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		return baseConditions;
 	}
 
+	this.getIconsState = function() {
+		return iconsState;
+	}
+
+	this.setIconsState = function(state) {
+		iconsState = state;
+	}
 
 	this.getDepartCity = function() {
 		return departCity;

@@ -3,8 +3,8 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 	/**
 	 * Parameters and functions of location inputs
 	 */
-	$scope.selectedCity = null;
-	$scope.selectedCountry = null;
+	$scope.selectedCity = SunnyExpress.getDepartCity() != undefined ? SunnyExpress.getDepartCity() : null;
+	$scope.selectedCountry = SunnyExpress.getArriveCountry() != undefined ? SunnyExpress.getArriveCountry() : null;
 
 	$scope.searchCity = null;
 	$scope.searchCountry = null;
@@ -18,27 +18,33 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 	/**
 	 * Parameters of date pickers
 	 */
-	$scope.departureDate = new Date();
-	$scope.returnDate = new Date($scope.departureDate.getTime());
-	$scope.returnDate.setDate($scope.departureDate.getDate() + 1);
+	$(function() {
+		$scope.departureDate = SunnyExpress.getDepartDate() != undefined ? SunnyExpress.getDepartDate() : new Date();
+		$scope.returnDate = SunnyExpress.getReturnDate();
+		if ($scope.returnDate == undefined) {
+			$scope.returnDate = new Date($scope.departureDate.getTime());
+			$scope.returnDate.setDate($scope.departureDate.getDate() + 1);
+		}
 
-	$scope.minDepartureDate = new Date($scope.departureDate.getTime());
-	$scope.minReturnDate = new Date($scope.returnDate.getTime());
+		$scope.minDepartureDate = new Date();
+		$scope.minReturnDate = new Date($scope.minDepartureDate.getTime());
+		$scope.minReturnDate.setDate($scope.minDepartureDate.getDate() + 1)
 
-	$scope.maxReturnDate = new Date($scope.minDepartureDate.getTime());
-	$scope.maxReturnDate.setDate($scope.minDepartureDate.getDate() + 9);
-	$scope.maxDepartureDate = new Date($scope.maxReturnDate.getTime());
-	$scope.maxDepartureDate.setDate($scope.maxReturnDate.getDate() - 1);
+		$scope.maxReturnDate = new Date($scope.minDepartureDate.getTime());
+		$scope.maxReturnDate.setDate($scope.minDepartureDate.getDate() + 9);
+		$scope.maxDepartureDate = new Date($scope.maxReturnDate.getTime());
+		$scope.maxDepartureDate.setDate($scope.maxReturnDate.getDate() - 1);
 
-	$scope.minTemperature  = SunnyExpress.getMinTemperature();
-	$scope.maxTemperature  = SunnyExpress.getMaxTemperature();
+		$scope.minTemperature = SunnyExpress.getMinTemperature();
+		$scope.maxTemperature = SunnyExpress.getMaxTemperature();
+	});
 
 	/**
 	 * Parameters of weather conditions
 	 */
 	$scope.statesDicc = {"0": "none", "1": "green", "2": "red"};
-	$scope.states = [0, 0, 0, 0];
 	$scope.icons = ["day", "mostly-cloudy", "rain", "snowshowers"];
+	$scope.states = SunnyExpress.getIconsState();
 
 	/**
 	 * Increment the icon counter
