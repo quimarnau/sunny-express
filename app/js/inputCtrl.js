@@ -43,15 +43,15 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 	 * Parameters of weather conditions
 	 */
 	$scope.statesDicc = {"0": "none", "1": "green", "2": "red"};
-	$scope.icons = ["day", "mostly-cloudy", "rain", "snowshowers"];
-	$scope.states = SunnyExpress.getIconsState();
+	$scope.iconsName = ["day", "mostly-cloudy", "rain", "snowshowers"];
+	$scope.iconsState = SunnyExpress.getIconsState();
 
 	/**
 	 * Increment the icon counter
 	 * @param state Index of icon counter
 	 */
 	$scope.incrementCounter = function(index) {
-		$scope.states[index] = ++$scope.states[index]%3;
+		$scope.iconsState[index] = ++$scope.iconsState[index]%3;
 	}
 
 	/**
@@ -61,11 +61,11 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 		var desired = [];
 		var undesired = [];
 		var conditions = SunnyExpress.getBaseConditions();
-		for (var i = 0; i < $scope.states.length; i++) {
-			if ($scope.states[i] == 1) {
+		for (var i = 0; i < $scope.iconsState.length; i++) {
+			if ($scope.iconsState[i] == 1) {
 				desired.push(conditions[i]);
 			}
-			else if ($scope.states[i] == 2) {
+			else if ($scope.iconsState[i] == 2) {
 				undesired.push(conditions[i]);
 			}
 		}
@@ -171,6 +171,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 		SunnyExpress.setReturnDate($scope.returnDate);
 		SunnyExpress.setMinTemperature($scope.minTemperature);
 		SunnyExpress.setMaxTemperature($scope.maxTemperature);
+		SunnyExpress.setIconsState($scope.iconsState);
 
 		var weatherConditions = getWeatherConditions();
 		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
