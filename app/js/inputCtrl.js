@@ -180,6 +180,5 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $q, SunnyExpress) {
 
         SunnyExpress.setCityCoords();
         SunnyExpress.setMapCenter();
-        console.log(SunnyExpress.getActiveCities());
 	}
 });
