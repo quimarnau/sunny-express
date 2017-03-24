@@ -31,8 +31,17 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var arriveCountryCityCoords = [];
 	var infoviews = [];
 
+	//NavBar (need to store the current page) -----------
+	var currentNavItem ="home"    // Initial one
+	// can take 1 out of 3 value: "home", "search", "calendar"
 
-	arriveCountry = "France";
+	this.getCurrentNavItem =function() {
+		return currentNavItem;
+	}
+	this.setCurrentNavItem = function(navItem) {
+		currentNavItem = navItem;
+	}
+	// ENd Navbar ---------------------------------------
 
 	this.setWindPreference = function(windState) {
 		this.windPreference = windState;
@@ -52,7 +61,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		this.tripsHistoryDb.push(trip);
 	}
 
-	this.resolveWeatherCondition = function(id,idToCheck) {
+	this.resolveWeatherCondition = function(id, idToCheck) {
 		if(weatherConditionResolveDB[id].indexOf(idToCheck) >= 0) {
 			return true;		
 		}
@@ -61,66 +70,107 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		}
 	}
 
+	this.getMajorityCondition = function(weatherForecast) {
+		var majorityCondition = {1000: 0, 1006: 0, 1189: 0, 1219: 0};
+		for (var i = 0; i < weatherForecast.length; i++) {
+			for (var j = 0; j < baseConditions.length; j++) {
+			 	if(weatherConditionResolveDB[baseConditions[j]].indexOf(weatherForecast[i].day.condition.code) >= 0) {
+			 		majorityCondition[baseConditions[j]]++;
+			 	}
+			};
+		}
+
+		var majorityId = 0;
+		var majorityNum = 0; 
+
+		for (var i = 0; i < baseConditions.length; i++) {
+			if(majorityCondition[baseConditions[i]] > majorityNum){
+				majorityNum = majorityCondition[baseConditions[i]];
+				majorityId = baseConditions[i];
+			}
+		};
+
+		return majorityId;
+	}
+
+    /* return 0 if day is dont care, -1 if disfavourable, 1 is favourable*/
+	this.dayWeatherConditionFilter = function(dayForecast) {
+		var windOk = ((windPreference == -1 && dayForecast.maxwind_kph < windThreshold) || 
+						(windPreference == 1 && dayForecast.maxwind_kph > windThreshold) ||
+						(windPreference == 0)) ? true : false;
+
+		if (!windOk) {
+			return 0;
+		}
+
+		if((disfavourableWeatherConditions.length == 0) && (favourableWeatherConditions.length == 0)) {
+			return 1;
+		}
+
+		if(disfavourableWeatherConditions.length == 0) {
+			for (var j = 0; j < favourableWeatherConditions.length; j++) {
+				if(this.resolveWeatherCondition(favourableWeatherConditions[j],dayForecast.condition.code)) {					
+					return 1;
+				}
+			}
+			return 0;
+		}
+
+		if(favourableWeatherConditions.length == 0) {
+			for (var j = 0; j < disfavourableWeatherConditions.length; j++) {
+				if(this.resolveWeatherCondition(disfavourableWeatherConditions[j],dayForecast.condition.code)) {					
+					return -1;
+				}
+			}
+			return 1;
+		}
+
+		var dayOk = undefined;
+		for (var j = 0; j < favourableWeatherConditions.length; j++) {
+			if(this.resolveWeatherCondition(favourableWeatherConditions[j],dayForecast.condition.code)) {					
+				dayOk = true;
+			}
+		};
+		for (var j = 0; j < disfavourableWeatherConditions.length; j++) {	
+			if (this.resolveWeatherCondition(disfavourableWeatherConditions[j],dayForecast.condition.code)) {
+				dayOk = false;
+			};
+		};
+
+		switch(dayOk) {
+			case undefined: return 0;
+			case true: return 1;
+			case false: return -1;
+		}
+
+		return 0;
+	}
+
 	this.weatherConditionFilter = function(weatherForecast) {
 		var favourableDaysNum = 0;
 		var disfavourableDaysNum = 0;
-		var majorityCondition = {1000:0,1006:0,1189:0,1219:0};
 		var intervalLength = weatherForecast.length;
 		var maxAverage = 0;
 		var minAverage = 0;
 
-		if((disfavourableWeatherConditions.length == 0) && (favourableWeatherConditions.length == 0)) {
-			favourableDaysNum = weatherForecast.length;
-			var resolvedCondition = 0;
-			for (var i = 0; i < weatherForecast.length; i++) {
-				maxAverage += weatherForecast[i].day.maxtemp_c;
-				minAverage += weatherForecast[i].day.mintemp_c;
+		for (var i = 0; i < weatherForecast.length; i++) {
+			maxAverage += weatherForecast[i].day.maxtemp_c;
+			minAverage += weatherForecast[i].day.mintemp_c;
 
-				for(var j = 0; j < baseConditions.length; j++) {
-					if(this.resolveWeatherCondition(baseConditions[j],weatherForecast[i].day.condition.code)) {
-						resolvedCondition = baseConditions[j];
-						break;
-					}
-				}
-				majorityCondition[resolvedCondition]++;
+			var dayResult = this.dayWeatherConditionFilter(weatherForecast[i].day);
+			switch(dayResult) {
+				case 0 : break;
+				case 1 : favourableDaysNum++; break;
+				case -1 : disfavourableDaysNum++; break;
 			}
-		} else {
-			for (var i = 0; i < weatherForecast.length; i++) {
-				maxAverage += weatherForecast[i].day.maxtemp_c;
-				minAverage += weatherForecast[i].day.mintemp_c;
-			
-				for (var j = 0; j < favourableWeatherConditions.length; j++) {
-					if(this.resolveWeatherCondition(favourableWeatherConditions[j],weatherForecast[i].day.condition.code)) {					
-						favourableDaysNum++;
-						majorityCondition[favourableWeatherConditions[j]]++;
-						break;
-					}
-				};
-				for (var j = 0; j < disfavourableWeatherConditions.length; j++) {	
-					if (this.resolveWeatherCondition(disfavourableWeatherConditions[j],weatherForecast[i].day.condition.code)) {
-						disfavourableDaysNum++;
-						break;
-					};
-				};
-			};
-        }
+
+		};
+
 		maxAverage = maxAverage / intervalLength;
 		minAverage = minAverage / intervalLength;
 
-		if((favourableDaysNum > (intervalLength/2)) && (disfavourableDaysNum == 0)) {
-			if(maxAverage < maxTemperature && minAverage > minTemperature){
-				majorityNum = 0;
-				majorityId = 0;
-				for (var i = 0; i < baseConditions.length; i++) {
-					if(majorityCondition[baseConditions[i]] > majorityNum) {
-						majorityNum = majorityCondition[baseConditions[i]];
-						majorityId = baseConditions[i];
-					}
-				};
-				return {"state": true, "majorityCondition": majorityId, "forecast":weatherForecast};
-			} else {
-				return {"state": false, "majorityCondition":0, "forecast": []};
-			}
+		if((favourableDaysNum > (intervalLength/2)) && disfavourableDaysNum == 0 && maxAverage < maxTemperature && minAverage > minTemperature) {
+			return {"state": true, "majorityCondition": this.getMajorityCondition(weatherForecast), "forecast":weatherForecast};
 		} else {
 			return {"state": false, "majorityCondition":0, "forecast": []};
 		}
@@ -281,33 +331,12 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
     	return arriveCountryCityCoords;
 	};
 
-	/*this.setMap = function(mapElement) {
-        this.getLocationCoordinates.get({address: arriveCountry}, function(data) {
-                //console.log(data);
-                //alert(data.results[0].geometry.location.lat + ', ' + data.results[0].geometry.location.lng);
-                arriveCountryMap = new google.maps.Map(mapElement, {
-                    center: data.results[0].geometry.location,
-                    zoom: 5,
-                    mapTypeControl: false
-                });
-            },
-            function(data) {
-                alert('error geocode api, searching for ' + arriveCountry);
-                console.log(data);
-            });
-	}*/
 
 	this.setMapCenter = function() {
-		//console.log('before map centering\ncountry: ' + arriveCountry);
 		if (arriveCountry != "") {
 			this.getLocationCoordinates.get({address: arriveCountry}, function(data) {
-				//console.log(data);
-				//alert(data.results[0].geometry.location.lat + ', ' + data.results[0].geometry.location.lng);
 				mapFeatures['center'] = {latitude: data.results[0].geometry.location, longitude: data.results[0].geometry.location};
 				mapFeatures['zoom'] = 5;
-				//arriveCountryMap.setCenter(data.results[0].geometry.location);
-				//arriveCountryMap.setZoom(5);
-				//console.log('done');
 			},
 			function(data) {
 				alert('error geocode api, searching for ' + arriveCountry);
@@ -315,50 +344,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 			});
 		}
 	};
-
-	/*this.setMapInfo = function() {
-        for (var i = 0; i < markers.length; ++i)
-            markers[i].setMap(null);
-        markers = [];
-        var countryCities = this.getCountryCities();
-        if (countryCities != undefined) {
-            var infowindow = new google.maps.InfoWindow();
-            for (var i = 0; i < countryCities.length; ++i) {
-                var activeCity = countryCities[i];
-                var activeCityLocation = new google.maps.LatLng(activeCity.lat, activeCity.lon);
-                var forecastInfo =
-                    ("<br> Date: " + this.responseParis.forecast.forecastday[0].date +
-                    "<br> Max temp: " + this.responseParis.forecast.forecastday[0].day.maxtemp_c +
-                    "<br> Min temp: " + this.responseParis.forecast.forecastday[0].day.mintemp_c);
-                var marker = new google.maps.Marker({
-                    map: arriveCountryMap,
-                    position: activeCityLocation,
-                    title: activeCity.name,
-					icon: this.responseParis.forecast.forecastday[1].day.condition.icon,
-                    exp: forecastInfo
-                });
-
-                markers.push(marker);
-
-                marker.addListener('mouseover', function() {
-                    populateInfoWindow(this, infowindow);
-                });
-            }
-        }
-	};
-
-    function populateInfoWindow(marker, infowindow) {
-        // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != marker) {
-            infowindow.marker = marker;
-            infowindow.setContent('<div>' + marker.title + '\n' + marker.exp + '</div>');
-            infowindow.open(arriveCountryMap, marker);
-            // Make sure the marker property is cleared if the infowindow is closed.
-            infowindow.addListener('closeclick', function() {
-                infowindow.marker = null;
-            });
-        }
-    }*/
 
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
