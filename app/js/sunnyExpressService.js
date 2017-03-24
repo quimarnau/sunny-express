@@ -26,10 +26,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var tripsHistoryDb = [];
 
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
-	var arriveCountryMap = undefined;
-
-	var arriveCountryCityCoords = [];
-	var infoviews = [];
 
 	//NavBar (need to store the current page) -----------
 	var currentNavItem ="home"    // Initial one
@@ -301,10 +297,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 
 	this.setActiveCities = function(cities) {
 		activeCities = cities;
-	}
-
-	this.log = function (message) {
-		console.log(message);
 	}
 
     this.setMapFeatures = function (featureName, feature) {
