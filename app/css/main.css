@@ -10,8 +10,15 @@ body {
   display: compact;}    
 }
 
-/* Home view */
+/* Navigation bar (NavBar) view*/
+md-nav-bar md-nav-item {
+	background: red;
+}
+md-nav-bar md-nav-ink-bar {
+	background: blue;
+}
 
+/* Home view */
 
 /*#bg {
 	position: fixed;
