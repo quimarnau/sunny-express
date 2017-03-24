@@ -31,6 +31,17 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var arriveCountryCityCoords = [];
 	var infoviews = [];
 
+	//NavBar (need to store the current page) -----------
+	var currentNavItem ="home"    // Initial one
+	// can take 1 out of 3 value: "home", "search", "calendar"
+
+	this.getCurrentNavItem =function() {
+		return currentNavItem;
+	}
+	this.setCurrentNavItem = function(navItem) {
+		currentNavItem = navItem;
+	}
+	// ENd Navbar ---------------------------------------
 
 	this.setWindPreference = function(windState) {
 		this.windPreference = windState;
