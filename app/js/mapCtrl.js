@@ -10,8 +10,6 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
     $scope.iconPath = '../images/icons-map/';
     $scope.ext = '.png';
 
-    $scope.icons = ["day", "mostly-cloudy", "rain", "snowshowers"];
-
     $scope.mapFeatures = SunnyExpress.getMapFeatures();
     $scope.getCityCoords = function() {
         return SunnyExpress.getActiveCities();

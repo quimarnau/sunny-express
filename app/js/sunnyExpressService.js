@@ -315,22 +315,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
         return mapFeatures;
     };
 
-    this.setCityCoords = function() {
-    	arriveCountryCityCoords = [];
-        var countryCities = this.getCountryCities();
-        if (countryCities != undefined) {
-            for (var i = 0; i < countryCities.length; ++i) {
-                var activeCity = countryCities[i];
-                var activeCityLocation = {city: activeCity.name, location: {latitude: activeCity.lat, longitude: activeCity.lon}};
-                arriveCountryCityCoords.push(activeCityLocation);
-            }
-        }
-	};
-
-    this.getCityCoords = function() {
-    	return arriveCountryCityCoords;
-	};
-
 
 	this.setMapCenter = function() {
 		if (arriveCountry != "") {

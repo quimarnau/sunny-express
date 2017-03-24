@@ -181,7 +181,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 		
 		searchWeather();
 
-        SunnyExpress.setCityCoords();
         SunnyExpress.setMapCenter();
 	}
 
