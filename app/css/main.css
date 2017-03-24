@@ -11,8 +11,11 @@ body {
 }
 
 /* Navigation bar (NavBar) view*/
-#navbar {
-	background-color: red;
+md-nav-bar md-nav-item {
+	background: red;
+}
+md-nav-bar md-nav-ink-bar {
+	background: blue;
 }
 
 /* Home view */
