@@ -14,8 +14,12 @@
                 closeClick='onCloseInfoWindow()'
         >
             <div>
-                <h2>{{infoWindow.cityName}}</h2>
-                <p>{{infoWindow.weatherResume}}</p>
+                <h3 >{{infoWindow.cityName}}</h3>
+                <img  ng-src="{{infoWindow.imageSrc}}">
+                <div>
+                <p>{{infoWindow.weatherResumeMin}}</p>
+                <p>{{infoWindow.weatherResumeMax}}</p>
+                </div>
                 <a ng-href="#!/description">Click</a> for details.
             </div>
         </ui-gmap-window>

@@ -12,11 +12,20 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 
     $scope.mapFeatures = SunnyExpress.getMapFeatures();
     $scope.getCityCoords = function() {
-        return SunnyExpress.getActiveCities();
-    };
-
-    $scope.funct = function() {
-        console.log('hola');
+        var activeCities = SunnyExpress.getActiveCities();
+        $scope.cityInfo = {};
+        for (var i = 0; i < activeCities.length; ++i) {
+            var maxTemp = undefined;
+            var minTemp = undefined;
+            for (var j = 0;  j < activeCities[i].forecast.length; ++j) {
+                if (minTemp == undefined || activeCities[i].forecast[j].day.mintemp_c < minTemp)
+                    minTemp = activeCities[i].forecast[j].day.mintemp_c;
+                if (maxTemp == undefined || activeCities[i].forecast[j].day.maxtemp_c > maxTemp)
+                    maxTemp = activeCities[i].forecast[j].day.maxtemp_c;
+            }
+            $scope.cityInfo[activeCities[i].name] = {maxtemp: maxTemp, mintemp: minTemp};
+        }
+        return activeCities;
     };
 
     $scope.marker = {
@@ -25,11 +34,10 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
             $scope.infoWindow.coords = this.coords;
             $scope.infoWindow.showInfo = true;
             $scope.infoWindow.cityName = this.idKey;
-            $scope.infoWindow.weatherResume = 'here info about the city will be displayed';
-        }/*,
-        mouseout: function(marker, eventName, args) {
-            $scope.infoWindow.showInfo = false;
-        }*/
+            $scope.infoWindow.imageSrc = this.icon.url.toString();
+            $scope.infoWindow.weatherResumeMin = 'min temp: ' + $scope.cityInfo[this.idKey].mintemp + 'ºC';
+            $scope.infoWindow.weatherResumeMax = 'max temp: ' + $scope.cityInfo[this.idKey].maxtemp + 'ºC';
+        }
     },
         icon: {
             url:    "../images/cloud-green.png",
@@ -39,15 +47,13 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 
     $scope.infoWindow = {
         coords: { latitude: 48.856461, longitude: 2.35236 },
-        showInfo: false
+        showInfo: false,
+        imageSrc: "../images/cloud-green.png"
     };
 
     $scope.onCloseInfoWindow = function() {
         $scope.infoWindow.showInfo = false;
     };
-
-    /*var map;
-    var markers = [];*/
 
     $scope.onload = function () {
         //console.log($scope.marker.icon);
