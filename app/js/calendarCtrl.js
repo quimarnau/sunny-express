@@ -14,8 +14,10 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 	};
 
 	$scope.fillCalendar = function(date) {
-		
-		MaterialCalendarData.setDayContent(date,'<span> oo</span>');
+		var trip = SunnyExpress.getTripForDay(date);
+		if(trip != undefined) {
+			MaterialCalendarData.setDayContent(date,"<span>Depart: " + trip.departCity + " <br> Arrive: " + trip.arriveCity + "</span>");
+		}
 	};
 
 });

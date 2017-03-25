@@ -23,9 +23,25 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	 								1189: [1063,1087,1150,1153,1183,1186,1189,1192,1195,1198,1201,1240,1243,1246,1273,1276],
 	 								1219: [1069,1072,1114,1117,1168,1171,1204,1207,1210,1213,1216,1219,1225,1237,1249,1252,1255,1258,1261,1264,1279,1282]
 	 								};
-	var tripsHistoryDb = [];
+	var tripsHistoryDb = []; // One trip data - {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city}
 
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
+
+	// TODO Remove this after the trip add is implemented from the views. Just test data.
+	var startDate = new Date();
+	var endDate = new Date();
+
+	startDate.setDate(startDate.getDate() - 6);
+	endDate.setDate(endDate.getDate() - 3);
+	tripsHistoryDb.push({"start": startDate, "end": endDate, "departCity": "Barcelona", "arriveCity": "Stockholm"});
+
+	startDate = new Date();
+	endDate = new Date();
+	startDate.setDate(startDate.getDate() - 30);
+	endDate.setDate(endDate.getDate() - 23);
+	tripsHistoryDb.push({"start": startDate, "end": endDate, "departCity": "Stockholm", "arriveCity": "Malmoe"});
+
+	// TODO sample code end
 
 	//NavBar (need to store the current page) -----------
 	var currentNavItem ="home"    // Initial one
@@ -47,10 +63,13 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		return this.windPreference;
 	}
 
-	this.getTripsForDay = function(date) {
-		//for(var i=0; i<this.tripsHistoryDb.length; i++) {
-		//			
-		//}
+	this.getTripForDay = function(checkDate) {
+		for (var i = 0; i < tripsHistoryDb.length; i++) {
+			if((checkDate.getTime() <= tripsHistoryDb[i].end.getTime()) && (checkDate.getTime() >= tripsHistoryDb[i].start.getTime())) {
+				return tripsHistoryDb[i];
+			}
+		};
+		return undefined;
 	}
 
 	this.addNewTrip = function(trip) {
@@ -227,7 +246,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	}
 
 	this.setArriveCountry = function(newArriveCountry) {
-		//console.log('new arrive country: ' + newArriveCountry.toString());
 		arriveCountry = newArriveCountry;
 	}
 
