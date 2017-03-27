@@ -11,8 +11,8 @@ body {
 }
 
 /* Navigation bar (NavBar) view*/
-md-nav-bar md-nav-item {
-	background: red;
+#navbar {
+	position: fixed;
 }
 md-nav-bar md-nav-ink-bar {
 	background: blue;
@@ -37,17 +37,17 @@ md-nav-bar md-nav-ink-bar {
 	align-items: center;*/
 }
 #top-spacing-home {
-	height:5vh;
+	height:2vh;
 	width: 100vw;
 }
 #center-spacing-home {
-	height: 90vh;
+	height: 80vh;
 	width: 100vw;
 	
 	
 }
 #bottom-spacing-home {
-	height:5vh;
+	height:2vh;
 	width: 100vw;
 }
 #header-form-home {
@@ -55,14 +55,14 @@ md-nav-bar md-nav-ink-bar {
 	border-top-left-radius:25px;
 	border-top-right-radius:25px;
 	padding-top: 10px;
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 
 }
 #logo-home {
-	width: 85px;
+	width: 75px;
 }
 #welcomingTitle {
-	font-size: 26px;
+	font-size: 22px;
 }
 #welcomingTxt {
 	/*padding: 6px;*/
@@ -71,7 +71,7 @@ md-nav-bar md-nav-ink-bar {
 	background-color: white;
 	border-bottom-left-radius:25px;
 	border-bottom-right-radius:25px;
-	padding-bottom: 25px;
+	padding-bottom: 15px;
 	padding-left: 50px;
 	padding-right: 60px;
 }

@@ -1,16 +1,16 @@
 <!-- Navigation bar -->
-		<div id="navbar" ng-controller="NavbarCtrl as ctrl" ng-cloak >
-			<md-content class="md-padding">
-				<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-					<md-nav-item md-nav-click="goTo('/home')" name="/home">
-					New search
-					</md-nav-item>
-					<md-nav-item md-nav-click="goTo('/search')" name="/search">
-					Map view
-					</md-nav-item>
-					<md-nav-item md-nav-click="goTo('/calendar')" name="/calendar">
-					My trips
-					</md-nav-item>
-				</md-nav-bar>
-			</md-content>
-		</div>
+<div id="navbar" ng-controller="NavbarCtrl as ctrl" ng-cloak >
+	<md-content class="md-padding">
+		<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+			<md-nav-item md-nav-click="goTo('/home')" name="/home">
+			<p 	style="color:blue">New search</p>
+			</md-nav-item>
+			<md-nav-item md-nav-click="goTo('/search')" name="/search">
+			<p style="color:blue">Map view</p>
+			</md-nav-item>
+			<md-nav-item md-nav-click="goTo('/calendar')" name="/calendar">
+			<p style="color:blue">My trips</p>
+			</md-nav-item>
+		</md-nav-bar>
+	</md-content>
+</div>
