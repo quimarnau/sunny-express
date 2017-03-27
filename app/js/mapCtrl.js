@@ -13,8 +13,8 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
     $scope.mapFeatures = SunnyExpress.getMapFeatures();
     $scope.getCityCoords = function() {
         var activeCities = SunnyExpress.getActiveCities();
-        $scope.cityInfo = {};
-        for (var i = 0; i < activeCities.length; ++i) {
+        $scope.cityInfo = activeCities;
+        /*for (var i = 0; i < activeCities.length; ++i) {
             var maxTemp = undefined;
             var minTemp = undefined;
             for (var j = 0;  j < activeCities[i].forecast.length; ++j) {
@@ -24,7 +24,7 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
                     maxTemp = activeCities[i].forecast[j].day.maxtemp_c;
             }
             $scope.cityInfo[activeCities[i].name] = {maxtemp: maxTemp, mintemp: minTemp};
-        }
+        }*/
         return activeCities;
     };
 
@@ -35,8 +35,8 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
             $scope.infoWindow.showInfo = true;
             $scope.infoWindow.cityName = this.idKey;
             $scope.infoWindow.imageSrc = this.icon.url.toString();
-            $scope.infoWindow.weatherResumeMin = 'min temp: ' + $scope.cityInfo[this.idKey].mintemp + 'ºC';
-            $scope.infoWindow.weatherResumeMax = 'max temp: ' + $scope.cityInfo[this.idKey].maxtemp + 'ºC';
+            $scope.infoWindow.weatherResumeMin = $scope.cityInfo[this.idKey].mintemp + 'ºC';
+            $scope.infoWindow.weatherResumeMax = $scope.cityInfo[this.idKey].maxtemp + 'ºC';
         }
     },
         icon: {
@@ -61,6 +61,10 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 
     function callback(results, status) {
         console.log(results);
+    }
+
+    $scope.closeInfoWin = function () {
+        $scope.infoWindow.showInfo = false;
     }
 
 });
