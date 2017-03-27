@@ -1,21 +1,24 @@
 <ng-include src="'partials/navbar.html'"></ng-include>
 
 <div class="container-fluid">
+    <div class="row" id="top-spacing-description"></div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1"  style="background-color: white; border-radius: 3px; box-shadow: 0px 5px 5px #1f2e2e">
     <div class="row">
         <div class="col-md-11">
             <h1 align="center">My trip plan to {{getArriveCity()}}</h1>
         </div>
-        <div class="col-md-1">
-            <a href="#!/search" class="btn btn-default">
-                <img class="small-icon" src="images/cross.png">
-            </a>
+        <div class="col-md-1" align="right" style="padding-right: 0px">
+            <md-button class="md-icon-button md-accent" aria-label="Close" ng-href="#!/search">
+                <md-icon md-svg-icon="images/close-icon.svg"></md-icon>
+            </md-button>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <img src="images/paris.jpg">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-7">
             <h2>Weather forecast</h2>
             <p>prediction</p>
         </div>
@@ -35,5 +38,13 @@
                 ...
             </p>
         </div>
+        <div class="row">
+        <div class="col-md-12" align = "right">
+            <md-button class="md-raised" ng-click="goToCalendar();" type="submit" id="confirm-btn">Yes, I go!</md-button>
+        </div>
     </div>
+    </div>
+    </div>
+    
+    <div class="row" id="bottom-spacing-description"></div>
 </div>

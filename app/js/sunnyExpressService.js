@@ -7,8 +7,9 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var favourableWeatherConditions = [];
 	var disfavourableWeatherConditions = [];
 	var windPreference = 0; // -1 - slow wind,0 - dont care, 1 - strong wind
-	var activeCities = [];
+	var activeCities = {};
 	var iconsState = [0, 0, 0, 0];
+	var selectedCity = undefined;
 
 	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -180,14 +181,28 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	}
 
 	this.setWeatherActiveCities = function(forecastData) {
-		activeCities = [];
+		activeCities = {};
 		var temp = [];
 		
 		for (var i = 0; i < forecastData.length; i++) {
 			var weatherState = this.weatherConditionFilter(forecastData[i].forecast.forecastday);
 				if(weatherState.state) {
 					var name = this.resolveCity(forecastData[i].location.lat,forecastData[i].location.lon);
-					activeCities.push({"name": name, location: {"latitude":forecastData[i].location.lat, "longitude": forecastData[i].location.lon}, "majorityCondition": weatherState.majorityCondition, "forecast": weatherState.forecast});
+                    activeCities[name] = {"name": name, location: {"latitude":forecastData[i].location.lat, "longitude": forecastData[i].location.lon}, "majorityCondition": weatherState.majorityCondition, "forecast": weatherState.forecast};
+
+                    //defining maxtemp and mintemp of the total extent of days
+                    var maxTemp = undefined;
+                    var minTemp = undefined;
+                    for (var j = 0;  j < activeCities[name].forecast.length; ++j) {
+                        if (minTemp == undefined || activeCities[name].forecast[j].day.mintemp_c < minTemp)
+                            minTemp = activeCities[name].forecast[j].day.mintemp_c;
+                        if (maxTemp == undefined || activeCities[name].forecast[j].day.maxtemp_c > maxTemp)
+                            maxTemp = activeCities[name].forecast[j].day.maxtemp_c;
+                    }
+                    activeCities[name].maxtemp = maxTemp;
+                    activeCities[name].mintemp = minTemp;
+
+					//activeCities.push({"name": name, location: {"latitude":forecastData[i].location.lat, "longitude": forecastData[i].location.lon}, "majorityCondition": weatherState.majorityCondition, "forecast": weatherState.forecast});
 				};
 		};
 		
@@ -325,6 +340,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				console.log(data);
 			});
 		}
+	};
+
+	this.setSelectedCity = function(city) {
+		selectedCity = city;
+	};
+
+	this.getSelectedCity = function() {
+		return selectedCity;
 	};
 
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
