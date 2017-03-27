@@ -2,7 +2,7 @@
  * Created by aleixsacrest on 14/03/2017.
  */
 
-sunnyExpressApp.controller('DescriptionCtrl', function ($scope, SunnyExpress) {
+sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, SunnyExpress) {
 
     $scope.getDepartCity = function() {
         return SunnyExpress.getDepartCity();
@@ -12,5 +12,20 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, SunnyExpress) {
         return SunnyExpress.getSelectedCity();
     }
 
+    // $scope.addTrip = function () {
+
+    // 	var departDate = SunnyExpress.getDepartDate();
+    // 	var returnDate = SunnyExpress.getReturnDate();
+    // 	var departCity = SunnyExpress.getDepartCity();
+    // 	var returnCity = SunnyExpress.getSelectedCity();
+
+    // 	var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
+
+    // 	SunnyExpress.addNewTrip(trip);
+    // }
+
+    $scope.goToCalendar = function () {
+  		$location.path('/calendar');
+  	};
 
 });
