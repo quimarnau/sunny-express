@@ -89,6 +89,7 @@ md-nav-bar md-nav-ink-bar {
 }
 #location-form {
 	background-color: white;
+	height: 80%;
 }
 #date-departure-label, #date-return-label {
 	left: 0px;
@@ -113,8 +114,18 @@ svg {
 }
 
 /* Description view */
+#top-spacing-description {
+	height:5vh;
+	width: 100vw;
+}
+#bottom-spacing-description {
+	height:5vh;
+	width: 100vw;
+}
+
 .small-icon {
 	max-height: 50px;
+	border:none;
 }
 #map {
 	bottom:0px;
