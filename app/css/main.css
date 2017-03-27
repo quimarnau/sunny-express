@@ -132,4 +132,4 @@ svg {
 	position: absolute;
 	right: 0px;
 }
-.angular-google-map-container { height: 500px; }
+.angular-google-map-container { height: 80vh; }

@@ -12,17 +12,18 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
         return SunnyExpress.getSelectedCity();
     }
 
-    // $scope.addTrip = function () {
+    // Still blocking the goto function because of tripsHistoryDb said undefined in console...
+    $scope.addTrip = function () {
 
-    // 	var departDate = SunnyExpress.getDepartDate();
-    // 	var returnDate = SunnyExpress.getReturnDate();
-    // 	var departCity = SunnyExpress.getDepartCity();
-    // 	var returnCity = SunnyExpress.getSelectedCity();
+    	var departDate = SunnyExpress.getDepartDate();
+    	var returnDate = SunnyExpress.getReturnDate();
+    	var departCity = SunnyExpress.getDepartCity();
+    	var returnCity = SunnyExpress.getSelectedCity();
 
-    // 	var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
+    	var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
 
-    // 	SunnyExpress.addNewTrip(trip);
-    // }
+    	SunnyExpress.addNewTrip(trip);
+    }
 
     $scope.goToCalendar = function () {
   		$location.path('/calendar');

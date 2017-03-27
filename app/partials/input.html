@@ -1,4 +1,6 @@
 <div ng-controller="InputCtrl as ctrl" ng-cloack>
+	<div class="row">
+	<div class="col-md-12">
 	<md-content class="md-padding" id="location-form">
 		<form name="inputForm">
 
@@ -44,6 +46,7 @@
 				</div>
 			</md-autocomplete>
 
+			<div class="row" align="center">
 			<md-input-container>
 				<label id="date-departure-label">Depart on</label>
 				<md-datepicker required
@@ -70,6 +73,7 @@
 					<div ng-message="required">This date is required</div>
 				</div>
 			</md-input-container>
+			</div>
 
 			<md-slider-container class="mts-10">
 				<img src="../images/temperature-min.png">
@@ -101,6 +105,8 @@
 
 		</form>
 	</md-content>
+	</div>
+	</div>
 </div>
 
 
