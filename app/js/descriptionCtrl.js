@@ -9,8 +9,7 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, SunnyExpress) {
     }
 
     $scope.getArriveCity = function() {
-        return 'Paris';
-        return Sunnyexpress.getArriveCity();
+        return SunnyExpress.getSelectedCity();
     }
 
 

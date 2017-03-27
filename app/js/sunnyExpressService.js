@@ -9,6 +9,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var windPreference = 0; // -1 - slow wind,0 - dont care, 1 - strong wind
 	var activeCities = {};
 	var iconsState = [0, 0, 0, 0];
+	var selectedCity = undefined;
 
 	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -339,6 +340,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				console.log(data);
 			});
 		}
+	};
+
+	this.setSelectedCity = function(city) {
+		selectedCity = city;
+	};
+
+	this.getSelectedCity = function() {
+		return selectedCity;
 	};
 
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
