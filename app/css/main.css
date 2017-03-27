@@ -105,11 +105,18 @@ svg {
 	height: 42px;
 	width: 42px;
 }
+.md-32 {
+	height: 32px;
+	width: 32px;
+}
 .mt-10 {
 	margin-top: 10px;
 }
 .mts-10 {
 	margin-top: -10px;
+}
+.mr-15 {
+	margin-right: 15px;
 }
 
 /* Description view */

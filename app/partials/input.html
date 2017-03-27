@@ -73,22 +73,32 @@
 
 			<md-slider-container class="mts-10">
 				<img src="../images/temperature-min.png">
-				<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
-				           min="-20" max="{{maxTemperature}}" aria-label="Min" class="md-primary"></md-slider>
+				<md-slider flex md-discrete ng-model="minTemperature" min="-20" max="{{maxTemperature}}"
+				           aria-label="Min" class="md-primary"></md-slider>
 			</md-slider-container>
 
 			<md-slider-container>
 				<img src="../images/temperature-max.png">
-				<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
-				           min="{{minTemperature}}" max="40" aria-label="Max" class="md-warn"></md-slider>
+				<md-slider flex md-discrete ng-model="maxTemperature" min="{{minTemperature}}" max="40"
+				           aria-label="Max" class="md-warn"></md-slider>
 			</md-slider-container>
 
-			<md-slider-container>
-				<md-slider flex md-discrete ng-model="windPreference" ng-change="setMaxTemperature(maxTemperature)"
-				           min="-1" max="1" aria-label="Wind" class="md-default"></md-slider>
-			</md-slider-container>
+			<div layout="row" layout-align="start center">
+					<md-icon md-svg-src="../images/svg/wind.svg" class="md-32 mr-15"></md-icon>
+					<md-switch ng-model="careAboutWind" class="md-primary" aria-label="Wind preference"></md-switch>
 
-			<div layout="row" layout-align="center center" class="mt-10">
+					<md-radio-group flex layout="row" layout-align="end center" ng-model="windPreference" ng-show="careAboutWind">
+						<md-radio-button value="-1" class="md-primary" aria-label="Soft wind">
+							<img src="../images/breeze.png" class="md-32">
+						</md-radio-button>
+						<md-radio-button value="1" class="md-primary" aria-label="Strong wind">
+							<img src="../images/strong-wind.png" class="md-32">
+						</md-radio-button>
+					</md-radio-group>
+			</div>
+
+
+			<div layout="row" layout-align="start" class="mt-10">
 				<md-icon ng-repeat="i in [0,1,2,3]"
 				         class="md-42"
 				         md-svg-src="../images/svg/{{iconsName[i]}}.svg"

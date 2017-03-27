@@ -4,8 +4,14 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 	 * Parameters and functions of location inputs
 	 */
 
-	$scope.selectedCity = SunnyExpress.getDepartCity() != undefined ? { display: SunnyExpress.getDepartCity(), value: SunnyExpress.getDepartCity().toLowerCase()}  : null;
-	$scope.selectedCountry = SunnyExpress.getArriveCountry() != undefined ? {display: SunnyExpress.getArriveCountry(), value: SunnyExpress.getArriveCountry().toLowerCase()}  : null;
+	$scope.selectedCity = SunnyExpress.getDepartCity() != undefined ? {
+		display: SunnyExpress.getDepartCity(),
+		value: SunnyExpress.getDepartCity().toLowerCase() }
+		: null;
+	$scope.selectedCountry = SunnyExpress.getArriveCountry() != undefined ? {
+		display: SunnyExpress.getArriveCountry(),
+		value: SunnyExpress.getArriveCountry().toLowerCase()}
+		: null;
 
 	$scope.searchCity = null;
 	$scope.searchCountry = null;
@@ -46,6 +52,8 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 	$scope.statesDicc = {"0": "none", "1": "green", "2": "red"};
 	$scope.iconsName = ["day", "mostly-cloudy", "rain", "snowshowers"];
 	$scope.iconsState = SunnyExpress.getIconsState();
+	$scope.careAboutWind = SunnyExpress.getWindPreference() ? true : false;
+	$scope.windPreference = SunnyExpress.getWindPreference() ? SunnyExpress.getWindPreference() : -1;
 
 	/**
 	 * Increment the icon counter
@@ -162,6 +170,12 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 		})
 	}
 
+	var setWindPreference = function() {
+		if ($scope.careAboutWind && $scope.windPreference == 1) return 1;
+		else if ($scope.careAboutWind && $scope.windPreference == -1) return -1;
+		else return 0;
+	}
+
 	/**
 	 * Save input data to model
 	 */
@@ -173,10 +187,12 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 		SunnyExpress.setMinTemperature($scope.minTemperature);
 		SunnyExpress.setMaxTemperature($scope.maxTemperature);
 		SunnyExpress.setIconsState($scope.iconsState);
+		SunnyExpress.setWindPreference(setWindPreference());
 
 		var weatherConditions = getWeatherConditions();
 		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
 		SunnyExpress.setDisfavourableWeatherConditions(weatherConditions.undesired);
+
 		
 		searchWeather();
 
