@@ -1,9 +1,8 @@
 sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, SunnyExpress) {
 
-	$scope.currentNavItem = SunnyExpress.getCurrentNavItem();
+	$scope.currentNavItem = $location.path();
 
 	$scope.goTo = function (path) {
-  		$location.path(path);
-  		SunnyExpress.setCurrentNavItem($scope.currentNavItem);
+  		$scope.currentNavItem = $location.path(path);
   	};
 });
