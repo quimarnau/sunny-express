@@ -17,6 +17,8 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var googleMapsApiKey = "AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0";
 	var googleMapsReqUrl = "https://maps.googleapis.com/maps/api/geocode/json:locationParams";
 
+	var googlePlacesReqUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters"
+
 	var baseConditions = [1000, 1006, 1189, 1219]; // Sunny, Cloudy, Moderate rain, Moderate snow
 	var weatherConditionResolveDB = {
 									1000: [1000,1003],
@@ -342,6 +344,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		}
 	};
 
+	/*this.getTouristInfo = function() {
+		if (selsectedCit)
+	}*/
+
 	this.setSelectedCity = function(city) {
 		selectedCity = city;
 	};
@@ -350,6 +356,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		return selectedCity;
 	};
 
+	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
 

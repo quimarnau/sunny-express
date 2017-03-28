@@ -14,6 +14,7 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
     $scope.getCityCoords = function() {
         var activeCities = SunnyExpress.getActiveCities();
         $scope.cityInfo = activeCities;
+        console.log($scope.cityInfo);
         /*for (var i = 0; i < activeCities.length; ++i) {
             var maxTemp = undefined;
             var minTemp = undefined;
