@@ -21,12 +21,12 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
     }
 
     $scope.getForecast = function() {
-    	var forecast = $scope.getCityInfo().forecast;
-    	var max3dayforecast = [];
+    	var forecast = SunnyExpress.getActiveCities()[SunnyExpress.getSelectedCity()].forecast;
+    	var max5dayforecast = [];
     	for (var i = 0; i < Math.min(forecast.length, 5); i++) {
-    		max3dayforecast.push(forecast[i]);
+    		max5dayforecast.push(forecast[i]);
 	    }
-	    return max3dayforecast;
+	    return max5dayforecast;
     }
 
     // Still blocking the goto function because of tripsHistoryDb said undefined in console...

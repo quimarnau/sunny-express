@@ -3,17 +3,16 @@ html, body, .ng-scope, .container-fluid#main-container {
 	/* For the moment don't add width: 100%, it messes the date picker style */
 }
 body {
-  margin:0;
-  background: url('../images/background.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  display: compact;}    
+    margin:0;
+    background: url('../images/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: compact;
+	font-family: 'Ubuntu', sans-serif;
 }
 
+
 /* Navigation bar (NavBar) view*/
-#navbar {
-	position: fixed;
-}
 md-nav-bar md-nav-ink-bar {
 	background: blue;
 }
