@@ -46,33 +46,33 @@
 				</div>
 			</md-autocomplete>
 
-			<div class="row" align="center">
-			<md-input-container>
-				<label id="date-departure-label">Depart on</label>
-				<md-datepicker required
-				               ng-change="returnDateRangeUpdate()"
-				               ng-model="departureDate"
-				               name="departureDate"
-				               md-min-date="minDepartureDate"
-				               md-max-date="maxDepartureDate">
-				</md-datepicker>
-				<div ng-messages="inputForm.departureDate.$error">
-					<div ng-message="required">This date is required!</div>
-				</div>
-			</md-input-container>
+			<div class="row" align="start center">
+				<md-input-container>
+					<label id="date-departure-label">Depart on</label>
+					<md-datepicker required
+					               ng-change="returnDateRangeUpdate()"
+					               ng-model="departureDate"
+					               name="departureDate"
+					               md-min-date="minDepartureDate"
+					               md-max-date="maxDepartureDate">
+					</md-datepicker>
+					<div ng-messages="inputForm.departureDate.$error">
+						<div ng-message="required">This date is required!</div>
+					</div>
+				</md-input-container>
 
-			<md-input-container>
-				<label id="date-return-label">Return on</label>
-				<md-datepicker required
-				               ng-model="returnDate"
-				               name="returnDate"
-				               md-min-date="minReturnDate"
-				               md-max-date="maxReturnDate">
-				</md-datepicker>
-				<div ng-messages="inputForm.returnDate.$error">
-					<div ng-message="required">This date is required</div>
-				</div>
-			</md-input-container>
+				<md-input-container>
+					<label id="date-return-label">Return on</label>
+					<md-datepicker required
+					               ng-model="returnDate"
+					               name="returnDate"
+					               md-min-date="minReturnDate"
+					               md-max-date="maxReturnDate">
+					</md-datepicker>
+					<div ng-messages="inputForm.returnDate.$error">
+						<div ng-message="required">This date is required</div>
+					</div>
+				</md-input-container>
 			</div>
 
 			<md-slider-container class="mts-10">

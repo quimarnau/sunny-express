@@ -1,8 +1,12 @@
-/**
- * Created by aleixsacrest on 14/03/2017.
- */
-
 sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, SunnyExpress) {
+
+	// TODO: Move to model, map and description views using it
+	$scope.mapConditionIdName = {
+		1000: "sunny",
+		1006: "cloudy",
+		1189: "rain",
+		1219: "snow"
+	};
 
     $scope.getDepartCity = function() {
         return SunnyExpress.getDepartCity();
@@ -10,6 +14,10 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 
     $scope.getArriveCity = function() {
         return SunnyExpress.getSelectedCity();
+    }
+
+    $scope.getCityInfo = function() {
+    	return SunnyExpress.getActiveCities()[SunnyExpress.getSelectedCity()];
     }
 
     // Still blocking the goto function because of tripsHistoryDb said undefined in console...

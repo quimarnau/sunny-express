@@ -129,6 +129,10 @@ svg {
 	height:5vh;
 	width: 100vw;
 }
+.padding-0 {
+	padding: 0px;
+}
+
 
 .small-icon {
 	max-height: 50px;
