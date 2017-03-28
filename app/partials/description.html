@@ -22,13 +22,13 @@
 		      <!-- TODO: Find API to search for city pictures -->
           <img src="images/paris.jpg">
 	      </div>
-	      <div class="col-md-6">
-          <!--<div ng-repeat="for day in days">-->
-		      <div layout="column" layout-align="start center">
-			      <p>Thursday, 30th Mar</p>
-			      <img ng-src="../images/icons-map/{{mapConditionIdName[getCityInfo().majorityCondition]}}.png" style="min-width: 84px; min-width: 84px;">
-			      <p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{getCityInfo().mintemp}}</p>
-			      <p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{getCityInfo().maxtemp}}</p>
+	      <div class="col-md-6" layout="row" layout-align="space-around center">
+		      <div ng-repeat="dayForecast in getForecast()" layout="column" layout-align="space-around center">
+			      <p>{{dayForecast.date}}</p>
+			      <img ng-src="../images/icons-map/{{mapConditionIdName[dayForecast.day.condition.code]}}.png" style="min-width: 84px; min-width: 84px;">
+			      <p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{dayForecast.day.mintemp_c}}º</p>
+			      <p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{dayForecast.day.maxtemp_c}}º</p>
+			      <p> <img src="../images/svg/wind.svg" style="max-width: 18px;"> {{dayForecast.day.maxwind_kph}} km/h</p>
 		      </div>
 	      </div>
 		  </div>
