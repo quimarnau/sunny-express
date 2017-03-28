@@ -157,12 +157,19 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 	var searchWeather = function() {
 		//TODO show loading picture
 		
-		var numDays = Math.round(($scope.returnDate-$scope.departureDate)/(1000*60*60*24));
+		var numDays = Math.round(($scope.returnDate-$scope.departureDate)/(1000*60*60*24)) + 1;
+		var dayOffset =  Math.round(($scope.departureDate - $scope.minDepartureDate)/(1000*60*60*24)); // between 0 to 8
+		var numForecastDays = numDays + dayOffset;
+		console.log(numDays);
+		console.log(dayOffset);
+		console.log(numForecastDays);
+		SunnyExpress.setDayOffset(dayOffset);
+
 		var cities = SunnyExpress.getCountryCities(SunnyExpress.getArriveCountry());
 		var cityQueue = [];
 
 		for (var i = 0; i < cities.length; i++) {
-			cityQueue.push(searchWeatherCity(numDays,cities[i]));
+			cityQueue.push(searchWeatherCity(numForecastDays,cities[i]));
 		};
 
 		$q.all(cityQueue).then(function(data) {
@@ -193,7 +200,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
 		SunnyExpress.setDisfavourableWeatherConditions(weatherConditions.undesired);
 
-		
+
 		searchWeather();
 
         SunnyExpress.setMapCenter();

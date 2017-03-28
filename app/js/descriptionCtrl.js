@@ -20,6 +20,15 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
     	return SunnyExpress.getActiveCities()[SunnyExpress.getSelectedCity()];
     }
 
+    $scope.info = function () {
+	    var forecast = SunnyExpress.getActiveCities()[SunnyExpress.getSelectedCity()].forecast;
+	    console.log(forecast);
+	    console.log(forecast.length);
+	    console.log(SunnyExpress.getDepartDate());
+	    console.log(SunnyExpress.getReturnDate());
+	    return "";
+    }
+
     $scope.getForecast = function() {
     	var forecast = SunnyExpress.getActiveCities()[SunnyExpress.getSelectedCity()].forecast;
     	var max5dayforecast = [];
