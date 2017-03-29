@@ -20,7 +20,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	var googleMapsApiKey = "AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0";
 	var googleMapsReqUrl = "https://maps.googleapis.com/maps/api/geocode/json:locationParams";
 
-	var googlePlacesReqUrl = "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters";
+	var googlePlacesReqUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters";
 
 	var googlePhotosReqUrl = "https://maps.googleapis.com/maps/api/place/photo?";
 
