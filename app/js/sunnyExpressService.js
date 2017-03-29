@@ -10,6 +10,8 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var activeCities = {};
 	var iconsState = [0, 0, 0, 0];
 	var selectedCity = undefined;
+	var touristInfo = [];
+	var selectedCityPhotoSrc = undefined;
 
 	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -17,7 +19,9 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var googleMapsApiKey = "AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0";
 	var googleMapsReqUrl = "https://maps.googleapis.com/maps/api/geocode/json:locationParams";
 
-	var googlePlacesReqUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters"
+	var googlePlacesReqUrl = "https://crossorigin.me/https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters";
+
+	var googlePhotosReqUrl = "https://maps.googleapis.com/maps/api/place/photo?";
 
 	var baseConditions = [1000, 1006, 1189, 1219]; // Sunny, Cloudy, Moderate rain, Moderate snow
 	var weatherConditionResolveDB = {
@@ -344,9 +348,31 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		}
 	};
 
-	/*this.getTouristInfo = function() {
-		if (selsectedCit)
-	}*/
+	this.setTouristInfo = function() {
+		touristInfo = [];
+		selectedCityPhotoSrc = "";
+		if (selectedCity != undefined) {
+			var latlong = activeCities[selectedCity].location.latitude.toString() + ',' + activeCities[selectedCity].location.longitude.toString();
+            this.getNearbyPlaces.get({location: latlong}, function(data) {
+                    //console.log(data);
+                    touristInfo = data.results;
+                    photoReference = data.results[0].photos[0].photo_reference;
+                    selectedCityPhotoSrc = googlePhotosReqUrl + 'maxwidth=300&photoreference=' + photoReference + '&' + 'key=' + googleMapsApiKey;
+                },
+                function(data) {
+                    alert('error places api, searching for ' + selectedCity);
+                    console.log(data);
+                });
+		}
+	};
+
+	this.getTouristInfo = function() {
+		return touristInfo;
+	};
+
+	this.getPictureSrc = function() {
+		return selectedCityPhotoSrc;
+	};
 
 	this.setSelectedCity = function(city) {
 		selectedCity = city;
@@ -356,7 +382,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		return selectedCity;
 	};
 
-	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {key: googleMapsApiKey, location: "@location", radius: "5000"});
+	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
 

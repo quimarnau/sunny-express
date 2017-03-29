@@ -20,7 +20,7 @@
 		  <div class="row">
 	      <div class="col-md-6">
 		      <!-- TODO: Find API to search for city pictures -->
-          <img src="images/paris.jpg">
+          <img ng-src="{{cityPic}}">
 	      </div>
 	      <div class="col-md-6" layout="row" layout-align="space-around center">
 		      <div ng-repeat="dayForecast in getForecast()" layout="column" layout-align="space-around center">
@@ -35,8 +35,10 @@
 
 			<div class="row">
 		    <div class="col-md-6">
-		        <h2>What to do in {{getArriveCity()}}</h2>
-		        <p>- Vasa museet...</p>
+		        <h2>What to visit in {{getArriveCity()}}</h2>
+		        <div ng-repeat="act in getTouristInfo()">
+					<p>- {{act.name}}</p>
+				</div>
 		    </div>
 		    <div class="col-md-6">
 	        <h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>

@@ -8,6 +8,23 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 		1219: "snow"
 	};
 
+    $scope.cityPic = "images/paris.jpg";
+
+	SunnyExpress.setTouristInfo();
+
+	$scope.getTouristInfo = function() {
+	    var touristInfo = SunnyExpress.getTouristInfo();
+	    $scope.city = touristInfo[0];
+	    $scope.cityPic = SunnyExpress.getPictureSrc();
+	    return touristInfo.slice(1,6);
+    };
+
+	$scope.selectedCityPhotoSrc = function() {
+	    console.log(SunnyExpress.getPictureSrc());
+	    return "images/paris.jpg";
+        return SunnyExpress.getPictureSrc();
+    }
+
     $scope.getDepartCity = function() {
         return SunnyExpress.getDepartCity();
     }

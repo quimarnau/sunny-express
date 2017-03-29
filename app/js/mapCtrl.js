@@ -14,18 +14,7 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
     $scope.getCityCoords = function() {
         var activeCities = SunnyExpress.getActiveCities();
         $scope.cityInfo = activeCities;
-        console.log($scope.cityInfo);
-        /*for (var i = 0; i < activeCities.length; ++i) {
-            var maxTemp = undefined;
-            var minTemp = undefined;
-            for (var j = 0;  j < activeCities[i].forecast.length; ++j) {
-                if (minTemp == undefined || activeCities[i].forecast[j].day.mintemp_c < minTemp)
-                    minTemp = activeCities[i].forecast[j].day.mintemp_c;
-                if (maxTemp == undefined || activeCities[i].forecast[j].day.maxtemp_c > maxTemp)
-                    maxTemp = activeCities[i].forecast[j].day.maxtemp_c;
-            }
-            $scope.cityInfo[activeCities[i].name] = {maxtemp: maxTemp, mintemp: minTemp};
-        }*/
+
         return activeCities;
     };
 
