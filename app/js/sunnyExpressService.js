@@ -12,6 +12,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var selectedCity = undefined;
 	var touristInfo = [];
 	var selectedCityPhotoSrc = undefined;
+	var dayOffset = 0;
 
 	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -186,7 +187,16 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		}
 	}
 
+	var filterForecastData = function(forecast) {
+		for (var i = 0; i < forecast.length; i++) {
+			forecast[i].forecast.forecastday.splice(0, dayOffset);
+		}
+		return forecast;
+	}
+
 	this.setWeatherActiveCities = function(forecastData) {
+		forecastData = filterForecastData(forecastData);
+
 		activeCities = {};
 		var temp = [];
 		
@@ -212,6 +222,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 				};
 		};
 		
+	}
+
+	this.setDayOffset = function(offset) {
+		dayOffset = offset;
+	}
+
+	this.getDayOffset = function() {
+		return dayOffset;
 	}
 
 	this.setFavourableWeatherConditions = function(weatherConditionsList) {
