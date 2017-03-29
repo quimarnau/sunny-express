@@ -25,7 +25,8 @@
 	      <div class="col-md-6" layout="row" layout-align="space-around center">
 		      <div ng-repeat="dayForecast in getForecast()" layout="column" layout-align="space-around center">
 			      <p>{{dayForecast.date | date:'MMM dd'}}</p>
-			      <img ng-src="../images/icons-map/{{mapConditionIdName[dayForecast.day.condition.code]}}.png" style="min-width: 84px; min-width: 84px;">
+			      <img ng-src="../images/icons-map/{{mapConditionIdName[getWeatherIcon(dayForecast.day.condition.code)]}}.png"
+                 style="min-width: 84px; min-width: 84px;">
 			      <p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{dayForecast.day.mintemp_c}}ºC</p>
 			      <p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{dayForecast.day.maxtemp_c}}ºC</p>
 			      <p> <img src="../images/svg/wind.svg" style="max-width: 18px;"> {{dayForecast.day.maxwind_kph}} km/h</p>

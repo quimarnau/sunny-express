@@ -51,6 +51,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 
 	// TODO sample code end
 
+	this.filterCode = function (code) {
+		for (var i in weatherConditionResolveDB) {
+			if (weatherConditionResolveDB[i].indexOf(code) >= 0)
+				return i;
+		}
+		return null;
+	}
+
 	this.setWindPreference = function(windState) {
 		this.windPreference = windState;
 	}
