@@ -13,7 +13,7 @@ sunnyExpressApp.config(['$routeProvider',
 			when('/search', {
 				templateUrl: 'partials/search.html'
 			}).
-			when('/description', {
+			when('/description/:cityName', {
 				templateUrl: 'partials/description.html',
 				controller: 'DescriptionCtrl'
 			}).

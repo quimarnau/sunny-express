@@ -160,9 +160,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 		var numDays = Math.round(($scope.returnDate-$scope.departureDate)/(1000*60*60*24)) + 1;
 		var dayOffset =  Math.round(($scope.departureDate - $scope.minDepartureDate)/(1000*60*60*24)); // between 0 to 8
 		var numForecastDays = numDays + dayOffset;
-		console.log(numDays);
-		console.log(dayOffset);
-		console.log(numForecastDays);
 		SunnyExpress.setDayOffset(dayOffset);
 
 		var cities = SunnyExpress.getCountryCities(SunnyExpress.getArriveCountry());

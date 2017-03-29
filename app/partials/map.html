@@ -22,7 +22,7 @@
                 <p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{infoWindow.weatherResumeMin}}</p>
                 <p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{infoWindow.weatherResumeMax}}</p>
                 </div>
-                <a ng-href="#!/description">Click</a> for details.
+                <a ng-href="#!/description/{{infoWindow.cityName.toString().toLowerCase()}}">Click</a> for details.
             </div>
         </ui-gmap-window>
     </ui-gmap-google-map>
