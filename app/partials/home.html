@@ -148,14 +148,27 @@
                       </md-slider-container>
                   </div>
                 </div>
-                <div class="row" style="padding-top: 5px">          
-                  <div layout="row" layout-align="left" class="col-md-6">
+                <div class="row">          
+                  <div layout="row" layout-align="left" class="col-md-6"  style="padding-top: 2%">
                     <md-icon ng-repeat="i in [0,1,2,3]"
                             class="md-42"
                             md-svg-src="../images/svg/{{iconsName[i]}}.svg"
                             ng-click="incrementCounter(i)"
                             ng-style="{'color': statesDicc[iconsState[i]]}">
                     </md-icon>
+                  </div>
+                  <div class = "col-md-6" layout="row" layout-align="space-between center">
+                      <md-icon md-svg-src="../images/svg/wind.svg" class="md-32 mr-15"></md-icon>
+                      <md-switch ng-model="careAboutWind" class="md-primary" aria-label="Wind preference"></md-switch>
+
+                      <md-radio-group flex layout="row" layout-align="end center" ng-model="windPreference" ng-show="careAboutWind">
+                      <md-radio-button value="-1" class="md-primary" aria-label="Soft wind">
+                        <img src="../images/breeze.png" class="md-32">
+                      </md-radio-button>
+                      <md-radio-button value="1" class="md-primary" aria-label="Strong wind">
+                        <img src="../images/strong-wind.png" class="md-32">
+                      </md-radio-button>
+                    </md-radio-group>
                   </div>
                 </div>
               </div>
