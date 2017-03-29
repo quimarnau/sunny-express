@@ -8,25 +8,15 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 		1219: "snow"
 	};
 
-    $scope.cityPic = "images/paris.jpg";
+    $scope.cityPic = function() {
+    	return SunnyExpress.getPictureSrc();
+	};
 
 	SunnyExpress.setTouristInfo();
 
 	$scope.getTouristInfo = function() {
-	    var touristInfo = SunnyExpress.getTouristInfo();
-	    $scope.city = touristInfo[0];
-	    $scope.cityPic = SunnyExpress.getPictureSrc();
-	    return touristInfo.slice(1,6);
+	    return SunnyExpress.getTouristInfo().slice(1,6);
     };
-
-	service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
-	service.nearbySearch(
-		{location: { lat: 48.856461, lng: 2.35236 },
-		radius: 5000
-		},
-		function(results,status) {
-			console.log(results);
-		});
 
     $scope.getDepartCity = function() {
         return SunnyExpress.getDepartCity();

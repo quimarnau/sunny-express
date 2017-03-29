@@ -20,7 +20,7 @@
 		  <div class="row md-padding">
 	      <div class="col-md-6">
 		      <!-- TODO: Find API to search for city pictures -->
-          <img ng-src="{{cityPic}}" style="max-height: 30vh">
+          <img ng-src="{{cityPic()}}" style="max-height: 30vh">
 	      </div>
 	      <div class="col-md-6" layout="row" layout-align="space-around center">
 		      <div ng-repeat="dayForecast in getForecast()" layout="column" layout-align="space-around center">

@@ -14,7 +14,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	var selectedCityPhotoSrc = undefined;
 	var dayOffset = 0;
 
-	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";
+	var weatherApiKey = "8e160eeab587455bb77133238172903";//"4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
 
 	var googleMapsApiKey = "AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0";
@@ -378,16 +378,17 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		touristInfo = [];
 		selectedCityPhotoSrc = "";
 		if (selectedCity != undefined) {
-			var latlong = activeCities[selectedCity].location.latitude.toString() + ',' + activeCities[selectedCity].location.longitude.toString();
-            this.getNearbyPlaces.get({location: latlong}, function(data) {
-                    //console.log(data);
-                    touristInfo = data.results;
-                    photoReference = data.results[0].photos[0].photo_reference;
-                    selectedCityPhotoSrc = googlePhotosReqUrl + 'maxwidth=300&photoreference=' + photoReference + '&' + 'key=' + googleMapsApiKey;
+			var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
+			console.log('latlng: '  + latlong.toString());
+            service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
+            service.nearbySearch(
+                {location: latlong,
+                    radius: 5000
                 },
-                function(data) {
-                    alert('error places api, searching for ' + selectedCity);
-                    console.log(data);
+                function(results,status) {
+                    console.log('from service: ' + results);
+                    touristInfo = results;
+                    selectedCityPhotoSrc = results[0].photos[0].getUrl({'maxWidth': 300});
                 });
 		}
 	};
