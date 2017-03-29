@@ -19,12 +19,14 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 	    return touristInfo.slice(1,6);
     };
 
-	/*service = new google.maps.Places.PlacesService(document.findElementById("map-div"));
+	service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
 	service.nearbySearch(
-		{location: { lat: 48.856461, lng: 2.35236 }},
+		{location: { lat: 48.856461, lng: 2.35236 },
+		radius: 5000
+		},
 		function(results,status) {
 			console.log(results);
-		});*/
+		});
 
     $scope.getDepartCity = function() {
         return SunnyExpress.getDepartCity();
@@ -48,8 +50,6 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
     }
 
     $scope.getWeatherIcon = function(code) {
-		console.log(code);
-	    console.log(SunnyExpress.filterCode(code));
 		return SunnyExpress.filterCode(code);
     }
 
