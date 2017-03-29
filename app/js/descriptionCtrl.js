@@ -19,11 +19,12 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 	    return touristInfo.slice(1,6);
     };
 
-	$scope.selectedCityPhotoSrc = function() {
-	    console.log(SunnyExpress.getPictureSrc());
-	    return "images/paris.jpg";
-        return SunnyExpress.getPictureSrc();
-    }
+	/*service = new google.maps.Places.PlacesService(document.findElementById("map-div"));
+	service.nearbySearch(
+		{location: { lat: 48.856461, lng: 2.35236 }},
+		function(results,status) {
+			console.log(results);
+		});*/
 
     $scope.getDepartCity = function() {
         return SunnyExpress.getDepartCity();

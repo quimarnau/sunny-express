@@ -1,6 +1,6 @@
 <div class="row"  ng-controller="MapCtrl" ng-init="onload()">
     <!--<div id="map" class="col-md-12"></div>-->
-    <ui-gmap-google-map class="col-md-12" center='mapFeatures.center' zoom='mapFeatures.zoom' ng-click="closeInfoWin()">
+    <ui-gmap-google-map id="map-div" class="col-md-12" center='mapFeatures.center' zoom='mapFeatures.zoom' ng-click="closeInfoWin()">
         <ui-gmap-marker ng-repeat='city in getCityCoords()'
                 idKey='city.name'
                 coords='city.location'
