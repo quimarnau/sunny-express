@@ -4,7 +4,7 @@
   <div class="row" id="top-spacing-description"></div>
 
   <div class="row">
-    <div class="col-md-10 col-md-offset-1"  style="background-color: white; border-radius: 3px; box-shadow: 0px 5px 5px #1f2e2e">
+    <div class="col-md-10 col-md-offset-1"  style="background-color: white; border-radius: 3px; box-shadow: 0px 5px 5px #1f2e2e;max-height: 84vh">
 
 	    <div class="row">
 	      <div class="col-md-10 col-md-offset-1">
@@ -20,34 +20,41 @@
 		  <div class="row md-padding">
 	      <div class="col-md-6">
 		      <!-- TODO: Find API to search for city pictures -->
-          <img ng-src="{{cityPic}}">
+          <img ng-src="{{cityPic}}" style="max-height: 30vh">
 	      </div>
 	      <div class="col-md-6" layout="row" layout-align="space-around center">
 		      <div ng-repeat="dayForecast in getForecast()" layout="column" layout-align="space-around center">
 			      <p>{{dayForecast.date | date:'MMM dd'}}</p>
-			      <img ng-src="../images/icons-map/{{mapConditionIdName[dayForecast.day.condition.code]}}.png" style="min-width: 84px; min-width: 84px;">
+			      <img ng-src="../images/icons-map/{{mapConditionIdName[dayForecast.day.condition.code]}}.png" style="min-width: 70px; min-width: 70px;">
+			      <div class="row">
+			      <div class="col-md-6" align="center">
 			      <p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{dayForecast.day.mintemp_c}}ºC</p>
+			      </div>
+			      <div class="col-md-6" align="center">
 			      <p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{dayForecast.day.maxtemp_c}}ºC</p>
+			      </div>
+			      </div>
 			      <p> <img src="../images/svg/wind.svg" style="max-width: 18px;"> {{dayForecast.day.maxwind_kph}} km/h</p>
 		      </div>
 	      </div>
 		  </div>
 
-			<div class="row md-padding">
-		    <div class="col-md-6">
+		  <div class="row" style="max-height: 20vh">
+		    <div class="col-md-6"  style="max-height: 30vh; padding-left: 3%">
 		        <h2>What to visit in {{getArriveCity()}}</h2>
 		        <div ng-repeat="act in getTouristInfo()">
 					<p>- {{act.name}}</p>
 				</div>
 		    </div>
-		    <div class="col-md-6">
+		    <div class="col-md-6" style="max-height: 30vh; padding-left: 3%">
 	        <h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>
 	        <p>...</p>
-		    </div>
-		    <div class="row">
-			    <div class="col-md-12" align = "right">
-		        <md-button class="md-raised" ng-click="goToCalendar();" type="submit" id="confirm-btn">Yes, I go!</md-button>
-			    </div>
+		    </div>   
+	      </div>
+	      <div class="row">
+	      	<div class="col-md-12" align = "right" style="padding-bottom: 5px">
+		      <md-button class="md-raised" ng-click="goToCalendar();" type="submit" id="confirm-btn">Yes, I go!</md-button>
+			</div>
 	      </div>
 	    </div>
 

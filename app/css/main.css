@@ -118,14 +118,17 @@ svg {
 .mr-15 {
 	margin-right: 15px;
 }
+.md-datepicker-input-container {
+    max-width: 60%;
+}
 
 /* Description view */
 #top-spacing-description {
-	height:5vh;
+	min-height:2vh;
 	width: 100vw;
 }
 #bottom-spacing-description {
-	height:5vh;
+	min-height:2vh;
 	width: 100vw;
 }
 .padding-0 {
