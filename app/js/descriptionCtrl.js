@@ -1,5 +1,7 @@
 sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, SunnyExpress) {
 
+	SunnyExpress.setTouristInfo();
+
 	// TODO: Move to model, map and description views using it
 	$scope.mapConditionIdName = {
 		1000: "sunny",
@@ -12,10 +14,9 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
     	return SunnyExpress.getPictureSrc();
 	};
 
-	SunnyExpress.setTouristInfo();
 
 	$scope.getTouristInfo = function() {
-	    return SunnyExpress.getTouristInfo().slice(1,6);
+	    return SunnyExpress.getTouristInfo();
     };
 
     $scope.getDepartCity = function() {

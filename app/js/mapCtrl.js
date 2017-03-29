@@ -28,6 +28,7 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
             $scope.infoWindow.weatherResumeMin = $scope.cityInfo[this.idKey].mintemp + 'ºC';
             $scope.infoWindow.weatherResumeMax = $scope.cityInfo[this.idKey].maxtemp + 'ºC';
             SunnyExpress.setSelectedCity($scope.infoWindow.cityName);
+
         }
     },
         icon: {
@@ -58,5 +59,7 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
     $scope.closeInfoWin = function () {
         $scope.infoWindow.showInfo = false;
     };
+
+    //#!/description/{{infoWindow.cityName.toString().toLowerCase()}}
 
 });

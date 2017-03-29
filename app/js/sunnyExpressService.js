@@ -1,4 +1,4 @@
-sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
+sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) {
 	var windThreshold = "40"; // kmh
 
 	var departCity, arriveCountry = undefined;
@@ -365,16 +365,19 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 		selectedCityPhotoSrc = "";
 		if (selectedCity != undefined) {
 			var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
-			console.log('latlng: '  + latlong.toString());
+			//console.log('latlng: '  + latlong.toString());
             service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
             service.nearbySearch(
                 {location: latlong,
                     radius: 5000
                 },
                 function(results,status) {
-                    console.log('from service: ' + results);
-                    touristInfo = results;
-                    selectedCityPhotoSrc = results[0].photos[0].getUrl({'maxWidth': 300});
+                    //console.log('from service: ' + results);
+                    $timeout(function () {
+                        touristInfo = results.slice(1,6);
+                        selectedCityPhotoSrc = results[0].photos[0].getUrl({'maxWidth': 300});
+                    })
+
                 });
 		}
 	};
