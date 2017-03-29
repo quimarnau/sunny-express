@@ -47,6 +47,12 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 	    return max5dayforecast;
     }
 
+    $scope.getWeatherIcon = function(code) {
+		console.log(code);
+	    console.log(SunnyExpress.filterCode(code));
+		return SunnyExpress.filterCode(code);
+    }
+
     // Still blocking the goto function because of tripsHistoryDb said undefined in console...
     $scope.addTrip = function () {
 
