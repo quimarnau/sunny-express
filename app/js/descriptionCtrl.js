@@ -44,7 +44,6 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 		return SunnyExpress.filterCode(code);
     }
 
-    // Still blocking the goto function because of tripsHistoryDb said undefined in console...
     $scope.addTrip = function () {
 
     	var departDate = SunnyExpress.getDepartDate();
