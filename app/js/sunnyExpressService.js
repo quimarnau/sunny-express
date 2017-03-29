@@ -35,20 +35,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 
-	// TODO Remove this after the trip add is implemented from the views. Just test data.
-	var startDate = new Date();
-	var endDate = new Date();
-
-	startDate.setDate(startDate.getDate() - 6);
-	endDate.setDate(endDate.getDate() - 3);
-	tripsHistoryDb.push({"start": startDate, "end": endDate, "departCity": "Barcelona", "arriveCity": "Stockholm"});
-
-	startDate = new Date();
-	endDate = new Date();
-	startDate.setDate(startDate.getDate() - 30);
-	endDate.setDate(endDate.getDate() - 23);
-	tripsHistoryDb.push({"start": startDate, "end": endDate, "departCity": "Stockholm", "arriveCity": "Malmoe"});
-
 	// TODO sample code end
 
 	this.filterCode = function (code) {
@@ -77,7 +63,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 	}
 
 	this.addNewTrip = function(trip) {
-		this.tripsHistoryDb.push(trip);
+		tripsHistoryDb.push(trip);
 	}
 
 	this.resolveWeatherCondition = function(id, idToCheck) {
