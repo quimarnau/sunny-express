@@ -19,7 +19,6 @@
 
 		  <div class="row md-padding">
 	      <div class="col-md-6">
-		      <!-- TODO: Find API to search for city pictures -->
           <img ng-src="{{cityPic()}}" style="max-height: 30vh">
 	      </div>
 	      <div class="col-md-6" layout="row" layout-align="space-around center">
@@ -27,13 +26,13 @@
 			      <p>{{dayForecast.date | date:'MMM dd'}}</p>
 			      <img ng-src="../images/icons-map/{{mapConditionIdName[getWeatherIcon(dayForecast.day.condition.code)]}}.png"
                  style="min-width: 70px; min-width: 70px;">
-                 <div class="row">
-			      <div class="col-md-6" align="center">
-			      <p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{dayForecast.day.mintemp_c}}ºC</p>
-			      </div>
-			      <div class="col-md-6" align="center">
-			      <p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{dayForecast.day.maxtemp_c}}ºC</p>
-			      </div>
+            <div class="row">
+				      <div class="col-md-6" align="center">
+				        <p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{dayForecast.day.mintemp_c}}ºC</p>
+				      </div>
+				      <div class="col-md-6" align="center">
+				        <p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{dayForecast.day.maxtemp_c}}ºC</p>
+				      </div>
 			      </div>
 			      <p> <img src="../images/svg/wind.svg" style="max-width: 18px;"> {{dayForecast.day.maxwind_kph}} km/h</p>
 		      </div>
@@ -51,15 +50,15 @@
 	        <h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>
 	        <p>...</p>
 		    </div>   
-	      </div>
-	      <div class="row">
-	      	<div class="col-md-12" align = "right" style="padding-bottom: 5px">
-		      <md-button class="md-raised" ng-click="goToCalendar();" type="submit" id="confirm-btn">Yes, I go!</md-button>
-			</div>
-	      </div>
-	    </div>
+      </div>
 
+      <div class="row">
+        <div class="col-md-12" align = "right" style="padding-bottom: 5px">
+		      <md-button class="md-raised" ng-href="#!/calendar" ng-click="addTrip()" id="confirm-btn">Yes, I go!</md-button>
+				</div>
+      </div>
     </div>
+
     <div class="row" id="bottom-spacing-description"></div>
 	</div>
 

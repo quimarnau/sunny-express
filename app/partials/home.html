@@ -1,179 +1,188 @@
 <ng-include src="'partials/navbar.html'"></ng-include>
 
 <div class="container-fluid">
-	<div class="row" id="top-spacing-home"></div>
-	<div class="row" id="center-spacing-home">
-		<div class="col-md-8 col-md-offset-2" ng-controller="InputCtrl as ctrl">
-			<div class="row" id="header-form-home">
-				<div class="col-md-8 col-md-offset-2" align="center">
-					<img id="logo-home" src="../images/logo.png">
-					<p id="welcomingTitle">Welcome to SunnyExpress search!</p>
-					<p id="welcomingTxt"> Please, enter your dreaming weather conditions and locations for your short notice trip and we will help you find it for real! </p>
-				</div>	
-			</div>
-		<!-- TODO: Reorganize so that fit on smaller screens = fix the alignment of calendar other way... --> 
-			<form name="inputForm">
-			<div class="row" id="body-form-home">
-				<div class="row">
-					<div class="col-md-6 col-md-offset-1">
-						<form ng-submit="$event.preventDefault()" name="locationForm">
-							<div class="row">
-								<div class="col-md-12">
-									<md-autocomplete flex required
-						                 md-input-name="departureCity"
-						                 md-no-cache="ctrl.noCache"
-						                 md-selected-item="selectedCity"
-						                 md-search-text="searchCity"
-						                 md-items="item in queryCities(searchCity)"
-						                 md-item-text="item.display"
-						                 md-min-length="0"
-						                 md-require-match
-						                 md-floating-label="Depart from">
-										<md-item-template>
-											<span md-highlight-text="searchCity" md-highlight-flags="^i">{{item.display}}</span>
-										</md-item-template>
-										<md-not-found>
-										No cities matching "{{searchCity()}}" were found.
-										</md-not-found>
-										<div ng-messages="locationForm.departureCity.$error" ng-if="locationForm.departureCity.$touched">
-											<div ng-message="required">You <b>must</b> enter your city.</div>
-											<div ng-message="md-require-match">Please select an existing city.</div>
-										</div>
-									</md-autocomplete>
+  <div class="row" id="top-spacing-home"></div>
+    <div class="row" id="center-spacing-home">
+      <div class="col-md-8 col-md-offset-2" ng-controller="InputCtrl as ctrl">
+        <div class="row" id="header-form-home">
+          <div class="col-md-8 col-md-offset-2" align="center">
+            <img id="logo-home" src="../images/logo.png">
+            <p id="welcomingTitle">Welcome to SunnyExpress search!</p>
+            <p id="welcomingTxt"> Please, enter your dreaming weather conditions and locations for your short notice trip and we will help you find it for real! </p>
+          </div>  
+        </div>
+    <!-- TODO: Reorganize so that fit on smaller screens = fix the alignment of calendar other way... --> 
+        <form name="inputForm">
+          <div class="row" id="body-form-home">
+            <div class="row">
+              <div class="col-md-6 col-md-offset-1">
+                <form ng-submit="$event.preventDefault()" name="locationForm">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <md-autocomplete flex required
+                           md-input-name="departureCity"
+                           md-no-cache="ctrl.noCache"
+                           md-selected-item="selectedCity"
+                           md-search-text="searchCity"
+                           md-items="item in queryCities(searchCity)"
+                           md-item-text="item.display"
+                           md-min-length="0"
+                           md-require-match
+                           md-floating-label="Depart from">
+                          <md-item-template>
+                            <span md-highlight-text="searchCity" md-highlight-flags="^i">{{item.display}}</span>
+                          </md-item-template>
+                          <md-not-found>
+                          No cities matching "{{searchCity()}}" were found.
+                          </md-not-found>
+                          <div ng-messages="locationForm.departureCity.$error" ng-if="locationForm.departureCity.$touched">
+                            <div ng-message="required">You <b>must</b> enter your city.</div>
+                            <div ng-message="md-require-match">Please select an existing city.</div>
+                          </div>
+                      </md-autocomplete>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <md-autocomplete flex required
+                                         md-input-name="arrivalCountry"
+                                         md-no-cache="ctrl.noCache"
+                                         md-selected-item="selectedCountry"
+                                         md-search-text="searchCountry"
+                                         md-items="item in queryCountries(searchCountry)"
+                                         md-item-text="item.display"
+                                         md-min-length="0"
+                                         md-require-match
+                                         md-floating-label="Arrive to">
+                        <md-item-template>
+                            <span md-highlight-text="searchCountry" md-highlight-flags="^i">{{item.display}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                        No countries matching "{{searchCountry}}" were found.
+                        </md-not-found>
+                        <div ng-messages="locationForm.arrivalCountry.$error" ng-if="locationForm.arrivalCountry.$touched">
+                          <div ng-message="required">You <b>must</b> enter a country.</div>
+                          <div ng-message="md-require-match">Please select an existing country.</div>
+                        </div>
+                      </md-autocomplete>
+                    </div>
+                  </div>
+                </form>
+              </div>
+      
+  
+              <div class="col-md-4">
+                <form name="dateForm">
+                  <div class="row">
+                    <div class="col-md-12" align="right">
+                      <md-input-container>
+                        <label id="date-departure-label">Depart on</label>
+                        <md-datepicker required
+                                       ng-change="returnDateRangeUpdate()"
+                                       ng-model="departureDate"
+                                       name="departureDate"
+                                       md-min-date="minDepartureDate"
+                                       md-max-date="maxDepartureDate">
+                        </md-datepicker>
 
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<md-autocomplete flex required
-											           md-input-name="arrivalCountry"
-											           md-no-cache="ctrl.noCache"
-											           md-selected-item="selectedCountry"
-											           md-search-text="searchCountry"
-											           md-items="item in queryCountries(searchCountry)"
-											           md-item-text="item.display"
-											           md-min-length="0"
-											           md-require-match
-											           md-floating-label="Arrive to">
-										<md-item-template>
-											<span md-highlight-text="searchCountry" md-highlight-flags="^i">{{item.display}}</span>
-										</md-item-template>
-										<md-not-found>
-										No countries matching "{{searchCountry}}" were found.
-										</md-not-found>
-										<div ng-messages="locationForm.arrivalCountry.$error" ng-if="locationForm.arrivalCountry.$touched">
-											<div ng-message="required">You <b>must</b> enter a country.</div>
-											<div ng-message="md-require-match">Please select an existing country.</div>
-										</div>
-									</md-autocomplete>
-								</div>
-							</div>
-						</form>
-					</div>
-			
-		
-					<div class="col-md-4">
-						<form name="dateForm">
-							<div class="row">
-								<div class="col-md-12" align="right">
-									<md-input-container>
-										<label id="date-departure-label">Depart on</label>
-										<md-datepicker required
-						               				   ng-change="returnDateRangeUpdate()"
-						               				   ng-model="departureDate"
-						               				   name="departureDate"
-						               				   md-min-date="minDepartureDate"
-						               				   md-max-date="maxDepartureDate">
-										</md-datepicker>
+                        <div ng-messages="dateForm.departureDate.$error">
+                            <div ng-message="valid">The entered value is not a date!</div>
+                            <div ng-message="required">This date is required!</div>
+                        </div>
+                      </md-input-container>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12" align="right">
+                
+                      <md-input-container>
+                        <label id="date-return-label">Return on</label>
+                        <md-datepicker required
+                                       ng-model="returnDate"
+                                       name="returnDate"
+                                       md-min-date="minReturnDate"
+                                       md-max-date="maxReturnDate">
+                        </md-datepicker>
 
-										<div ng-messages="dateForm.departureDate.$error">
-											<div ng-message="valid">The entered value is not a date!</div>
-											<div ng-message="required">This date is required!</div>
-										</div>
-									</md-input-container>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12" align="right">
-							
-									<md-input-container>
-										<label id="date-return-label">Return on</label>
-										<md-datepicker required
-										               ng-model="returnDate"
-										               name="returnDate"
-										               md-min-date="minReturnDate"
-										               md-max-date="maxReturnDate">
-										</md-datepicker>
+                        <div ng-messages="dateForm.returnDate.$error">
+                            <div ng-message="valid">The entered value is not a date!</div>
+                            <div ng-message="required">This date is required!</div>
+                        </div>
+                      </md-input-container>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
 
-										<div ng-messages="dateForm.returnDate.$error">
-											<div ng-message="valid">The entered value is not a date!</div>
-											<div ng-message="required">This date is required!</div>
-										</div>
-									</md-input-container>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
+            <div class="row">
+              <div class="col-md-4 visible-lg visible-md">
+                <div class="row">
+                  <div class="col-md-12" style="padding-top:10px;padding-left:25px;">
+                    <p>Temperatures preferably between:</p>
+                  </div>
+                </div>
 
-				<div class="row">
-					<div class="col-md-4 visible-lg visible-md">
-						<div class="row">
-							<div class="col-md-12" style="padding-top:10px;padding-left:25px;">
-								<p>Temperatures preferably between:</p>
-							</div>
-						</div>
+                <div class="row" style="padding-bottom: 10px;">
+                  <div class="col-md-12" style="padding-top:30px;padding-left:25px;">
+                    <p>Select your weather preferences:</p>
+                  </div>
+                </div>
+              </div>
 
-						<div class="row" style="padding-bottom: 10px;">
-							<div class="col-md-12" style="padding-top:30px;padding-left:25px;">
-								<p>Select your weather preferences:</p>
-							</div>
-						</div>
-					</div>
+              <div class="col-md-8">
+                <div class="row" style="padding-left:10px;padding-right:10px;">
+                  <div class="col-md-6">
+                    <md-slider-container>
+                        <img style="width: 10%; height:10%" src="../images/temperature-min.png">
+                        <md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
+                       min="-20" max="{{maxTemperature}}" aria-label="Min" class="md-primary"></md-slider>
+                    </md-slider-container>
+                  </div>
+                  <div class="col-md-6">
+                      <md-slider-container>
+                        <img class="visible-sm visible-xs" style="width: 10%; height:10%" src="../images/temperature-max.png">
+                        <md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
+                       min="{{minTemperature}}" max="40" aria-label="Max" class="md-warn"></md-slider>
+                       <img class="visible-md visible-lg" style="width: 10%; height:10%" src="../images/temperature-max.png">
+                      </md-slider-container>
+                  </div>
+                </div>
+                <div class="row">          
+                  <div layout="row" layout-align="left" class="col-md-6"  style="padding-top: 2%">
+                    <md-icon ng-repeat="i in [0,1,2,3]"
+                            class="md-42"
+                            md-svg-src="../images/svg/{{iconsName[i]}}.svg"
+                            ng-click="incrementCounter(i)"
+                            ng-style="{'color': statesDicc[iconsState[i]]}">
+                    </md-icon>
+                  </div>
+                  <div class = "col-md-6" layout="row" layout-align="space-between center">
+                      <md-icon md-svg-src="../images/svg/wind.svg" class="md-32 mr-15"></md-icon>
+                      <md-switch ng-model="careAboutWind" class="md-primary" aria-label="Wind preference"></md-switch>
 
-					<div class="col-md-8">
-						<div class="row" style="padding-left:10px;padding-right:10px;">
-							<div class="col-md-6">
-								<md-slider-container>
-									<img style="width: 10%; height:10%" src="../images/temperature-min.png">
-									<md-slider flex md-discrete ng-model="minTemperature" ng-change="setMinTemperature(minTemperature)"
-						           min="-20" max="{{maxTemperature}}" aria-label="Min" class="md-primary"></md-slider>
-								</md-slider-container>
-							</div>
-							<div class="col-md-6">
-								<md-slider-container>
-									<img class="visible-sm visible-xs" style="width: 10%; height:10%" src="../images/temperature-max.png">
-									<md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
-						           min="{{minTemperature}}" max="40" aria-label="Max" class="md-warn"></md-slider>
-						           <img class="visible-md visible-lg" style="width: 10%; height:10%" src="../images/temperature-max.png">
-								</md-slider-container>
-							</div>
-						</div>
-						<div class="row" style="padding-top: 5px">			
-							<div layout="row" layout-align="left" class="col-md-6">
-								<md-icon ng-repeat="i in [0,1,2,3]"
-						         		class="md-42"
-						         		md-svg-src="../images/svg/{{iconsName[i]}}.svg"
-						         		ng-click="incrementCounter(i)"
-						         		ng-style="{'color': statesDicc[iconsState[i]]}">
-								</md-icon>
-							</div>
-						</div>
-					</div>
-				</div>
+                      <md-radio-group flex layout="row" layout-align="end center" ng-model="windPreference" ng-show="careAboutWind">
+                      <md-radio-button value="-1" class="md-primary" aria-label="Soft wind">
+                        <img src="../images/breeze.png" class="md-32">
+                      </md-radio-button>
+                      <md-radio-button value="1" class="md-primary" aria-label="Strong wind">
+                        <img src="../images/strong-wind.png" class="md-32">
+                      </md-radio-button>
+                    </md-radio-group>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-				<div class="row">
-					<!-- Temporary linking to search page -->
-					<!-- <a ng-href="#!/search"> -->
-					<div class="col-md-6 col-md-offset-3" style="padding-top: 5px">
-						<md-button class="md-raised" ng-click="inputForm.$valid && search(); inputForm.$valid && goToSearch();" type="submit" id="search-btn">Search</md-button>
-					</div>
-					<!-- </a> -->
-				</div>
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3" style="padding-top: 5px">
+                  <md-button class="md-raised" ng-click="inputForm.$valid && search(); inputForm.$valid && goToSearch();" type="submit" id="search-btn">Search</md-button>
+              </div>
+            </div>
 
-			</div>
-			</form>			
-		</div>
-	<div class="row" id="bottom-spacing-home"></div>
-</div>
+          </div>
+        </form>         
+      </div>
+    <div class="row" id="bottom-spacing-home"></div>
+  </div>
 </div>
