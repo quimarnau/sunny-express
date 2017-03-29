@@ -35,7 +35,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 
-	// TODO sample code end
 
 	this.filterCode = function (code) {
 		for (var i in weatherConditionResolveDB) {
@@ -55,11 +54,23 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	this.getTripForDay = function(checkDate) {
 		for (var i = 0; i < tripsHistoryDb.length; i++) {
-			if((checkDate.getTime() <= tripsHistoryDb[i].end.getTime()) && (checkDate.getTime() >= tripsHistoryDb[i].start.getTime())) {
-				return tripsHistoryDb[i];
-			}
-		};
-		return undefined;
+			if (checkDate.toDateString() === tripsHistoryDb[i].start.toDateString())
+				return {
+					"data": tripsHistoryDb[i],
+					"state": 0
+				};
+			else if (checkDate.toDateString() === tripsHistoryDb[i].end.toDateString())
+				return {
+					"data": tripsHistoryDb[i],
+					"state": 1
+				};
+			else if ((checkDate.getTime() <= tripsHistoryDb[i].end.getTime()) && (checkDate.getTime() >= tripsHistoryDb[i].start.getTime()))
+				return {
+					"data": tripsHistoryDb[i],
+					"state": 2
+				};
+		}
+		return null;
 	}
 
 	this.addNewTrip = function(trip) {

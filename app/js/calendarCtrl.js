@@ -15,8 +15,20 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 
 	$scope.fillCalendar = function(date) {
 		var trip = SunnyExpress.getTripForDay(date);
-		if(trip != undefined) {
-			MaterialCalendarData.setDayContent(date,"<span>Depart: " + trip.departCity + " <br> Arrive: " + trip.arriveCity + "</span>");
+		if (trip != null) {
+			var departureText;
+			switch (trip.state) {
+				case 0:
+					departureText = "Going to: <br><b>" + trip.data.arriveCity + "</b>"
+					break;
+				case 1:
+					departureText = "Coming back to: <br><b>" + trip.data.departCity + "</b>";
+					break;
+				case 2:
+					departureText = "On a trip";
+					break;
+			}
+			MaterialCalendarData.setDayContent(date, "<p>" + departureText + "</p>");
 		}
 	};
 
