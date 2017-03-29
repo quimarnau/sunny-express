@@ -16,6 +16,7 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 
 
 	$scope.getTouristInfo = function() {
+		console.log(SunnyExpress.getTouristInfo());
 	    return SunnyExpress.getTouristInfo();
     };
 

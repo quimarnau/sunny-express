@@ -119,6 +119,16 @@ svg {
 .padding-0 {
 	padding: 0px;
 }
+.md-headline {
+	font-size: 28px;
+}
+.card {
+	margin-top: -10px;
+}
+.md-18 {
+	height: 18px;
+	width: 18px;
+}
 
 /* Calendar view */
 .mb-15 {

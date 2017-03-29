@@ -382,7 +382,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
                 },
                 function(results,status) {
                     $timeout(function () {
-                        touristInfo = results.slice(1,6);
+                        touristInfo = results.slice(1,4);
                         selectedCityPhotoSrc = results[0].photos[0].getUrl({'maxWidth': 300});
                     })
 

@@ -11,10 +11,7 @@
     <div class="col-md-10 col-md-offset-1"  style="background-color: white; border-radius: 3px; box-shadow: 0px 5px 5px #1f2e2e;max-height: 84vh; margin-top: 20px;">
 
 	    <div class="row">
-	      <div class="col-md-10 col-md-offset-1">
-          <h1 align="center">My trip plan to {{getArriveCity()}}</h1>
-	      </div>
-	      <div class="col-md-1 padding-0" align="right">
+	      <div class="col-md-1 col-md-offset-11 padding-0" align="right">
           <md-button class="md-icon-button md-accent" aria-label="Close" ng-href="#!/search">
             <md-icon md-svg-icon="images/close-icon.svg"></md-icon>
           </md-button>
@@ -23,7 +20,26 @@
 
 		  <div class="row md-padding">
 	      <div class="col-md-6">
-          <img ng-src="{{cityPic()}}" style="max-height: 30vh">
+		      <md-card class="card">
+			      <md-card-title>
+				      <md-card-title-text>
+					      <span class="md-headline">My trip plan to {{getArriveCity()}}</span>
+				      </md-card-title-text>
+			      </md-card-title>
+			      <md-card-content layout="row" layout-align="space-between">
+				      <div layout="column">
+				        <img ng-src="{{cityPic()}}" style="max-width: 350px; margin-bottom: 15px;">
+				      </div>
+				      <md-card-actions layout="column" layout-align="end center" >
+					      <md-button class="md-icon-button" aria-label="Favorite">
+						      <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+					      </md-button>
+				      </md-card-actions>
+
+			      </md-card-content>
+		      </md-card>
+
+
 	      </div>
 	      <div class="col-md-6" layout="row" layout-align="space-around center">
 		      <div ng-repeat="dayForecast in getForecast()" layout="column" layout-align="space-around center">
@@ -46,14 +62,15 @@
 		  <div class="row" style="max-height: 20vh">
 		    <div class="col-md-6"  style="max-height: 30vh; padding-left: 3%">
 		        <h2>What to visit in {{getArriveCity()}}</h2>
-		        <div ng-repeat="act in getTouristInfo()">
-					<p>- {{act.name}}</p>
-				</div>
+				    <p ng-repeat="act in getTouristInfo()">
+					    <img src="{{act.icon}}" class="md-18">
+					    {{act.name}}
+				    </p>
 		    </div>
 		    <div class="col-md-6" style="max-height: 30vh; padding-left: 3%">
 	        <h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>
 	        <p>...</p>
-		    </div>   
+		    </div>
       </div>
 
       <div class="row">
