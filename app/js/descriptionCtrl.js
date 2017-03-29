@@ -19,11 +19,14 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 	    return touristInfo.slice(1,6);
     };
 
-	$scope.selectedCityPhotoSrc = function() {
-	    console.log(SunnyExpress.getPictureSrc());
-	    return "images/paris.jpg";
-        return SunnyExpress.getPictureSrc();
-    }
+	service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
+	service.nearbySearch(
+		{location: { lat: 48.856461, lng: 2.35236 },
+		radius: 5000
+		},
+		function(results,status) {
+			console.log(results);
+		});
 
     $scope.getDepartCity = function() {
         return SunnyExpress.getDepartCity();
@@ -44,6 +47,10 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
     		max5dayforecast.push(forecast[i]);
 	    }
 	    return max5dayforecast;
+    }
+
+    $scope.getWeatherIcon = function(code) {
+		return SunnyExpress.filterCode(code);
     }
 
     // Still blocking the goto function because of tripsHistoryDb said undefined in console...
