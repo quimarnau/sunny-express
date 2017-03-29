@@ -57,12 +57,17 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter) {
 			if (checkDate.toDateString() === tripsHistoryDb[i].start.toDateString())
 				return {
 					"data": tripsHistoryDb[i],
-					"departure": true
+					"state": 0
 				};
 			else if (checkDate.toDateString() === tripsHistoryDb[i].end.toDateString())
 				return {
 					"data": tripsHistoryDb[i],
-					"departure": false
+					"state": 1
+				};
+			else if ((checkDate.getTime() <= tripsHistoryDb[i].end.getTime()) && (checkDate.getTime() >= tripsHistoryDb[i].start.getTime()))
+				return {
+					"data": tripsHistoryDb[i],
+					"state": 2
 				};
 		}
 		return null;
