@@ -1,6 +1,8 @@
-<ng-include src="'partials/navbar.html'"></ng-include>
-
 <div class="container-fluid">
+  <div class="row">
+    <ng-include src="'partials/navbar.html'" class="col-md-8 col-md-offset-2"></ng-include>
+  </div>
+
   <div class="row" id="top-spacing-home"></div>
     <div class="row" id="center-spacing-home">
       <div class="col-md-8 col-md-offset-2" ng-controller="InputCtrl as ctrl">

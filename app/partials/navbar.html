@@ -1,19 +1,19 @@
 <!-- Navigation bar -->
-<div id="navbar" ng-controller="NavbarCtrl as ctrl" ng-cloak >
-	<md-content class="md-padding">
-		<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-			<md-nav-item md-nav-click="goTo('/home')" name="/home">
-			<p 	style="color:blue">New search</p>
-			</md-nav-item>
-			<md-nav-item md-nav-click="goTo('/search')" name="/search">
-			<p style="color:blue">Map view</p>
-			</md-nav-item>
-			<md-nav-item md-nav-click="goTo('/description')" name="/description/{{selectedCity}}" ng-show="isDescription">
-			<p style="color:blue">Description view</p>
-			</md-nav-item>
-			<md-nav-item md-nav-click="goTo('/calendar')" name="/calendar">
-			<p style="color:blue">My trips</p>
-			</md-nav-item>
-		</md-nav-bar>
-	</md-content>
-</div>
+<nav ng-controller="NavbarCtrl" ng-cloak >
+	<md-nav-bar class="md-primary"
+							md-selected-nav-item="currentNavItem"
+	            nav-bar-aria-label="navigation links">
+		<md-nav-item md-nav-click="goTo('/home')" name="/home">
+			<p class="nav-item">Home</p>
+		</md-nav-item>
+		<md-nav-item md-nav-click="goTo('/search')" name="/search">
+			<p class="nav-item">Search</p>
+		</md-nav-item>
+		<md-nav-item md-nav-click="goTo('/description')" name="/description/{{selectedCity}}" ng-show="isDescription">
+			<p class="nav-item">Description view</p>
+		</md-nav-item>
+		<md-nav-item md-nav-click="goTo('/calendar')" name="/calendar">
+			<p class="nav-item">My trips</p>
+		</md-nav-item>
+	</md-nav-bar>
+</nav>

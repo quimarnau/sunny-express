@@ -12,29 +12,21 @@ body {
 }
 
 
-/* Navigation bar (NavBar) view*/
+/* Navigation bar */
 md-nav-bar md-nav-ink-bar {
-	background: blue;
+	background: darkslateblue;
 }
+nav {
+	background: white;
+	border-radius: 3px;
+	margin: 10px 0px;
+}
+.nav-item {
+	color: darkslateblue;
+}
+
 
 /* Home view */
-
-/*#bg {
-	position: fixed;
-	top:-50%;
-	left:-50%;
-	width:200%;
-	height: 200%;
-}*/
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-    /*min-height: 100%;   
-	min-height: 100vh;
-	display: flex;
-	align-items: center;*/
-}
 #top-spacing-home {
 	height:2vh;
 	width: 100vw;
@@ -42,8 +34,6 @@ md-nav-bar md-nav-ink-bar {
 #center-spacing-home {
 	height: 80vh;
 	width: 100vw;
-	
-	
 }
 #bottom-spacing-home {
 	height:2vh;
@@ -54,8 +44,6 @@ md-nav-bar md-nav-ink-bar {
 	border-top-left-radius:25px;
 	border-top-right-radius:25px;
 	padding-top: 10px;
-	padding-bottom: 10px;
-
 }
 #logo-home {
 	width: 75px;
@@ -64,17 +52,14 @@ md-nav-bar md-nav-ink-bar {
 	font-size: 22px;
 }
 #welcomingTxt {
-	/*padding: 6px;*/
+	padding: 6px;
 }
 #body-form-home {
 	background-color: white;
 	border-bottom-left-radius:25px;
 	border-bottom-right-radius:25px;
-	padding-bottom: 15px;
-	padding-left: 50px;
-	padding-right: 60px;
+	padding: 0px 20px 20px 20px;
 }
-
 
 /* Search view */
 #input-container {
@@ -133,6 +118,11 @@ svg {
 }
 .padding-0 {
 	padding: 0px;
+}
+
+/* Calendar view */
+.mb-15 {
+	margin-bottom: 15px;
 }
 
 
