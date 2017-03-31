@@ -8,7 +8,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-10 col-md-offset-1"  style="background-color: white; border-radius: 3px; box-shadow: 0px 5px 5px #1f2e2e;max-height: 84vh; margin-top: 20px;">
+    <div class="col-md-10 col-md-offset-1"  style="background-color: white; border-radius: 3px; box-shadow: 0px 5px 5px #1f2e2e;max-height: 60%; margin-top: 20px;">
 
         <div class="row">
           <div class="col-md-1 col-md-offset-11 padding-0" align="right">
@@ -28,7 +28,7 @@
                   </md-card-title>
                   <md-card-content layout="row" layout-align="space-between">
                       <div layout="column">
-                        <img ng-src="{{cityPic()}}" style="max-width:350px">
+                        <img ng-src="{{cityPic()}}" style="max-width:350px;max-height:150px">
                       </div>
                       <md-card-actions layout="column" layout-align="end center" >
                           <md-button class="md-icon-button" aria-label="Favorite">
@@ -62,10 +62,12 @@
           <div class="row" style="max-height: 20vh">
             <div class="col-md-6"  style="max-height: 30vh; padding-left: 3%">
                 <h2>What to visit in {{getArriveCity()}}</h2>
+                  <div style="max-height:110px;overflow-y: scroll">
                     <p ng-repeat="act in getTouristInfo()">
                         <img src="{{act.icon}}" class="md-18">
                         {{act.name}}
                     </p>
+                  </div>
             </div>
             <div class="col-md-6" style="max-height: 30vh; padding-left: 3%">
             <h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>
