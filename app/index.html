@@ -44,6 +44,8 @@ which module to associate the app with. In app.js we create the "dinnerPlanner" 
 		<script src="js/descriptionCtrl.js"></script>
 		<script src="js/mapCtrl.js"></script>
 		<script src="js/navbarCtrl.js"></script>
+		<script src="js/loadingCtrl.js"></script>
+		
 
 		<script async defer type="text/javascript"
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0&v=3&libraries=places">
@@ -51,9 +53,10 @@ which module to associate the app with. In app.js we create the "dinnerPlanner" 
 
 	</head>
 	<body>
-		
+		<ng-include src="'partials/loading.html'" ng-controller="LoadingCtrl"></ng-include>
 
-		<div ng-view></div
+		<div ng-view>
+		</div>
 
 	</body>
 </html>

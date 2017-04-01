@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyExpress) {
+sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootScope, SunnyExpress) {
 
 	/**
 	 * Parameters and functions of location inputs
@@ -155,7 +155,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 	}
 
 	var searchWeather = function() {
-		//TODO show loading picture
+		$rootScope.$broadcast("loadingEvent",true);
 		
 		var numDays = Math.round(($scope.returnDate-$scope.departureDate)/(1000*60*60*24)) + 1;
 		var dayOffset =  Math.round(($scope.departureDate - $scope.minDepartureDate)/(1000*60*60*24)); // between 0 to 8
@@ -170,6 +170,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, SunnyEx
 		};
 
 		$q.all(cityQueue).then(function(data) {
+			$rootScope.$broadcast("loadingEvent",false);
 			SunnyExpress.setWeatherActiveCities(data);
 		})
 	}

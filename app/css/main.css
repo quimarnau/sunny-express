@@ -11,6 +11,12 @@ body {
 	font-family: 'Ubuntu', sans-serif;
 }
 
+md-dialog {
+  height : 200px
+}
+md-progress-circular {
+  z-index: -1;
+}
 
 /* Navigation bar */
 md-nav-bar md-nav-ink-bar {
