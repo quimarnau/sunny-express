@@ -1,6 +1,26 @@
-sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, SunnyExpress) {
+sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $rootScope, $timeout,SunnyExpress) {
 
-	SunnyExpress.setTouristInfo();
+	$(function() {
+        $rootScope.$broadcast("loadingEvent",true);
+        var selectedCity = SunnyExpress.getSelectedCity();
+        if (selectedCity != undefined) {
+            var activeCities = SunnyExpress.getActiveCities();
+            var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
+
+            service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
+            service.nearbySearch(
+                {location: latlong,
+                    radius: 5000
+                },
+                function(results,status) {
+                    $timeout(function () {
+                        SunnyExpress.setTouristInfo(results.slice(1,10));
+                        SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({'maxWidth': 300}));
+                        $rootScope.$broadcast("loadingEvent",false);
+                    })
+                });
+        }
+    });
 
 	// TODO: Move to model, map and description views using it
 	$scope.mapConditionIdName = {
@@ -16,7 +36,6 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, Sunny
 
 
 	$scope.getTouristInfo = function() {
-		console.log(SunnyExpress.getTouristInfo());
 	    return SunnyExpress.getTouristInfo();
     };
 

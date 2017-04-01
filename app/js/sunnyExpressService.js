@@ -369,30 +369,17 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 		}
 	};
 
-	this.setTouristInfo = function() {
-		touristInfo = [];
-		selectedCityPhotoSrc = "";
-		if (selectedCity != undefined) {
-			var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
-
-            service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
-            service.nearbySearch(
-                {location: latlong,
-                    radius: 5000
-                },
-                function(results,status) {
-                    $timeout(function () {
-                        touristInfo = results.slice(1,10);
-                        selectedCityPhotoSrc = results[0].photos[0].getUrl({'maxWidth': 300});
-                    })
-
-                });
-		}
-	};
+	this.setTouristInfo = function(data) {
+		touristInfo = data;
+	}
 
 	this.getTouristInfo = function() {
 		return touristInfo;
 	};
+
+	this.setPictureSrc = function(pictureSrc) {
+		selectedCityPhotoSrc = pictureSrc;
+	}
 
 	this.getPictureSrc = function() {
 		return selectedCityPhotoSrc;
