@@ -13,6 +13,8 @@
   "scripts": {
     "postinstall": "bower install",
     "prestart": "npm install",
-    "start": "./start.sh"
+    "start": "npm run start-backend & npm run start-frontend",
+    "start-backend": "node app/backend/index.js",
+    "start-frontend": "http-server app/ -a 0.0.0.0 -p 8000"
   }
 }
