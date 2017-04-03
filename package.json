@@ -10,6 +10,7 @@
     "bower": "^1.8.x",
     "express": "^4.x",
     "http-server": "^0.9.0",
+    "mongodb": "^2.2.25",
     "npm-run-all": "^4.0.2"
   },
   "scripts": {
