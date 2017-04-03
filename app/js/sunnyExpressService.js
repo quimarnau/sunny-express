@@ -37,6 +37,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	// User preferences concerning the claedar view, to be moved to the back end
 	var forecastDisplay = true;
+	var colorEvent = "nocolor";
 
 	this.setForecastDisplay = function(state) {
 		forecastDisplay = state;
@@ -107,7 +108,11 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	}
 
 	this.getMajorityCondition = function(weatherForecast) {
-		var majorityCondition = {1000: 0, 1006: 0, 1189: 0, 1219: 0};
+		var majorityCondition = {};
+		for	(var i = 0; i < baseConditions.length; i++) {
+			majorityCondition[baseConditions[i]] = 0;
+		}
+
 		for (var i = 0; i < weatherForecast.length; i++) {
 			for (var j = 0; j < baseConditions.length; j++) {
 			 	if(weatherConditionResolveDB[baseConditions[j]].indexOf(weatherForecast[i].day.condition.code) >= 0) {
@@ -412,6 +417,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	this.getSelectedCity = function() {
 		return selectedCity;
 	};
+
+	this.getColorEvent = function () {
+		return colorEvent;
+	}
+
+	this.setColorEvent = function(color) {
+		colorEvent = color;
+	}
 
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});

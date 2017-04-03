@@ -15,6 +15,11 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 	  $scope.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
 	};
 
+	$scope.fillCalendar = function(date) {
+		var trip = SunnyExpress.getTripForDay(date);
+		setCalendarContent(date, trip);	
+	}
+
 	$scope.mapConditionIdName = {
 		1000: "sunny",
 		1006: "cloudy",
@@ -22,19 +27,18 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 		1219: "snow"
 	};
 
-	var fillCalendar = function(date) {
-		var trip = SunnyExpress.getTripForDay(date);
+	var setCalendarContent = function(date, trip) {
 		if (trip != null) {
 			var departureText;
 			switch (trip.state) {
 				case 0:
-					departureText = "<p class=\"blue-event\">Going to: <br><b>" + trip.data.arriveCity + "</b></p>"
+					departureText = "<p class=\"" + SunnyExpress.getColorEvent() + "-event\">Going to: <br><b>" + trip.data.arriveCity + "</b></p>"
 					break;
 				case 1:
-					departureText = "<p class=\"blue-event\">Coming back to: <br><b>" + trip.data.departCity + "</b></p>";
+					departureText = "<p class=\"" + SunnyExpress.getColorEvent() + "-event\">Coming back to: <br><b>" + trip.data.departCity + "</b></p>";
 					break;
 				case 2:
-					departureText = "<p class=\"blue-event\">On a trip</p>";
+					departureText = "<p class=\"" + SunnyExpress.getColorEvent() + "-event\">On a trip</p>";
 					break;
 			}
 			if (SunnyExpress.getForecastDisplay() == true) {
@@ -44,8 +48,6 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 			}
 		}
 	};
-
-	$scope.fillCalendar = fillCalendar;
 
 	var getDatesTrip = function(trip) {
 		var dates = [];
@@ -81,7 +83,6 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 				"state": 2
 			};		
 	};
-	
 
 	$scope.onChange = function(state) {
   		SunnyExpress.setForecastDisplay(!state);
@@ -90,23 +91,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
   			var tripDates = getDatesTrip(trips[id]);
   			for (j = 0; j < tripDates.length; j++) {
   				var dateState = getDateState(tripDates[j], trips[id]);
-  				var departureText;
-				switch (dateState.state) {
-					case 0:
-						departureText = "<p class=\"blue-event\">Going to: <br><b>" + dateState.data.arriveCity + "</b></p>"
-						break;
-					case 1:
-						departureText = "<p class=\"blue-event\">Coming back to: <br><b>" + dateState.data.departCity + "</b></p>";
-						break;
-					case 2:
-						departureText = "<p class=\"blue-event\">On a trip</p>";
-						break;
-				}
-				if (SunnyExpress.getForecastDisplay() == true) {
-					MaterialCalendarData.setDayContent(tripDates[j], "<div align=\"center\" layout:\"column\">" + departureText + "<img src=\"../images/icons-map/sunny.png\"style=\"min-width: 20px; min-width: 20px;\"></div>");
-				} else {
-					MaterialCalendarData.setDayContent(tripDates[j], "<div align=\"center\" layout:\"column\">" + departureText + "</div>");
-				}
+  				setCalendarContent(tripDates[j], dateState);
   			}
   			
   		}
