@@ -32,13 +32,13 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 			var departureText;
 			switch (trip.state) {
 				case 0:
-					departureText = "<p class=\"blue-event\">Going to: <br><b>" + trip.data.arriveCity + "</b></p>"
+					departureText = "<p class=\"" + SunnyExpress.getColorEvent() + "-event\">Going to: <br><b>" + trip.data.arriveCity + "</b></p>"
 					break;
 				case 1:
-					departureText = "<p class=\"blue-event\">Coming back to: <br><b>" + trip.data.departCity + "</b></p>";
+					departureText = "<p class=\"" + SunnyExpress.getColorEvent() + "-event\">Coming back to: <br><b>" + trip.data.departCity + "</b></p>";
 					break;
 				case 2:
-					departureText = "<p class=\"blue-event\">On a trip</p>";
+					departureText = "<p class=\"" + SunnyExpress.getColorEvent() + "-event\">On a trip</p>";
 					break;
 			}
 			if (SunnyExpress.getForecastDisplay() == true) {

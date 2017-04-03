@@ -37,6 +37,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	// User preferences concerning the claedar view, to be moved to the back end
 	var forecastDisplay = true;
+	var colorEvent = "nocolor";
 
 	this.setForecastDisplay = function(state) {
 		forecastDisplay = state;
@@ -416,6 +417,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	this.getSelectedCity = function() {
 		return selectedCity;
 	};
+
+	this.getColorEvent = function () {
+		return colorEvent;
+	}
+
+	this.setColorEvent = function(color) {
+		colorEvent = color;
+	}
 
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
