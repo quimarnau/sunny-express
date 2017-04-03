@@ -10,10 +10,12 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
             service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
             service.nearbySearch(
                 {location: latlong,
-                    radius: 5000
+                    radius: 5000,
+                    types: ['locality', 'museum', 'amusement_park', 'mosque', 'church']
                 },
                 function(results,status) {
                     $timeout(function () {
+                        console.log(results);
                         SunnyExpress.setTouristInfo(results.slice(1,10));
                         SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({'maxWidth': 300}));
                         $rootScope.$broadcast("loadingEvent",false);
