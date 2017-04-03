@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
+sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress, $rootScope, $mdDialog) {
 
 	$scope.mapConditionIdName = {
 		1000: "sunny",
@@ -13,6 +13,20 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress) {
 	$scope.mapFeatures = SunnyExpress.getMapFeatures();
 	$scope.getCityCoords = function() {
 		var activeCities = SunnyExpress.getActiveCities();
+		if (Object.keys(activeCities).length == 0 && $rootScope.searchPerformed == true) {
+			$rootScope.searchPerformed = false;
+
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#general-view')))
+                    .clickOutsideToClose(true)
+                    .title('NO CITIES FOUND')
+                    .textContent('With the current parameters, there are no cities found for your vacation!')
+                    .ariaLabel('Alert')
+                    .ok('Got it!')
+            );
+
+        }
 		$scope.cityInfo = activeCities;
 
 		return activeCities;

@@ -22,6 +22,8 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 	$scope.queryCities = queryCities;
 	$scope.queryCountries = queryCountries;
 
+	$rootScope.searchPerformed = false;
+
 	/**
 	 * Parameters of date pickers
 	 */
@@ -170,6 +172,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 		};
 
 		$q.all(cityQueue).then(function(data) {
+			$rootScope.searchPerformed = true;
 			$rootScope.$broadcast("loadingEvent",false);
 			SunnyExpress.setWeatherActiveCities(data);
 		})
