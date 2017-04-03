@@ -31,12 +31,13 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	 								1189: [1063,1087,1150,1153,1180,1183,1186,1189,1192,1195,1198,1201,1240,1243,1246,1273,1276],
 	 								1219: [1069,1072,1114,1117,1168,1171,1204,1207,1210,1213,1216,1219,1225,1237,1249,1252,1255,1258,1261,1264,1279,1282]
 	 								};
-	var tripsHistoryDb = []; // One trip data - {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city}
+	var tripsHistoryDb = {}; // One trip data - 1: {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city}
 
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 
 	// User preferences concerning the claedar view, to be moved to the back end
 	var forecastDisplay = true;
+	var colorEvent = "nocolor";
 
 	this.setForecastDisplay = function(state) {
 		forecastDisplay = state;
@@ -68,28 +69,33 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	}
 
 	this.getTripForDay = function(checkDate) {
-		for (var i = 0; i < tripsHistoryDb.length; i++) {
-			if (checkDate.toDateString() === tripsHistoryDb[i].start.toDateString())
+		for (tripId in tripsHistoryDb) {
+			if (checkDate.toDateString() === tripsHistoryDb[tripId].start.toDateString())
 				return {
-					"data": tripsHistoryDb[i],
+					"data": tripsHistoryDb[tripId],
 					"state": 0
 				};
-			else if (checkDate.toDateString() === tripsHistoryDb[i].end.toDateString())
+			else if (checkDate.toDateString() === tripsHistoryDb[tripId].end.toDateString())
 				return {
-					"data": tripsHistoryDb[i],
+					"data": tripsHistoryDb[tripId],
 					"state": 1
 				};
-			else if ((checkDate.getTime() <= tripsHistoryDb[i].end.getTime()) && (checkDate.getTime() >= tripsHistoryDb[i].start.getTime()))
+			else if ((checkDate.getTime() <= tripsHistoryDb[tripId].end.getTime()) && (checkDate.getTime() >= tripsHistoryDb[tripId].start.getTime()))
 				return {
-					"data": tripsHistoryDb[i],
+					"data": tripsHistoryDb[tripId],
 					"state": 2
 				};
 		}
 		return null;
 	}
+	
+	this.removeTrip = function(id) {
+		delete tripsHistoryDb[id];
+	}
 
 	this.addNewTrip = function(trip) {
-		tripsHistoryDb.push(trip);
+		var newId = Object.keys(tripsHistoryDb).length != 0 ? Math.max.apply(Math,Object.keys(tripsHistoryDb)) + 1 : 0;
+		tripsHistoryDb[newId] = trip;
 	}
 
 	this.resolveWeatherCondition = function(id, idToCheck) {
@@ -102,7 +108,11 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	}
 
 	this.getMajorityCondition = function(weatherForecast) {
-		var majorityCondition = {1000: 0, 1006: 0, 1189: 0, 1219: 0};
+		var majorityCondition = {};
+		for	(var i = 0; i < baseConditions.length; i++) {
+			majorityCondition[baseConditions[i]] = 0;
+		}
+
 		for (var i = 0; i < weatherForecast.length; i++) {
 			for (var j = 0; j < baseConditions.length; j++) {
 			 	if(weatherConditionResolveDB[baseConditions[j]].indexOf(weatherForecast[i].day.condition.code) >= 0) {
@@ -407,6 +417,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	this.getSelectedCity = function() {
 		return selectedCity;
 	};
+
+	this.getColorEvent = function () {
+		return colorEvent;
+	}
+
+	this.setColorEvent = function(color) {
+		colorEvent = color;
+	}
 
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
