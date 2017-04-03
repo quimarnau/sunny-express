@@ -13,7 +13,7 @@ TODO
 
 TO DISCUSS / BUGS / MINOR CONCERNS
 - Majority vote in case of tie
-- Feedback when there's no match for the query
+- DONE - Feedback when there's no match for the query
 - Errors in icons of places to visit
 - Feedback if the trips are overlapping when you click on yes I go.
 
