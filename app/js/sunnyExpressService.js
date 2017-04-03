@@ -107,7 +107,11 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	}
 
 	this.getMajorityCondition = function(weatherForecast) {
-		var majorityCondition = {1000: 0, 1006: 0, 1189: 0, 1219: 0};
+		var majorityCondition = {};
+		for	(var i = 0; i < baseConditions.length; i++) {
+			majorityCondition[baseConditions[i]] = 0;
+		}
+
 		for (var i = 0; i < weatherForecast.length; i++) {
 			for (var j = 0; j < baseConditions.length; j++) {
 			 	if(weatherConditionResolveDB[baseConditions[j]].indexOf(weatherForecast[i].day.condition.code) >= 0) {
