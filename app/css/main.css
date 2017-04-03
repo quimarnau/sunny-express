@@ -152,6 +152,24 @@ svg {
 	border-radius: 3px;
 	min-height: 40px;
 }
+.green-event {
+	background-color: #66ff66;
+	padding:10px;
+	border-radius: 3px;
+	min-height: 40px;
+}
+.purple-event {
+	background-color: #df80ff;
+	padding:10px;
+	border-radius: 3px;
+	min-height: 40px;
+}
+.red-event {
+	background-color: #ff6666;
+	padding:10px;
+	border-radius: 3px;
+	min-height: 40px;
+}
 
 /*purple, blue, green, */
 

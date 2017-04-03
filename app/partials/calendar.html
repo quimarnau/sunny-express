@@ -26,9 +26,19 @@
     <div class="row">
       <div class="col-md-12" style="background-color: white; border-radius: 3px">
         <div class="row">
-          <div class="col-md-2 inset" layout="row" layout-align="space-between center" style="padding: 20px">
-            <p style="padding-top: 6px">Show forecast:</p>
+          <div class="col-md-3 inset" layout="row" layout-align="space-between center" style="padding: 30px">
+            <p style="padding-top: 10px">Show forecast:</p>
             <md-switch  aria-label="Weather forecast display" ng-model="forecastDisplay" class="md-primary" md-no-ink="" ng-click="onChange(forecastDisplay)"></md-switch>
+          </div>
+          <div class="col-md-8 col-md-offset-1" style="padding: 40px">
+            <md-radio-group ng-model="colorEvent" layout="row" layout-align="space-between center">
+              <p style="padding-top: 8px">Background color: {{colorEvent}}</p>
+              <md-radio-button value="nocolor" class="md-primary" ng-click="changeColor(colorEvent)">None</md-radio-button>
+              <md-radio-button value="blue" class="md-primary" ng-click="changeColor(colorEvent)">Blue</md-radio-button>
+              <md-radio-button value="green" class="md-primary" ng-click="changeColor(colorEvent)">Green</md-radio-button>
+              <md-radio-button value="purple" class="md-primary" ng-click="changeColor(colorEvent)">Purple</md-radio-button>
+              <md-radio-button value="red" class="md-primary" ng-click="changeColor(colorEvent)">Red</md-radio-button>
+            </md-radio-group>
           </div>
         </div>
       </div>

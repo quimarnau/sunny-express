@@ -27,6 +27,32 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 		1219: "snow"
 	};
 
+	$scope.colorEvent = SunnyExpress.getColorEvent();
+
+//Have to click twice... solving in progress
+	$scope.changeColor = function(color) {
+		SunnyExpress.setColorEvent(color);
+      	var trips = SunnyExpress.getTrips();
+  		for (id in trips) {
+  			var tripDates = getDatesTrip(trips[id]);
+  			for (j = 0; j < tripDates.length; j++) {
+  				var dateState = getDateState(tripDates[j], trips[id]);
+  				setCalendarContent(tripDates[j], dateState);
+  			}
+  			
+  		}
+    };
+
+	//temporal trip for testing - to be removed afterwards
+	var departDate = new Date();
+	var returnDate = new Date();
+	returnDate.setDate(departDate.getDate() + 2);
+	var departCity = 'Stockholm';
+	var returnCity = 'Madrid';
+	var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
+	SunnyExpress.addNewTrip(trip);
+	//end temporal trip
+
 	var setCalendarContent = function(date, trip) {
 		if (trip != null) {
 			var departureText;

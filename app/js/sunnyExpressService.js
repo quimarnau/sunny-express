@@ -37,7 +37,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	// User preferences concerning the claedar view, to be moved to the back end
 	var forecastDisplay = true;
-	var colorEvent = "nocolor";
+	var colorEvent = "red"; // background color: nocolor, blue, green, purple, red
 
 	this.setForecastDisplay = function(state) {
 		forecastDisplay = state;
