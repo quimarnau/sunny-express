@@ -35,6 +35,17 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 
+	// User preferences concerning the claedar view, to be moved to the back end
+	var forecastDisplay = true;
+
+	this.setForecastDisplay = function(state) {
+		forecastDisplay = state;
+	};
+
+	this.getForecastDisplay = function() {
+		return forecastDisplay;
+	};
+
 
 	this.filterCode = function (code) {
 		for (var i in weatherConditionResolveDB) {
@@ -50,6 +61,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	this.getWindPreference = function() {
 		return this.windPreference;
+	}
+
+	this.getTrips = function() {
+		return tripsHistoryDb;
 	}
 
 	this.getTripForDay = function(checkDate) {
