@@ -6,14 +6,15 @@
   "repository": "https://github.com/quimarnau/sunny-express",
   "license": "MIT",
   "devDependencies": {
-    "http-server": "^0.9.0",
     "bower": "^1.8.x",
-    "express": "^4.x"
+    "express": "^4.x",
+    "http-server": "^0.9.0",
+    "npm-run-all": "^4.0.2"
   },
   "scripts": {
     "postinstall": "bower install",
     "prestart": "npm install",
-    "start": "npm run start-backend & npm run start-frontend",
+    "start": "npm-run-all --parallel start-frontend start-backend",
     "start-backend": "node app/backend/index.js",
     "start-frontend": "http-server app/ -a 0.0.0.0 -p 8000"
   }
