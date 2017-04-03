@@ -4,18 +4,6 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 	$scope.tooltips = true;
 	$scope.firstDayOfWeek = 0; // First day of the week, 0 for Sunday, 1 for Monday, etc.
 
-	//temporal trip for testing - to be removed afterwards
-	var departDate = new Date();
-	var returnDate = new Date();
-	returnDate.setDate(departDate.getDate() + 2);
-	var departCity = 'Stockholm';
-	var returnCity = 'Madrid';
-
-	var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
-
-	SunnyExpress.addNewTrip(trip);
-	//end temporal trip
-
 	$scope.forecastDisplay = SunnyExpress.getForecastDisplay();
 
 	$scope.setDirection = function(direction) {

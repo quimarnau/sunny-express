@@ -2,6 +2,8 @@ var express = require('express');
  
 var app = express();
 
+// --- Data --- Normally if the backend is also a crucial element in the app this is in a DB.
+
 var countryCitiesDb = {
 		"France": [
 		{"name": "Paris", "lon":2.35236,"lat":48.856461},
@@ -22,6 +24,9 @@ var countryCitiesDb = {
 		{"name":"Uppsala","lon":17.64543,"lat":59.858501},
 		{"name":"Sollentuna","lon":17.95093,"lat":59.42804}]};
 
+var baseConditions = [1000, 1006, 1189, 1219];
+
+// --- Helper functions ---
 
 var getCountries = function() {
 	return Object.keys(countryCitiesDb);
@@ -44,17 +49,23 @@ var getCountryCities = function(country) {
 	return countryCitiesDb[country];
 }
 
+
+// --- Backend functions available ---
+
 app.get('/countries', function(req, res) {
-	res.json({countries: getCountries()})
+	res.json(getCountries())
 });
 
 app.get('/cities', function(req, res) {
-  	res.json({cities: getCities()})
+  	res.json(getCities())
 });
 
 app.get('/citiesCountry/:country', function(req, res) {
-	console.log(req.params.country);
-	res.json({countries: getCountryCities(req.params.country)})
+	res.json(getCountryCities(req.params.country))
+});
+
+app.get('/baseConditions', function(req, res) {
+  	res.json(baseConditions)
 });
  
 app.listen(3000);
