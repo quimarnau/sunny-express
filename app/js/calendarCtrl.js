@@ -86,10 +86,10 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 	$scope.onChange = function(state) {
   		SunnyExpress.setForecastDisplay(!state);
   		var trips = SunnyExpress.getTrips();
-  		for (var i = 0; i < trips.length; i++) {
-  			var tripDates = getDatesTrip(trips[i]);
+  		for (id in trips) {
+  			var tripDates = getDatesTrip(trips[id]);
   			for (j = 0; j < tripDates.length; j++) {
-  				var dateState = getDateState(tripDates[j], trips[i]);
+  				var dateState = getDateState(tripDates[j], trips[id]);
   				var departureText;
 				switch (dateState.state) {
 					case 0:
