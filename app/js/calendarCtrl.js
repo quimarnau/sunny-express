@@ -43,15 +43,15 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
   		}
     };
 
-	//temporal trip for testing - to be removed afterwards
-	var departDate = new Date();
-	var returnDate = new Date();
-	returnDate.setDate(departDate.getDate() + 2);
-	var departCity = 'Stockholm';
-	var returnCity = 'Madrid';
-	var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
-	SunnyExpress.addNewTrip(trip);
-	//end temporal trip
+	// //temporal trip for testing - to be removed afterwards
+	// var departDate = new Date();
+	// var returnDate = new Date();
+	// returnDate.setDate(departDate.getDate() + 2);
+	// var departCity = 'Stockholm';
+	// var returnCity = 'Madrid';
+	// var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
+	// SunnyExpress.addNewTrip(trip);
+	// //end temporal trip
 
 	var setCalendarContent = function(date, trip) {
 		if (trip != null) {
