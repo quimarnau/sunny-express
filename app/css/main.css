@@ -141,6 +141,13 @@ svg {
 	margin-bottom: 15px;
 }
 
+.blue-event {
+	background-color: #99ccff;
+	padding:10px;
+	border-radius: 3px;
+	min-height: 40px;
+}
+/*purple, blue, green, */
 
 .small-icon {
 	max-height: 50px;
