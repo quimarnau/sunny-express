@@ -232,7 +232,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return forecast;
 	}
 
-	this.setWeatherActiveCities = function(forecastData) {
+	this.setWeatherActiveCities = function(forecastData, cities) {
 		forecastData = filterForecastData(forecastData);
 
 		activeCities = {};
@@ -241,7 +241,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		for (var i = 0; i < forecastData.length; i++) {
 			var weatherState = this.weatherConditionFilter(forecastData[i].forecast.forecastday);
 				if(weatherState.state) {
-					var name = this.resolveCity(forecastData[i].location.lat,forecastData[i].location.lon);
+					var name = this.resolveCity(forecastData[i].location.lat,forecastData[i].location.lon, cities);
                     activeCities[name] = {"name": name, location: {"latitude":forecastData[i].location.lat, "longitude": forecastData[i].location.lon}, "majorityCondition": weatherState.majorityCondition, "forecast": weatherState.forecast};
 
                     //defining maxtemp and mintemp of the total extent of days
@@ -344,10 +344,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return departDate;
 	}
 
-	this.getCountryCities = function() {
-		return countryCitiesDb[arriveCountry];
-	}
-
 	this.getCountries = function() {
 		return countries;
 	}
@@ -364,10 +360,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		cities = data;
 	}
 
-	this.resolveCity = function(lat, lon) {
-		for (var i = 0; i < countryCitiesDb[arriveCountry].length; i++) {
-			if((Math.abs(countryCitiesDb[arriveCountry][i].lat - lat) <=0.1) && (Math.abs(countryCitiesDb[arriveCountry][i].lon - lon) <=0.1)) {
-				return countryCitiesDb[arriveCountry][i].name;
+	this.resolveCity = function(lat, lon, cities) {
+		for (var i = 0; i < cities.length; i++) {
+			if((Math.abs(cities[i].lat - lat) <=0.1) && (Math.abs(cities[i].lon - lon) <=0.1)) {
+				return cities[i].name;
 			}
 		};
 	}
@@ -458,25 +454,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendGetCities = $resource(backendBaseUrl+"cities");
 	this.backendGetBaseConditions = $resource(backendBaseUrl+"baseConditions");
 	this.backendGetAggregateConditions = $resource(backendBaseUrl+"aggregateConditions");
-
-	var countryCitiesDb = {"France": [
-		{"name": "Paris", "lon":2.35236,"lat":48.856461},
-		{"name": "Marseille", "lon":5.4,"lat":43.299999},
-		{"name": "Lyon", "lon":4.83107,"lat":45.7686},
-		{"name":"Toulouse","lon":1.44367,"lat":43.604259},
-		{"name":"Nice", "lon":7.26608,"lat":43.703129}],
-		"Spain": [
-		{"name":"Madrid","lon":-3.68275,"lat":40.489349},
-		{"name":"Barcelona","lon":2.12804,"lat":41.399422},
-		{"name":"Valencia","lon":-0.35457,"lat":39.45612},
-		{"name":"Sevilla","lon":-5.97613,"lat":37.382408},
-		{"name":"Zaragoza","lon":-0.87734,"lat":41.656059}],
-		"Sweden": [
-		{"name":"Stockholm","lon":18.064899,"lat":59.332581},
-		{"name":"Goeteborg","lon":11.96679,"lat":57.707161},
-		{"name":"Malmoe","lon":13.00073,"lat":55.605869},
-		{"name":"Uppsala","lon":17.64543,"lat":59.858501},
-		{"name":"Sollentuna","lon":17.95093,"lat":59.42804}]};
+	this.backendGetCitiesCountry = $resource(backendBaseUrl+"citiesCountry/:country");
 
 	return this;
 });
