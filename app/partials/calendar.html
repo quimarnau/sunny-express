@@ -3,8 +3,8 @@
     <ng-include src="'partials/navbar.html'" class="col-md-8 col-md-offset-2"></ng-include>
   </div>
   <div class="row" id="top-spacing-home"></div>
-  <div class="container">
-    <div class="row">
+  <div class="container" style="max-height: 80vh;overflow-y: scroll;">
+    <div class="row" style="padding:10px">
       <calendar-md flex layout layout-fill
         calendar-direction="direction"
         on-day-click="dayClick"
@@ -23,22 +23,22 @@
 
     <div class="row" style="height: 3vh"></div>
 
-    <div class="row">
+    <div class="row" style="padding:10px">
       <div class="col-md-12" style="background-color: white; border-radius: 3px">
         <div class="row">
-          <div class="col-md-3 inset" layout="row" layout-align="space-between center" style="padding: 30px">
+          <div class="col-md-2 inset" layout="row" layout-align="space-between center" style="padding: 30px">
             <p style="padding-top: 10px">Show forecast:</p>
             <md-switch  aria-label="Weather forecast display" ng-model="forecastDisplay" class="md-primary" md-no-ink="" ng-click="onChange(forecastDisplay)"></md-switch>
           </div>
-          <div class="col-md-8 col-md-offset-1" style="padding: 40px">
-            <md-radio-group ng-model="colorEvent" layout="row" layout-align="space-between center">
-              <p style="padding-top: 8px">Background color: {{colorEvent}}</p>
-              <md-radio-button value="nocolor" class="md-primary" ng-click="changeColor(colorEvent)">None</md-radio-button>
-              <md-radio-button value="blue" class="md-primary" ng-click="changeColor(colorEvent)">Blue</md-radio-button>
-              <md-radio-button value="green" class="md-primary" ng-click="changeColor(colorEvent)">Green</md-radio-button>
-              <md-radio-button value="purple" class="md-primary" ng-click="changeColor(colorEvent)">Purple</md-radio-button>
-              <md-radio-button value="red" class="md-primary" ng-click="changeColor(colorEvent)">Red</md-radio-button>
-            </md-radio-group>
+          <div class="col-md-8" style="padding: 40px">
+            <div layout="row">
+              <div class="col-md-2">
+                <p style="padding-top: 8px">Background color:</p>
+              </div>
+              <div class="col-md-8">
+                <md-button class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key)" style="background-color: {{color}};height: 20px;width: 20px;"></md-button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
