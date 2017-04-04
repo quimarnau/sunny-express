@@ -9,7 +9,7 @@ Frontend is running on localhost:8000 while backend is on localhost:3000/<functi
 
 Made by:
 
-Laura Dolores Arnaud Deleuze - deleuze@kth.se - Laura
-Aleix Sacrest Gascon - aleixsg@kth.se - aleixsacrest
-Quim Arnau - quima@kth.se - quimarnau
-Matyas Tomolya - tomolya@kth.se - matyi25
+- Laura Dolores Arnaud Deleuze - deleuze@kth.se - Laura
+- Aleix Sacrest Gascon - aleixsg@kth.se - aleixsacrest
+- Quim Arnau - quima@kth.se - quimarnau
+- Matyas Tomolya - tomolya@kth.se - matyi25
