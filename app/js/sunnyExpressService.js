@@ -13,6 +13,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	var touristInfo = [];
 	var selectedCityPhotoSrc = undefined;
 	var dayOffset = 0;
+	var flights =[];
 
 	var weatherApiKey = "8e160eeab587455bb77133238172903";//"4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -23,6 +24,8 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	var googlePlacesReqUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters";
 
 	var googlePhotosReqUrl = "https://maps.googleapis.com/maps/api/place/photo?";
+
+	var skyscannerAPI = "https://crossorigin.me/http://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/:country/:currency/en-US/:depart/:arrive/anytime/anytime";
 
 	var baseConditions = [1000, 1006, 1189, 1219]; // Sunny, Cloudy, Moderate rain, Moderate snow
 	var weatherConditionResolveDB = {
@@ -395,8 +398,16 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 	};
 
 	this.setTouristInfo = function(data) {
+		this.getFlightPrices.get({depart: departCity.slice(0,4), arrive: selectedCity.slice(0,4)}, function(data) {
+			console.log(data);
+			flights = data.quotes.slice(0,3);
+		},
+		function(data) {
+			alert('error flight prices');
+			console.log(data);
+		});
 		touristInfo = data;
-	}
+	};
 
 	this.getTouristInfo = function() {
 		return touristInfo;
@@ -404,7 +415,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	this.setPictureSrc = function(pictureSrc) {
 		selectedCityPhotoSrc = pictureSrc;
-	}
+	};
 
 	this.getPictureSrc = function() {
 		return selectedCityPhotoSrc;
@@ -420,15 +431,16 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout) 
 
 	this.getColorEvent = function () {
 		return colorEvent;
-	}
+	};
 
 	this.setColorEvent = function(color) {
 		colorEvent = color;
-	}
+	};
 
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
+	this.getFlightPrices = $resource(skyscannerAPI, {country: "es", currency: "eur", depart: "@depart", arrive: "@arrive", apiKey: "su432392509767429345513163956199"});
 
 	var countryCitiesDb = {"France": [
 		{"name": "Paris", "lon":2.35236,"lat":48.856461},
