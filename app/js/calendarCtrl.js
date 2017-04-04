@@ -27,9 +27,16 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 		1219: "snow"
 	};
 
+	$scope.colorPanel = {
+		white: "white",
+		blue: "#99ccff",
+		green: "#66ff66",
+		purple: "#df80ff",
+		red: "#ff6666"
+	};
+
 	$scope.colorEvent = SunnyExpress.getColorEvent();
 
-//Have to click twice... solving in progress
 	$scope.changeColor = function(color) {
 		SunnyExpress.setColorEvent(color);
       	var trips = SunnyExpress.getTrips();
