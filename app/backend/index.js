@@ -67,6 +67,8 @@ app.get("/countries", function(req, res) {
 		for (var i = 0; i < docs.length; i++) {
 			countries.push(docs[i].name);
 		};
+		res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 		res.json(countries);
 	})
 });
@@ -79,12 +81,16 @@ app.get("/cities", function(req, res) {
 				cities.push(docs[i].cities[j].name);
 		 	};
 		};
+		res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 		res.json(cities.sort());
 	})
 });
 
 app.get("/citiesCountry/:country", function(req, res) {
 	countryCitiesDb.find({name:req.params.country}).toArray(function(err, docs) {
+		res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 		res.json(docs[0].cities);
 	})
 });
@@ -95,6 +101,8 @@ app.get("/baseConditions", function(req, res) {
 		for (var i = 0; i < docs.length; i++) {
 			baseConditions.push(docs[i].baseCode);
 		};
+		res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 		res.json(baseConditions);
 	})
 });
@@ -105,6 +113,8 @@ app.get("/aggregateConditions", function(req, res) {
 		for (var i = 0; i < docs.length; i++) {
 			weatherResolveDb[docs[i].baseCode] = docs[i].resolveCodes;
 		};
+		res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 		res.json(weatherResolveDb);
 	})
 });
@@ -115,6 +125,8 @@ app.get("/trips", function(req, res) {
 		for (var i = 0; i < docs.length; i++) {
 			trips[docs[i].id] = docs[i].trip;
 		};
+		res.header("Access-Control-Allow-Origin", "*");
+    	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 		res.json(trips);
 	})
 });
@@ -124,6 +136,8 @@ app.put("/addTrip", function(req, res) {
 	tripsHistoryDb.insert({"id": id,"trip":req.body[id]}, {w:1}, function(err, result) {
 		if(err) console.log(err);
 		else if(result.result.ok == 1) {
+			res.header("Access-Control-Allow-Origin", "*");
+    		res.header("Access-Control-Allow-Headers", "X-Requested-With");
 			res.json({"resp": "OK"});
 		}
 	});
@@ -133,6 +147,8 @@ app.delete("/deleteTrip/:id", function(req, res) {
 	tripsHistoryDb.remove({"id":req.params.id, }, {w:1}, function(err, result) {
 		if(err) console.log(err);
 		else if(result.result.ok == 1) {
+			res.header("Access-Control-Allow-Origin", "*");
+    		res.header("Access-Control-Allow-Headers", "X-Requested-With");
 			res.json({"resp": "OK"});
 		}
 	});

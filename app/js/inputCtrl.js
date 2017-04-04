@@ -4,6 +4,12 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 	 * Parameters and functions of location inputs
 	 */
 
+	if(SunnyExpress.getCities() == undefined) SunnyExpress.setCities($scope.$parent.$resolve.cities) ;
+	if(SunnyExpress.getCountries() == undefined) SunnyExpress.setCountries($scope.$parent.$resolve.countries);
+	if(SunnyExpress.getBaseConditions() == undefined) SunnyExpress.setBaseConditions($scope.$parent.$resolve.baseConditions);
+	if(SunnyExpress.getAggregateConditions() == undefined) SunnyExpress.setAggregateConditions($scope.$parent.$resolve.aggregateConditions);
+
+
 	$scope.selectedCity = SunnyExpress.getDepartCity() != undefined ? {
 		display: SunnyExpress.getDepartCity(),
 		value: SunnyExpress.getDepartCity().toLowerCase() }

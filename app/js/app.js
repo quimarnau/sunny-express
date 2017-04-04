@@ -9,7 +9,29 @@ sunnyExpressApp.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
 			when('/home', {
-				templateUrl: 'partials/home.html'
+				templateUrl: 'partials/home.html',
+				resolve: {
+					countries: function(SunnyExpress) {
+						return SunnyExpress.backendGetCountries.query().$promise.then(function(data){
+							return data;
+						});
+					},
+					cities: function(SunnyExpress) {
+						return SunnyExpress.backendGetCities.query().$promise.then(function(data){
+							return data;
+						});
+					},
+					baseConditions: function(SunnyExpress) {
+						return SunnyExpress.backendGetBaseConditions.query().$promise.then(function(data){
+							return data;
+						});
+					},
+					aggregateConditions: function(SunnyExpress) {
+						return SunnyExpress.backendGetAggregateConditions.get().$promise.then(function(data){
+							return data;
+						});
+					}
+				}
 			}).
 			when('/login', {
 				templateUrl: 'partials/login.html'
