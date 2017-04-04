@@ -55,24 +55,9 @@ var weatherConditionResolveDB = [{"baseCode": 1000, "resolveCodes": [1000,1003]}
 								{"baseCode": 1189, "resolveCodes": [1063,1087,1150,1153,1180,1183,1186,1189,1192,1195,1198,1201,1240,1243,1246,1273,1276]},
 								{"baseCode": 1219, "resolveCodes": [1069,1072,1114,1117,1168,1171,1204,1207,1210,1213,1216,1219,1225,1237,1249,1252,1255,1258,1261,1264,1279,1282]}];
 
-var tripsHistoryDb = {};
+var tripsHistoryDb = {}; // Format in DB - [{"id": "1", "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city}},
+						//		{"id": 2, "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city}}]
 
-var getCities = function() {
-	cities = [];
-	countries = getCountries();
-
-	for (var i = 0; i < countries.length; i++) {
-		for (var j = 0; j < countryCitiesDb[countries[i]].length; j++) {
-			cities.push(countryCitiesDb[countries[i]][j].name);
-		 }; 
-	};
-	return cities.sort();
-}
-
-
-var getCountryCities = function(country) {
-	return countryCitiesDb[country];
-}
 
 // --- Backend functions available ---
 
@@ -87,34 +72,69 @@ app.get("/countries", function(req, res) {
 });
 
 app.get("/cities", function(req, res) {
-	res.json(getCities());
+	countryCitiesDb.find({}).toArray(function(err, docs) {
+		var cities = [];
+		for (var i = 0; i < docs.length; i++) {
+			for (var j = 0; j < docs[i].cities.length; j++) {
+				cities.push(docs[i].cities[j].name);
+		 	};
+		};
+		res.json(cities.sort());
+	})
 });
 
 app.get("/citiesCountry/:country", function(req, res) {
-	res.json(getCountryCities(req.params.country));
+	countryCitiesDb.find({name:req.params.country}).toArray(function(err, docs) {
+		res.json(docs[0].cities);
+	})
 });
 
 app.get("/baseConditions", function(req, res) {
-	res.json(baseConditions);
+	weatherConditionsDb.find({}).toArray(function(err, docs) {
+		var baseConditions = [];
+		for (var i = 0; i < docs.length; i++) {
+			baseConditions.push(docs[i].baseCode);
+		};
+		res.json(baseConditions);
+	})
 });
 
 app.get("/aggregateConditions", function(req, res) {
-	res.json(weatherConditionResolveDB);
+	weatherConditionsDb.find({}).toArray(function(err, docs) {
+		var weatherResolveDb = {};
+		for (var i = 0; i < docs.length; i++) {
+			weatherResolveDb[docs[i].baseCode] = docs[i].resolveCodes;
+		};
+		res.json(weatherResolveDb);
+	})
 });
 
 app.get("/trips", function(req, res) {
-	res.json(tripsHistoryDb);
+	tripsHistoryDb.find({}).toArray(function(err, docs) {
+		var trips = {};
+		for (var i = 0; i < docs.length; i++) {
+			trips[docs[i].id] = docs[i].trip;
+		};
+		res.json(trips);
+	})
 });
 
 app.put("/addTrip", function(req, res) {
-	console.log(req.body);
-	res.json({"resp": "OK"});
+	id = Object.keys(req.body)[0];
+	tripsHistoryDb.insert({"id": id,"trip":req.body[id]}, {w:1}, function(err, result) {
+		if(err) console.log(err);
+		else if(result.result.ok == 1) {
+			res.json({"resp": "OK"});
+		}
+	});
 });
 
 app.delete("/deleteTrip/:id", function(req, res) {
-	if(req.params.id in tripsHistoryDb) {
-
-	}
-	res.json({"resp": "OK"});
+	tripsHistoryDb.remove({"id":req.params.id, }, {w:1}, function(err, result) {
+		if(err) console.log(err);
+		else if(result.result.ok == 1) {
+			res.json({"resp": "OK"});
+		}
+	});
 });
 
