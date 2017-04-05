@@ -129,7 +129,6 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
   				if (date.getDate() == tripDates[j].getDate()
   				&& date.getMonth() == tripDates[j].getMonth()
   				&& date.getFullYear() == tripDates[j].getFullYear()) {
-
   					var confirmDeletion = $mdDialog.confirm()
 			          .title('Do you really want us to delete your trip?')
 			          .textContent('Your trip to '+ trips[id].arriveCity + ' would be entirely deleted from your trips history.')
@@ -140,6 +139,22 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
   					$mdDialog.show(confirmDeletion).then(function() {
       					deletedTrip = trips[id];
       					SunnyExpress.removeTrip(id);
+
+      					if(SunnyExpress.getIsLoggedIn()) {
+							SunnyExpress.backendRemoveTrip.delete({"id":id}, function(data){
+								if(data.resp != "OK") {
+									$mdDialog.show(
+										$mdDialog.alert()
+											.parent(angular.element(document.querySelector('#general-view')))
+											.clickOutsideToClose(true)
+											.title('ERROR WHILE DELETING TRIP IN DB')
+											.textContent('The trip deleting in the DB was unsuccessful due to an error.')
+											.ariaLabel('Alert')
+											.ok('Got it!')
+									);
+								}
+							});
+						}
 
       					var d = new Date();
 				  		d.setTime(deletedTrip.start.getTime());
@@ -152,14 +167,9 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 				  		}
     				}, function() {
     				});
-  					
   				}
-  				
   			}
-  			
   		}
-
-  		
     };
 
 	$scope.onChange = function(state) {
