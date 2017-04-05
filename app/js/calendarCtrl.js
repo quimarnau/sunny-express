@@ -131,17 +131,15 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
   			
   		}
 
-  		var d = deletedTrip.start;
+  		var d = new Date();
+  		d.setTime(deletedTrip.start.getTime());
+
   		while (d.getTime() <= deletedTrip.end.getTime()) {
   			var tmp = new Date();
   			tmp.setDate(d.getDate() +1);
   			setCalendarContent(d, null);
   			d.setDate(tmp.getDate());	
   		}
-
-  		SunnyExpress.setDepartDate(deletedTrip.start);
-		SunnyExpress.setReturnDate(deletedTrip.end);
-  		
     };
 
 	$scope.onChange = function(state) {
