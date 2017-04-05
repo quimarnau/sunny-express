@@ -4,6 +4,12 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 	 * Parameters and functions of location inputs
 	 */
 
+	if(SunnyExpress.getCities() == undefined) SunnyExpress.setCities($scope.$parent.$resolve.cities) ;
+	if(SunnyExpress.getCountries() == undefined) SunnyExpress.setCountries($scope.$parent.$resolve.countries);
+	if(SunnyExpress.getBaseConditions() == undefined) SunnyExpress.setBaseConditions($scope.$parent.$resolve.baseConditions);
+	if(SunnyExpress.getAggregateConditions() == undefined) SunnyExpress.setAggregateConditions($scope.$parent.$resolve.aggregateConditions);
+
+
 	$scope.selectedCity = SunnyExpress.getDepartCity() != undefined ? {
 		display: SunnyExpress.getDepartCity(),
 		value: SunnyExpress.getDepartCity().toLowerCase() }
@@ -164,18 +170,19 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 		var numForecastDays = numDays + dayOffset;
 		SunnyExpress.setDayOffset(dayOffset);
 
-		var cities = SunnyExpress.getCountryCities(SunnyExpress.getArriveCountry());
-		var cityQueue = [];
+		SunnyExpress.backendGetCitiesCountry.query({"country":SunnyExpress.getArriveCountry()}).$promise.then(function(cities){
+			var citiesQueue = [];
 
-		for (var i = 0; i < cities.length; i++) {
-			cityQueue.push(searchWeatherCity(numForecastDays,cities[i]));
-		};
+			for (var i = 0; i < cities.length; i++) {
+				citiesQueue.push(searchWeatherCity(numForecastDays,cities[i]));
+			};
 
-		$q.all(cityQueue).then(function(data) {
-			$rootScope.searchPerformed = true;
-			$rootScope.$broadcast("loadingEvent",false);
-			SunnyExpress.setWeatherActiveCities(data);
-		})
+			$q.all(citiesQueue).then(function(data) {
+				$rootScope.searchPerformed = true;
+				$rootScope.$broadcast("loadingEvent",false);
+				SunnyExpress.setWeatherActiveCities(data,cities);
+			})			
+		});
 	}
 
 	var setWindPreference = function() {

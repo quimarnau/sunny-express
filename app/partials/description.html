@@ -63,10 +63,12 @@
             <div class="col-md-6"  style="max-height: 30vh; padding-left: 3%">
                 <h2>What to visit in {{getArriveCity()}}</h2>
                   <div style="max-height:110px;overflow-y: scroll">
-                    <p ng-repeat="act in getTouristInfo()">
-                        <img src="{{act.icon}}" class="md-18">
+                    <div ng-repeat="act in getTouristInfo()">
+                    <p>
+                        <img ng-src="{{act.icon}}" class="md-18">
                         {{act.name}}
                     </p>
+                  </div>
                   </div>
             </div>
             <div class="col-md-6" style="max-height: 30vh; padding-left: 3%">

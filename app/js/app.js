@@ -3,25 +3,54 @@
  * @type {angular.Module} Main module of sunny express app
  */
 var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', 'ngMaterial', 'ngMessages',
-'materialCalendar', 'uiGmapgoogle-maps', 'material.svgAssetsCache', 'directive.g+signin']);
+'materialCalendar', 'uiGmapgoogle-maps', 'material.svgAssetsCache', 'directive.g+signin'])
+	.config(['$routeProvider', function($routeProvider){
+
+		$routeProvider.accessWhen = function(path, route){
+			route.resolve = {
+						countries: function(SunnyExpress) {
+							return SunnyExpress.backendGetCountries.query().$promise.then(function(data){
+								return data;
+							});
+						},
+						cities: function(SunnyExpress) {
+							return SunnyExpress.backendGetCities.query().$promise.then(function(data){
+								return data;
+							});
+						},
+						baseConditions: function(SunnyExpress) {
+							return SunnyExpress.backendGetBaseConditions.query().$promise.then(function(data){
+								return data;
+							});
+						},
+						aggregateConditions: function(SunnyExpress) {
+							return SunnyExpress.backendGetAggregateConditions.get().$promise.then(function(data){
+								return data;
+							});
+						}
+					}
+			return $routeProvider.when(path, route);
+		  };   
+
+   }]);
 
 sunnyExpressApp.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
-			when('/home', {
+			accessWhen('/home', {
 				templateUrl: 'partials/home.html'
 			}).
-			when('/login', {
+			accessWhen('/login', {
 				templateUrl: 'partials/login.html'
 			}).
-			when('/search', {
+			accessWhen('/search', {
 				templateUrl: 'partials/search.html'
 			}).
-			when('/description/:cityName', {
+			accessWhen('/description/:cityName', {
 				templateUrl: 'partials/description.html',
 				controller: 'DescriptionCtrl'
 			}).
-			when('/calendar', {
+			accessWhen('/calendar', {
 				templateUrl: 'partials/calendar.html',
 				controller: 'CalendarCtrl'
 			}).

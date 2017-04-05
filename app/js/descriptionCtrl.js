@@ -1,28 +1,25 @@
 sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $rootScope, $timeout,SunnyExpress) {
 
-	$(function() {
-        $rootScope.$broadcast("loadingEvent",true);
-        var selectedCity = SunnyExpress.getSelectedCity();
-        if (selectedCity != undefined) {
-            var activeCities = SunnyExpress.getActiveCities();
-            var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
+    $rootScope.$broadcast("loadingEvent",true);
+    var selectedCity = SunnyExpress.getSelectedCity();
+    if (selectedCity != undefined) {
+        var activeCities = SunnyExpress.getActiveCities();
+        var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
 
-            service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
-            service.nearbySearch(
-                {location: latlong,
-                    radius: 5000,
-                    types: ['locality', 'museum', 'amusement_park', 'mosque', 'church']
-                },
-                function(results,status) {
-                    $timeout(function () {
-                        console.log(results);
-                        SunnyExpress.setTouristInfo(results.slice(1,10));
-                        SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({'maxWidth': 300}));
-                        $rootScope.$broadcast("loadingEvent",false);
-                    })
-                });
-        }
-    });
+        service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
+        service.nearbySearch(
+            {location: latlong,
+                radius: 5000,
+                types: ['locality', 'museum', 'amusement_park', 'mosque', 'church']
+            },
+            function(results,status) {
+                $timeout(function () {
+                    SunnyExpress.setTouristInfo(results.slice(1,10));
+                    SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({'maxWidth': 300}));
+                    $rootScope.$broadcast("loadingEvent",false);
+                })
+            });
+    }
 
 	// TODO: Move to model, map and description views using it
 	$scope.mapConditionIdName = {
