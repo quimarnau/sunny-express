@@ -7,7 +7,7 @@
     <div class="row" style="padding:10px">
       <calendar-md flex layout layout-fill
         calendar-direction="direction"
-        on-day-click="dayClick"
+        on-day-click="deleteTrip"
         title-format="'MMMM y'"
         ng-model='selectedDate'
         week-starts-on="firstDayOfWeek"
@@ -36,7 +36,7 @@
                 <p style="padding-top: 8px">Background color:</p>
               </div>
               <div class="col-md-8">
-                <md-button class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key)" style="background-color: {{color}};height: 20px;width: 20px;"></md-button>
+                <md-button class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key)" aria-label={{key}} style="background-color: {{color}};height: 20px;width: 20px;"></md-button>
               </div>
             </div>
           </div>
