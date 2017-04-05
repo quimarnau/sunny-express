@@ -35,6 +35,8 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 		red: "#ff6666"
 	};
 
+	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 	$scope.colorEvent = SunnyExpress.getColorEvent();
 
 		// //temporal trip for testing - to be removed afterwards
@@ -131,7 +133,10 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
   				&& date.getFullYear() == tripDates[j].getFullYear()) {
   					var confirmDeletion = $mdDialog.confirm()
 			          .title('Do you really want us to delete your trip?')
-			          .textContent('Your trip to '+ trips[id].arriveCity + ' would be entirely deleted from your trips history.')
+			          .textContent('Your trip to '+ trips[id].arriveCity +
+			          	' from ' + monthNames[trips[id].start.getMonth()] + ' '
+			          	+ trips[id].start.getDate() + ' to ' + monthNames[trips[id].end.getMonth()] + ' '
+			          	+ trips[id].end.getDate() + ' would be entirely deleted from your trips history.')
 			          .ariaLabel('Trip deletion')
 			          .ok('Please do it!')
 			          .cancel('No, thanks');
