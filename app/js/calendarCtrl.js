@@ -87,7 +87,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 
 
 		while (date.getTime() <= trip.end.getTime()) {
-			tmp = new Date();
+			var tmp = new Date();
 			tmp.setDate(date.getDate() + 1);
 			dates.push(tmp);
 			date = tmp;
@@ -118,7 +118,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
       var deletedTrip = {};
   		for (id in trips) {
   			var tripDates = getDatesTrip(trips[id]);
-  			for (j = 0; j < tripDates.length; j++) {
+  			for (var j = 0; j < tripDates.length; j++) {
   				if (date.getDate() == tripDates[j].getDate()
   				&& date.getMonth() == tripDates[j].getMonth()
   				&& date.getFullYear() == tripDates[j].getFullYear()) {
@@ -133,11 +133,14 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 
   		var d = deletedTrip.start;
   		while (d.getTime() <= deletedTrip.end.getTime()) {
-  			tmp = new Date();
+  			var tmp = new Date();
   			tmp.setDate(d.getDate() +1);
   			setCalendarContent(d, null);
   			d.setDate(tmp.getDate());	
   		}
+
+  		SunnyExpress.setDepartDate(deletedTrip.start);
+		SunnyExpress.setReturnDate(deletedTrip.end);
   		
     };
 
@@ -146,7 +149,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
   		var trips = SunnyExpress.getTrips();
   		for (id in trips) {
   			var tripDates = getDatesTrip(trips[id]);
-  			for (j = 0; j < tripDates.length; j++) {
+  			for (var j = 0; j < tripDates.length; j++) {
   				var dateState = getDateState(tripDates[j], trips[id]);
   				setCalendarContent(tripDates[j], dateState);
   			}
@@ -159,7 +162,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
       	var trips = SunnyExpress.getTrips();
   		for (id in trips) {
   			var tripDates = getDatesTrip(trips[id]);
-  			for (j = 0; j < tripDates.length; j++) {
+  			for (var j = 0; j < tripDates.length; j++) {
   				var dateState = getDateState(tripDates[j], trips[id]);
   				setCalendarContent(tripDates[j], dateState);
   			}
