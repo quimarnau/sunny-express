@@ -13,6 +13,8 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var touristInfo = [];
 	var selectedCityPhotoSrc = undefined;
 	var dayOffset = 0;
+	var userId = undefined; // Userid from login
+	var isLoggedIn = false; // set this flag to true if logged in
 
 	var weatherApiKey = "8e160eeab587455bb77133238172903";//"4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -39,6 +41,22 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	// User preferences concerning the claedar view, to be moved to the back end
 	var forecastDisplay = true;
 	var colorEvent = "white"; // background color: white, blue, green, purple, red
+
+	this.setUserId = function(id) {
+		userId = id;
+	};
+
+	this.getUserId = function() {
+		return userId;
+	};
+
+	this.setIsLoggedIn = function(flag) {
+		isLoggedIn = flag;
+	};
+
+	this.getIsLoggedIn = function() {
+		return isLoggedIn;
+	};
 
 	this.setForecastDisplay = function(state) {
 		forecastDisplay = state;
@@ -97,6 +115,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.addNewTrip = function(trip) {
 		var newId = Object.keys(tripsHistoryDb).length != 0 ? Math.max.apply(Math,Object.keys(tripsHistoryDb)) + 1 : 0;
 		tripsHistoryDb[newId] = trip;
+		return newId;
 	}
 
 	this.resolveWeatherCondition = function(id, idToCheck) {
@@ -448,6 +467,9 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendGetBaseConditions = $resource(backendBaseUrl+"baseConditions");
 	this.backendGetAggregateConditions = $resource(backendBaseUrl+"aggregateConditions");
 	this.backendGetCitiesCountry = $resource(backendBaseUrl+"citiesCountry/:country");
+	this.backendGetTrips = $resource(backendBaseUrl+"trips");
+	this.backendAddTrip = $resource(backendBaseUrl+"addTrip",{}, { create: { method: "POST", headers: { "Content-Type": "application/json"}}});
+	this.backendRemoveTrip = $resource(backendBaseUrl+"deleteTrip/:id");
 
 	return this;
 });
