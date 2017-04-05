@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpress, MaterialCalendarData) {
+sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, SunnyExpress, MaterialCalendarData) {
 	$scope.dayFormat = "d";
 	$scope.selectedDate = new Date();
 	$scope.tooltips = true;
@@ -113,6 +113,13 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
 			};		
 	};
 
+
+    // Appending dialog to document.body to cover sidenav in docs app
+    
+
+    
+
+
 	$scope.deleteTrip = function(date) {
       var trips = SunnyExpress.getTrips();
       var deletedTrip = {};
@@ -122,24 +129,37 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, SunnyExpres
   				if (date.getDate() == tripDates[j].getDate()
   				&& date.getMonth() == tripDates[j].getMonth()
   				&& date.getFullYear() == tripDates[j].getFullYear()) {
-  					deletedTrip = trips[id];
-  					SunnyExpress.removeTrip(id);
-  					break;
+
+  					var confirmDeletion = $mdDialog.confirm()
+			          .title('Do you really want us to delete your trip?')
+			          .textContent('Your trip to '+ trips[id].arriveCity + ' would be entirely deleted from your trips history.')
+			          .ariaLabel('Trip deletion')
+			          .ok('Please do it!')
+			          .cancel('No, thanks');
+
+  					$mdDialog.show(confirmDeletion).then(function() {
+      					deletedTrip = trips[id];
+      					SunnyExpress.removeTrip(id);
+
+      					var d = new Date();
+				  		d.setTime(deletedTrip.start.getTime());
+
+				  		while (d.getTime() <= deletedTrip.end.getTime()) {
+				  			var tmp = new Date();
+				  			tmp.setDate(d.getDate() +1);
+				  			setCalendarContent(d, null);
+				  			d.setDate(tmp.getDate());	
+				  		}
+    				}, function() {
+    				});
+  					
   				}
   				
   			}
   			
   		}
 
-  		var d = new Date();
-  		d.setTime(deletedTrip.start.getTime());
-
-  		while (d.getTime() <= deletedTrip.end.getTime()) {
-  			var tmp = new Date();
-  			tmp.setDate(d.getDate() +1);
-  			setCalendarContent(d, null);
-  			d.setDate(tmp.getDate());	
-  		}
+  		
     };
 
 	$scope.onChange = function(state) {
