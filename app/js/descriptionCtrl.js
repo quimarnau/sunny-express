@@ -70,8 +70,8 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
 
 		var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
 
-		var newId = SunnyExpress.addNewTrip(trip);
 		if(SunnyExpress.getIsLoggedIn()) {
+			var newId = SunnyExpress.addNewTrip(trip);
 			var data = {};
 			data[newId] = trip;
 			SunnyExpress.backendAddTrip.create({"userId": SunnyExpress.getUserId()},data, function(data){
@@ -98,6 +98,7 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
 				.cancel('Okay I will log in first');
 
 			$mdDialog.show(confirm).then(function() {
+				var newId = SunnyExpress.addNewTrip(trip);
 				$scope.goToCalendar();
 			}, function() {
 			});
