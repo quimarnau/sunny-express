@@ -74,7 +74,7 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
 		if(SunnyExpress.getIsLoggedIn()) {
 			var data = {};
 			data[newId] = trip;
-			SunnyExpress.backendAddTrip.create(data, function(data){
+			SunnyExpress.backendAddTrip.create({"userId": SunnyExpress.getUserId()},data, function(data){
 				if(data.resp != "OK") {
 					$mdDialog.show(
 						$mdDialog.alert()

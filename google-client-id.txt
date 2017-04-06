@@ -1,4 +1,4 @@
 Client ID
-644517138642-t17m3v4l7vcju35q6ggtsn5jntj97q43.apps.googleusercontent.com
+456204887534-ljgijh6r5bntkad13kbrfv770gcatdfl.apps.googleusercontent.com
 Client secret
-zPTzUbmnPaE80EUin8MuFAfB
+m8fUHKzv1j5H8r9bb2JCKzL4

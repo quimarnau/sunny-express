@@ -146,7 +146,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
       					SunnyExpress.removeTrip(id);
 
       					if(SunnyExpress.getIsLoggedIn()) {
-							SunnyExpress.backendRemoveTrip.delete({"id":id}, function(data){
+							SunnyExpress.backendRemoveTrip.delete({"id":id, "userId": SunnyExpress.getUserId()}, function(data){
 								if(data.resp != "OK") {
 									$mdDialog.show(
 										$mdDialog.alert()

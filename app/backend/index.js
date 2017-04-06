@@ -111,19 +111,20 @@ app.get("/aggregateConditions", function(req, res) {
 	})
 });
 
-app.get("/trips", function(req, res) {
-	tripsHistoryDb.find({}).toArray(function(err, docs) {
+app.get("/trips/:userId", function(req, res) {
+	tripsHistoryDb.find({"userId":req.params.userId}).toArray(function(err, docs) {
 		var trips = {};
 		for (var i = 0; i < docs.length; i++) {
 			trips[docs[i].id] = docs[i].trip;
 		};
-		res.json(trips);
+		res.json({"data": trips});
 	})
 });
 
-app.post("/addTrip", function(req, res) {
+app.post("/addTrip/:userId", function(req, res) {
 	id = Object.keys(req.body)[0];
-	tripsHistoryDb.insert({"id": id,"trip":req.body[id]}, {w:1}, function(err, result) {
+	console.log(req.params.userId);
+	tripsHistoryDb.insert({"id": id,"trip":req.body[id], "userId":req.params.userId}, {w:1}, function(err, result) {
 		if(err) console.log(err);
 		else if(result.result.ok == 1) {
 			res.json({"resp": "OK"});
@@ -131,8 +132,9 @@ app.post("/addTrip", function(req, res) {
 	});
 });
 
-app.delete("/deleteTrip/:id", function(req, res) {
-	tripsHistoryDb.remove({"id":req.params.id, }, {w:1}, function(err, result) {
+app.delete("/deleteTrip/:userId/:id", function(req, res) {
+	console.log(req.params.userId);
+	tripsHistoryDb.remove({"userId": req.params.userId,"id":req.params.id}, {w:1}, function(err, result) {
 		if(err) console.log(err);
 		else if(result.result.ok == 1) {
 			res.json({"resp": "OK"});

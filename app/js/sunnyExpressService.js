@@ -87,6 +87,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return tripsHistoryDb;
 	}
 
+	this.setTrips = function(trips) {
+		tripsHistoryDb = trips;
+	}
+
 	this.getTripForDay = function(checkDate) {
 		for (tripId in tripsHistoryDb) {
 			if (checkDate.toDateString() === tripsHistoryDb[tripId].start.toDateString())
@@ -467,9 +471,9 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendGetBaseConditions = $resource(backendBaseUrl+"baseConditions");
 	this.backendGetAggregateConditions = $resource(backendBaseUrl+"aggregateConditions");
 	this.backendGetCitiesCountry = $resource(backendBaseUrl+"citiesCountry/:country");
-	this.backendGetTrips = $resource(backendBaseUrl+"trips");
-	this.backendAddTrip = $resource(backendBaseUrl+"addTrip",{}, { create: { method: "POST", headers: { "Content-Type": "application/json"}}});
-	this.backendRemoveTrip = $resource(backendBaseUrl+"deleteTrip/:id");
+	this.backendGetTrips = $resource(backendBaseUrl+"trips/:userId");
+	this.backendAddTrip = $resource(backendBaseUrl+"addTrip/:userId",{}, { create: { method: "POST", headers: { "Content-Type": "application/json"}}});
+	this.backendRemoveTrip = $resource(backendBaseUrl+"deleteTrip/:userId/:id");
 
 	return this;
 });
