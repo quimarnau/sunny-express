@@ -14,5 +14,5 @@ TO DISCUSS / BUGS / MINOR CONCERNS
 - Majority vote in case of tie
 - DONE - Feedback when there's no match for the query
 - DONE - Errors in icons of places to visit
-- Feedback if the trips are overlapping when you click on yes I go. -> Mat
+- DONE - Feedback if the trips are overlapping when you click on yes I go. -> Mat
 

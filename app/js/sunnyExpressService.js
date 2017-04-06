@@ -91,6 +91,20 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		tripsHistoryDb = trips;
 	}
 
+	this.checkTripOverlap = function(trip) {
+		var d = new Date();
+  		d.setTime(trip.start.getTime());
+
+  		while (d.getTime() <= trip.end.getTime()) {
+  			var tripStatus = this.getTripForDay(d);
+  			if(tripStatus != null) {
+  				return tripStatus.data;
+  			}
+  			d.setDate(d.getDate() + 1);	
+  		}
+  		return null;
+	}
+
 	this.getTripForDay = function(checkDate) {
 		for (tripId in tripsHistoryDb) {
 			if (checkDate.toDateString() === tripsHistoryDb[tripId].start.toDateString())
