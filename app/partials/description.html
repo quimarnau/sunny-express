@@ -73,7 +73,13 @@
             </div>
             <div class="col-md-6" style="max-height: 30vh; padding-left: 3%">
             <h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>
-            <p>...</p>
+              <div style="max-height:110px;overflow-y: scroll">
+                <div ng-repeat="quote in getQuotes()">
+                    <p>From {{quote.MinPrice}} {{getFlights.currencies[0].code}}</p>
+                    <p> Depart: {{getFlights.places[quote.InboundLeg.OriginId].Name}} - {{getFlights.places[quotes.InboundLeg.DestinationId].Name}} {{getFlights.carriers[quotes.InboundLeg.CarrierIds[0]].name}} </p>
+                    <p> Arrive: {{getFlights.places[quote.OutboundLeg.OriginId].Name}} - {{getFlights.places[quotes.OutboundLeg.DestinationId].Name}} {{getFlights.carriers[quotes.OutboundLeg.CarrierIds[0]].name}} </p>
+                </div>
+              </div>
             </div>
       </div>
 

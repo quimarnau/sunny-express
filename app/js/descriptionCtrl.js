@@ -18,6 +18,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 					$rootScope.$broadcast("loadingEvent",false);
 				})
 			});
+		SunnyExpress.setFlights();
 	}
 
 	// TODO: Move to model, map and description views using it
@@ -27,6 +28,11 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 		1189: "rain",
 		1219: "snow"
 	};
+
+    $scope.getQuotes = function() {
+        $scope.getFlights = SunnyExpress.getFlights();
+        return $scope.getFlights.quotes;
+    };
 
 	$scope.cityPic = function() {
 		return SunnyExpress.getPictureSrc();
