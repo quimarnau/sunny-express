@@ -27,7 +27,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	var googlePhotosReqUrl = "https://maps.googleapis.com/maps/api/place/photo?";
 
-    var skyscannerAPI = "https://crossorigin.me/http://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/:country/:currency/en-US/:depart/:arrive/anytime/anytime";
+    var skyscannerAPI = "https://crossorigin.me/http://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/:country/:currency/en-US/:depart/:arrive/:departureDate/:arriveDate";
 
 	var backendBaseUrl = "http://localhost:3000/";
 
@@ -439,28 +439,23 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return touristInfo;
 	};
 
-	this.setFlights = function () {
-        this.getFlightPrices.get({depart: departCity.slice(0,4), arrive: selectedCity.slice(0,4)}, function(data) {
-        	$timeout(function() {
-                flightInfo = {};
-                flightInfo.quotes = data.Quotes.slice(0,3);
-                flightInfo.carriers = {};
-                for (var i = 0; i < data.Carriers.length; ++i)
-                    flightInfo.carriers[data.Carriers[i].CarrierId] = {name: data.Carriers[i].Name};
-                flightInfo.currencies = [];
-                for (var i = 0; i < data.Currencies.length; ++i)
-                    flightInfo.currencies.push({code: data.Currencies[i].Code, symbol: data.Currencies[i].Symbol});
-                flightInfo.places = {};
-                for (var i = 0; i < data.Places.length; ++i)
-                    flightInfo.places[data.Places[i].PlaceId] = data.Places[i];
-                flightInfo.quotes.sort(function(a,b) {return a.MinPrice-b.MinPrice;});
-                console.log(flightInfo);
-            })
-            },
-            function(data) {
-                alert('error flight prices');
-                console.log(data);
-            });
+	this.date2yyyymmdd = function (date) {
+        var yyyy = date.getFullYear();
+        var mm = date.getMonth() + 1;
+        var dd = date.getDate();
+        return yyyy.toString() + '-' + (mm < 10 ? '0' : '') + mm.toString() + '-' + (dd < 10 ? '0' : '') + dd.toString();
+    };
+
+	this.searchFlights = function (successCallback, errorCallback) {
+        var departDate = this.date2yyyymmdd(this.getDepartDate());
+        //console.log(departDate);
+        var arriveDate = this.date2yyyymmdd(this.getReturnDate());
+        //console.log(arriveDate);
+        this.getFlightPrices.get({depart: departCity.slice(0,4), arrive: selectedCity.slice(0,4), departureDate: departDate, arriveDate: arriveDate}, successCallback,errorCallback);
+	};
+
+	this.setFlights = function(data) {
+		flightInfo = data;
 	};
 
 	this.getFlights = function () {
@@ -510,7 +505,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
-    this.getFlightPrices = $resource(skyscannerAPI, {country: "es", currency: "eur", depart: "@depart", arrive: "@arrive", apiKey: "su432392509767429345513163956199"});
+    this.getFlightPrices = $resource(skyscannerAPI, {country: "es", currency: "eur", depart: "@depart", arrive: "@arrive", departureDate: "@departureDate", arriveDate: "@arriveDate", apiKey: "su432392509767429345513163956199"});
 
 	this.backendGetCountries = $resource(backendBaseUrl+"countries");
 	this.backendGetCities = $resource(backendBaseUrl+"cities");

@@ -1,7 +1,9 @@
 sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $rootScope, $timeout, $mdDialog, SunnyExpress) {
 	$rootScope.$broadcast("loadingEvent",true);
+	$scope.thereAreFlights = true;
 	var selectedCity = SunnyExpress.getSelectedCity();
 	if (selectedCity != undefined) {
+		$scope.firstApiFinished = false;
 		var activeCities = SunnyExpress.getActiveCities();
 		var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
 
@@ -15,10 +17,49 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 				$timeout(function () {
 					SunnyExpress.setTouristInfo(results.slice(1,10));
 					SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({"maxWidth": 300}));
-					$rootScope.$broadcast("loadingEvent",false);
+					if ($scope.firstApiFinished) {
+                        $rootScope.$broadcast("loadingEvent", false);
+                    } else {
+						$scope.firstApiFinished = true;
+					}
 				})
 			});
-		SunnyExpress.setFlights();
+		SunnyExpress.searchFlights(function(data) {
+            $timeout(function() {
+                var flightInfo = {};
+                flightInfo.quotes = data.Quotes.filter(function(quote) {
+                	return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
+				});
+                if (flightInfo.quotes.length >= 1) {
+                	$scope.thereAreFlights = true;
+                    flightInfo.carriers = {};
+                    for (var i = 0; i < data.Carriers.length; ++i)
+                        flightInfo.carriers[data.Carriers[i].CarrierId] = {name: data.Carriers[i].Name};
+                    flightInfo.currencies = [];
+                    for (var i = 0; i < data.Currencies.length; ++i)
+                        flightInfo.currencies.push({code: data.Currencies[i].Code, symbol: data.Currencies[i].Symbol});
+                    flightInfo.places = {};
+                    for (var i = 0; i < data.Places.length; ++i)
+                        flightInfo.places[data.Places[i].PlaceId] = data.Places[i];
+                    flightInfo.quotes.sort(function (a, b) {
+                        return a.MinPrice - b.MinPrice;
+                    }).slice(0, 3);
+                    console.log(flightInfo);
+                    SunnyExpress.setFlights(flightInfo);
+                } else {
+                	$scope.thereAreFlights = false;
+				}
+                if ($scope.firstApiFinished) {
+                    $rootScope.$broadcast("loadingEvent", false);
+                } else {
+                    $scope.firstApiFinished = true;
+                }
+            })
+        },
+            function(data) {
+                alert('error flight prices');
+                console.log(data);
+            });
 	}
 
 	// TODO: Move to model, map and description views using it

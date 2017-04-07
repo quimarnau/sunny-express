@@ -74,10 +74,14 @@
             <div class="col-md-6" style="max-height: 30vh; padding-left: 3%">
             <h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>
               <div style="max-height:110px;overflow-y: scroll">
-                <div ng-repeat="quote in getQuotes()">
-                    <p>From {{quote.MinPrice}} {{getFlights.currencies[0].code}}</p>
-                    <p> Depart: {{getFlights.places[quote.InboundLeg.OriginId].Name}} - {{getFlights.places[quotes.InboundLeg.DestinationId].Name}} {{getFlights.carriers[quotes.InboundLeg.CarrierIds[0]].name}} </p>
-                    <p> Arrive: {{getFlights.places[quote.OutboundLeg.OriginId].Name}} - {{getFlights.places[quotes.OutboundLeg.DestinationId].Name}} {{getFlights.carriers[quotes.OutboundLeg.CarrierIds[0]].name}} </p>
+                <div ng-if="thereAreFlights" ng-repeat="quote in getQuotes()">
+                    <p>From {{quote.MinPrice}} {{getFlights.currencies[0].symbol}}</p>
+                  <p>{{getFlights.carriers[quote.OutboundLeg.CarrierIds[0]].name}}: {{getFlights.places[quote.OutboundLeg.OriginId].Name}} to {{getFlights.places[quote.OutboundLeg.DestinationId].Name}} </p>
+                  <p>{{getFlights.carriers[quote.InboundLeg.CarrierIds[0]].name}}: {{getFlights.places[quote.InboundLeg.OriginId].Name}} to {{getFlights.places[quote.InboundLeg.DestinationId].Name}} </p>
+                  <hr style="color: black">
+                </div>
+                <div ng-if="thereAreFlights==false">
+                  <p>There are no flights available for the dates selected.</p>
                 </div>
               </div>
             </div>
