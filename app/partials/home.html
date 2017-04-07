@@ -9,15 +9,18 @@
       <div class="col-md-8 col-md-offset-2" ng-controller="InputCtrl as ctrl">
 
         <div class="row" id="header-form-home">
-
-          <div class="col-md-8 col-md-offset-2" align="center">
-            <img id="logo-home" src="../images/logo.png">
-            <p id="welcomingTitle">Welcome to SunnyExpress search!</p>
-            <p id="welcomingTxt"> Please, enter your dreaming weather conditions and locations for your short notice trip and we will help you find it for real! </p>
-          </div>
-          <div class="col-md-1">
-            <img src="../images/help.svg" style = "height:20px;width: 20px;">
-          </div>  
+          
+            <div class="col-md-8 col-md-offset-2" align="center">
+              <img id="logo-home" src="../images/logo.png">            
+              <p id="welcomingTitle">Welcome to SunnyExpress search!</p>
+              <p id="welcomingTxt"> Please, enter your dreaming weather conditions and locations for your short notice trip and we will help you find it for real! </p>
+            </div>
+            <div class="col-md-1" align="center" style="padding-top: 65px">
+              <md-button  ng-mouseover="helpDisplay()" ng-click="helpDisplay()">
+                <img src="../images/help.svg" style = "height:20px;width: 20px;">
+              </md-button>
+            </div> 
+          
         </div>
     <!-- TODO: Reorganize so that fit on smaller screens = fix the alignment of calendar other way... -->
 
