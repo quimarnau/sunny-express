@@ -35,8 +35,6 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 		red: "#ff6666"
 	};
 
-	var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
 	$scope.colorEvent = SunnyExpress.getColorEvent();
 
 		// //temporal trip for testing - to be removed afterwards
@@ -116,36 +114,36 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	};
 
 
-    // Appending dialog to document.body to cover sidenav in docs app
-    
+	// Appending dialog to document.body to cover sidenav in docs app
+	
 
-    
+	
 
 
 	$scope.deleteTrip = function(date) {
-      var trips = SunnyExpress.getTrips();
-      var deletedTrip = {};
-  		for (id in trips) {
-  			var tripDates = getDatesTrip(trips[id]);
-  			for (var j = 0; j < tripDates.length; j++) {
-  				if (date.getDate() == tripDates[j].getDate()
-  				&& date.getMonth() == tripDates[j].getMonth()
-  				&& date.getFullYear() == tripDates[j].getFullYear()) {
-  					var confirmDeletion = $mdDialog.confirm()
-			          .title('Do you really want us to delete your trip?')
-			          .textContent('Your trip to '+ trips[id].arriveCity +
-			          	' from ' + monthNames[trips[id].start.getMonth()] + ' '
-			          	+ trips[id].start.getDate() + ' to ' + monthNames[trips[id].end.getMonth()] + ' '
-			          	+ trips[id].end.getDate() + ' would be entirely deleted from your trips history.')
-			          .ariaLabel('Trip deletion')
-			          .ok('Please do it!')
-			          .cancel('No, thanks');
+	  var trips = SunnyExpress.getTrips();
+	  var deletedTrip = {};
+		for (id in trips) {
+			var tripDates = getDatesTrip(trips[id]);
+			for (var j = 0; j < tripDates.length; j++) {
+				if (date.getDate() == tripDates[j].getDate()
+				&& date.getMonth() == tripDates[j].getMonth()
+				&& date.getFullYear() == tripDates[j].getFullYear()) {
+					var confirmDeletion = $mdDialog.confirm()
+					  .title('Do you really want us to delete your trip?')
+					  .textContent('Your trip to '+ trips[id].arriveCity +
+						' from ' + trips[id].start.toLocaleString("en-us",{month: "long"}) + ' '
+						+ trips[id].start.getDate() + ' to ' + trips[id].end.toLocaleString("en-us",{month: "long"}) + ' '
+						+ trips[id].end.getDate() + ' would be entirely deleted from your trips history.')
+					  .ariaLabel('Trip deletion')
+					  .ok('Please do it!')
+					  .cancel('No, thanks');
 
-  					$mdDialog.show(confirmDeletion).then(function() {
-      					deletedTrip = trips[id];
-      					SunnyExpress.removeTrip(id);
+					$mdDialog.show(confirmDeletion).then(function() {
+						deletedTrip = trips[id];
+						SunnyExpress.removeTrip(id);
 
-      					if(SunnyExpress.getIsLoggedIn()) {
+						if(SunnyExpress.getIsLoggedIn()) {
 							SunnyExpress.backendRemoveTrip.delete({"id":id, "userId": SunnyExpress.getUserId()}, function(data){
 								if(data.resp != "OK") {
 									$mdDialog.show(
@@ -161,46 +159,46 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 							});
 						}
 
-      					var d = new Date();
-				  		d.setTime(deletedTrip.start.getTime());
+						var d = new Date();
+						d.setTime(deletedTrip.start.getTime());
 
-				  		while (d.getTime() <= deletedTrip.end.getTime()) {
-				  			var tmp = new Date();
-				  			tmp.setDate(d.getDate() +1);
-				  			setCalendarContent(d, null);
-				  			d.setDate(tmp.getDate());	
-				  		}
-    				}, function() {
-    				});
-  				}
-  			}
-  		}
-    };
+						while (d.getTime() <= deletedTrip.end.getTime()) {
+							var tmp = new Date();
+							tmp.setDate(d.getDate() +1);
+							setCalendarContent(d, null);
+							d.setDate(tmp.getDate());	
+						}
+					}, function() {
+					});
+				}
+			}
+		}
+	};
 
 	$scope.onChange = function(state) {
-  		SunnyExpress.setForecastDisplay(!state);
-  		var trips = SunnyExpress.getTrips();
-  		for (id in trips) {
-  			var tripDates = getDatesTrip(trips[id]);
-  			for (var j = 0; j < tripDates.length; j++) {
-  				var dateState = getDateState(tripDates[j], trips[id]);
-  				setCalendarContent(tripDates[j], dateState);
-  			}
-  			
-  		}
-  	};
+		SunnyExpress.setForecastDisplay(!state);
+		var trips = SunnyExpress.getTrips();
+		for (id in trips) {
+			var tripDates = getDatesTrip(trips[id]);
+			for (var j = 0; j < tripDates.length; j++) {
+				var dateState = getDateState(tripDates[j], trips[id]);
+				setCalendarContent(tripDates[j], dateState);
+			}
+			
+		}
+	};
 
-    $scope.changeColor = function(color) {
+	$scope.changeColor = function(color) {
 		SunnyExpress.setColorEvent(color);
-      	var trips = SunnyExpress.getTrips();
-  		for (id in trips) {
-  			var tripDates = getDatesTrip(trips[id]);
-  			for (var j = 0; j < tripDates.length; j++) {
-  				var dateState = getDateState(tripDates[j], trips[id]);
-  				setCalendarContent(tripDates[j], dateState);
-  			}
-  			
-  		}
-    };
+		var trips = SunnyExpress.getTrips();
+		for (id in trips) {
+			var tripDates = getDatesTrip(trips[id]);
+			for (var j = 0; j < tripDates.length; j++) {
+				var dateState = getDateState(tripDates[j], trips[id]);
+				setCalendarContent(tripDates[j], dateState);
+			}
+			
+		}
+	};
 
 });
