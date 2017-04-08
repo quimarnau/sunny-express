@@ -27,6 +27,11 @@ var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', '
 					return SunnyExpress.backendGetAggregateConditions.get().$promise.then(function(data){
 						return data;
 					});
+				},
+				iataCodesAirlines: function(SunnyExpress) {
+					return SunnyExpress.backendGetIataCodesAirlines.query().$promise.then(function(data){
+						return data;
+					});
 				}
 			}
 			return $routeProvider.when(path, route);

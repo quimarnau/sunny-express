@@ -8,6 +8,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 	if(SunnyExpress.getCountries() == undefined) SunnyExpress.setCountries($scope.$parent.$resolve.countries);
 	if(SunnyExpress.getBaseConditions() == undefined) SunnyExpress.setBaseConditions($scope.$parent.$resolve.baseConditions);
 	if(SunnyExpress.getAggregateConditions() == undefined) SunnyExpress.setAggregateConditions($scope.$parent.$resolve.aggregateConditions);
+	if(SunnyExpress.getIataCodesAirlines() == undefined) SunnyExpress.setIataCodesAirlines($scope.$parent.$resolve.iataCodesAirlines);
 
 
 	$scope.selectedCity = SunnyExpress.getDepartCity() != undefined ? {
