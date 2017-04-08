@@ -227,8 +227,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 
 	 var help = {
 	      templateUrl: 'partials/help.html',
-	      clickOutsideToClose:true,
-	      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	      clickOutsideToClose:true
 	    }
 
 	 $scope.helpDisplay = function () {
