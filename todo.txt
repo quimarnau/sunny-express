@@ -1,17 +1,9 @@
 TODO
-- DONE - Backend (on going, integrating with the model, chaching...) -> Mat
-- DONE - Users and log in (via Google maybe) -> Quim, Aleix 
-- DONE - What to visit? (hotels) -> Aleix 
-- DONE - Calendar interaction (color, etc.) -> Laura // Can be further fine tuning
-- DONE - Helping the user with the input (?) -> Laura
+- Users and log in (via Google maybe) -> Quim, Aleix 
+- Calendar interaction (color, etc.) -> Laura // Can be further fine tuning
 - Profile view(you can display user information what is now retrieved) + login.html, making it nice -> Quim
+- Flights -> Aleix, Quim - Make it nice, correct feedback
 - Database of countries -> Mat, Quim, Aleix
-- Styling -> Everyone
-- Flights -> Aleix, Quim
-- DONE - After login implementation trip data saving revising for userid
 
 TO DISCUSS / BUGS / MINOR CONCERNS
 - Majority vote in case of tie
-- DONE - Feedback when there's no match for the query
-- DONE - Errors in icons of places to visit
-- DONE - Feedback if the trips are overlapping when you click on yes I go. -> Mat
