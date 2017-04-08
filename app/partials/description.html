@@ -75,13 +75,19 @@
             <h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>
               <div style="max-height:110px;overflow-y: scroll">
                 <div ng-if="thereAreFlights" ng-repeat="quote in getQuotes()">
+                  <div class="col-md-8">
                     <p>From {{quote.MinPrice}} {{getFlights.currencies[0].symbol}}</p>
-                  <p>{{getFlights.carriers[quote.OutboundLeg.CarrierIds[0]].name}}: {{getFlights.places[quote.OutboundLeg.OriginId].Name}} to {{getFlights.places[quote.OutboundLeg.DestinationId].Name}} </p>
-                  <p>{{getFlights.carriers[quote.InboundLeg.CarrierIds[0]].name}}: {{getFlights.places[quote.InboundLeg.OriginId].Name}} to {{getFlights.places[quote.InboundLeg.DestinationId].Name}} </p>
+                    <p>{{getFlights.carriers[quote.OutboundLeg.CarrierIds[0]].name}}: {{getFlights.places[quote.OutboundLeg.OriginId].Name}} to {{getFlights.places[quote.OutboundLeg.DestinationId].Name}} </p>
+                    <p>{{getFlights.carriers[quote.InboundLeg.CarrierIds[0]].name}}: {{getFlights.places[quote.InboundLeg.OriginId].Name}} to {{getFlights.places[quote.InboundLeg.DestinationId].Name}} </p>
+                  </div>
+                  <div class="col-md-4">
+                    <img ng-src="{{getFlights.carriers[quote.OutboundLeg.CarrierIds[0]].imageSrc}}" style="max-height: 60px">
+                    <img ng-src="{{getFlights.carriers[quote.InboundLeg.CarrierIds[0]].imageSrc}}" style="max-height: 60px">
+                  </div>
                   <hr style="color: black">
                 </div>
                 <div ng-if="thereAreFlights==false">
-                  <p>There are no flights available for the dates selected.</p>
+                  <p>{{status}}</p>
                 </div>
               </div>
             </div>

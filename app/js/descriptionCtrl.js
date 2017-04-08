@@ -1,6 +1,8 @@
 sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $rootScope, $timeout, $mdDialog, SunnyExpress) {
 	$rootScope.$broadcast("loadingEvent",true);
-	$scope.thereAreFlights = true;
+	$scope.thereAreFlights = false;
+	$scope.status = "Loading...";
+
 	var selectedCity = SunnyExpress.getSelectedCity();
 	if (selectedCity != undefined) {
 		$scope.firstApiFinished = false;
@@ -17,11 +19,12 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 				$timeout(function () {
 					SunnyExpress.setTouristInfo(results.slice(1,10));
 					SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({"maxWidth": 300}));
-					if ($scope.firstApiFinished) {
+                    $rootScope.$broadcast("loadingEvent", false);
+					/*if ($scope.firstApiFinished) {
                         $rootScope.$broadcast("loadingEvent", false);
                     } else {
 						$scope.firstApiFinished = true;
-					}
+					}*/
 				})
 			});
 		SunnyExpress.searchFlights(function(data) {
@@ -33,8 +36,16 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                 if (flightInfo.quotes.length >= 1) {
                 	$scope.thereAreFlights = true;
                     flightInfo.carriers = {};
-                    for (var i = 0; i < data.Carriers.length; ++i)
-                        flightInfo.carriers[data.Carriers[i].CarrierId] = {name: data.Carriers[i].Name};
+                    for (var i = 0; i < data.Carriers.length; ++i) {
+                    	var iataObj = SunnyExpress.getIataCodesAirlines().filter(function (carrier) {
+                            return carrier.name.toLowerCase() == data.Carriers[i].Name.toLowerCase();
+                        })[0];
+                        flightInfo.carriers[data.Carriers[i].CarrierId] = {
+                            name: data.Carriers[i].Name,
+                            iata: (iataObj == undefined ? undefined : iataObj.iata),
+							imageSrc: iataObj == undefined ? undefined : "http://pics.avs.io/200/200/" + iataObj.iata + ".png"
+                        };
+                    }
                     flightInfo.currencies = [];
                     for (var i = 0; i < data.Currencies.length; ++i)
                         flightInfo.currencies.push({code: data.Currencies[i].Code, symbol: data.Currencies[i].Symbol});
@@ -44,22 +55,22 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                     flightInfo.quotes.sort(function (a, b) {
                         return a.MinPrice - b.MinPrice;
                     }).slice(0, 3);
-                    console.log(data);
                     console.log(flightInfo);
                     SunnyExpress.setFlights(flightInfo);
                 } else {
                 	$scope.thereAreFlights = false;
 				}
-                if ($scope.firstApiFinished) {
+                /*if ($scope.firstApiFinished) {
                     $rootScope.$broadcast("loadingEvent", false);
                 } else {
                     $scope.firstApiFinished = true;
-                }
+                }*/
             })
         },
             function(data) {
                 alert('error flight prices');
                 console.log(data);
+                $scope.status = "Error found";
             });
 	}
 
