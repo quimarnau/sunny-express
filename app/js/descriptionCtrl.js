@@ -1,7 +1,9 @@
-sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $rootScope, $timeout, $mdDialog, SunnyExpress) {
+sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $rootScope, $timeout, $mdDialog, SunnyExpress) {
 	$rootScope.$broadcast("loadingEvent",true);
+	$scope.thereAreFlights = true;
 	var selectedCity = SunnyExpress.getSelectedCity();
 	if (selectedCity != undefined) {
+		$scope.firstApiFinished = false;
 		var activeCities = SunnyExpress.getActiveCities();
 		var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
 
@@ -9,15 +11,55 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
 		service.nearbySearch(
 			{location: latlong,
 				radius: 5000,
-				types: ['locality', 'museum', 'amusement_park', 'mosque', 'church']
+				types: ["locality", "museum", "amusement_park", "mosque", "church"]
 			},
 			function(results,status) {
 				$timeout(function () {
 					SunnyExpress.setTouristInfo(results.slice(1,10));
-					SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({'maxWidth': 300}));
-					$rootScope.$broadcast("loadingEvent",false);
+					SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({"maxWidth": 300}));
+					if ($scope.firstApiFinished) {
+                        $rootScope.$broadcast("loadingEvent", false);
+                    } else {
+						$scope.firstApiFinished = true;
+					}
 				})
 			});
+		SunnyExpress.searchFlights(function(data) {
+            $timeout(function() {
+                var flightInfo = {};
+                flightInfo.quotes = data.Quotes.filter(function(quote) {
+                	return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
+				});
+                if (flightInfo.quotes.length >= 1) {
+                	$scope.thereAreFlights = true;
+                    flightInfo.carriers = {};
+                    for (var i = 0; i < data.Carriers.length; ++i)
+                        flightInfo.carriers[data.Carriers[i].CarrierId] = {name: data.Carriers[i].Name};
+                    flightInfo.currencies = [];
+                    for (var i = 0; i < data.Currencies.length; ++i)
+                        flightInfo.currencies.push({code: data.Currencies[i].Code, symbol: data.Currencies[i].Symbol});
+                    flightInfo.places = {};
+                    for (var i = 0; i < data.Places.length; ++i)
+                        flightInfo.places[data.Places[i].PlaceId] = data.Places[i];
+                    flightInfo.quotes.sort(function (a, b) {
+                        return a.MinPrice - b.MinPrice;
+                    }).slice(0, 3);
+                    console.log(flightInfo);
+                    SunnyExpress.setFlights(flightInfo);
+                } else {
+                	$scope.thereAreFlights = false;
+				}
+                if ($scope.firstApiFinished) {
+                    $rootScope.$broadcast("loadingEvent", false);
+                } else {
+                    $scope.firstApiFinished = true;
+                }
+            })
+        },
+            function(data) {
+                alert('error flight prices');
+                console.log(data);
+            });
 	}
 
 	// TODO: Move to model, map and description views using it
@@ -27,6 +69,11 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
 		1189: "rain",
 		1219: "snow"
 	};
+
+    $scope.getQuotes = function() {
+        $scope.getFlights = SunnyExpress.getFlights();
+        return $scope.getFlights.quotes;
+    };
 
 	$scope.cityPic = function() {
 		return SunnyExpress.getPictureSrc();
@@ -69,6 +116,22 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
 		var returnCity = SunnyExpress.getSelectedCity();
 
 		var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
+		var tripStatus = SunnyExpress.checkTripOverlap(trip);
+		if(tripStatus != null) {
+			$mdDialog.show(
+				$mdDialog.alert()
+					.parent(angular.element(document.querySelector("#general-view")))
+					.clickOutsideToClose(true)
+					.title("ERROR OVERLAPPING TRIPS")
+					.textContent("The selected trip is overlapping with an already saved one starting: " + tripStatus.start.toLocaleString("en-us",{month: "long"})
+						+ " " + tripStatus.start.getDate() + " ending on: " + tripStatus.end.toLocaleString("en-us",{month: "long"}) + " " + tripStatus.end.getDate()
+						+ ". The trip is departing from: " + tripStatus.departCity
+						+ " and arriving in: " + tripStatus.arriveCity + ".")
+					.ariaLabel("Alert")
+					.ok("Got it!")
+			);
+			return;
+		}
 
 		if(SunnyExpress.getIsLoggedIn()) {
 			var newId = SunnyExpress.addNewTrip(trip);
@@ -78,24 +141,24 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
 				if(data.resp != "OK") {
 					$mdDialog.show(
 						$mdDialog.alert()
-							.parent(angular.element(document.querySelector('#general-view')))
+							.parent(angular.element(document.querySelector("#general-view")))
 							.clickOutsideToClose(true)
-							.title('ERROR WHILE SAVING TRIP TO DB')
-							.textContent('The trip saving to the DB was unsuccessful due to an error.')
-							.ariaLabel('Alert')
-							.ok('Got it!')
+							.title("ERROR WHILE SAVING TRIP TO DB")
+							.textContent("The trip saving to the DB was unsuccessful due to an error.")
+							.ariaLabel("Alert")
+							.ok("Got it!")
 					);
 				}
 			});
 			$scope.goToCalendar();
 		} else {
 			var confirm = $mdDialog.confirm()
-				.parent(angular.element(document.querySelector('#general-view')))
-				.title('WARNING! YOU ARE NOT LOGGED IN')
-				.textContent('The trip will not be saved permanently because you are not logged in. Log in to save it.')
-				.ariaLabel('Warning')
-				.ok('Proceed anyway')
-				.cancel('Okay I will log in first');
+				.parent(angular.element(document.querySelector("#general-view")))
+				.title("WARNING! YOU ARE NOT LOGGED IN")
+				.textContent("The trip will not be saved permanently because you are not logged in. Log in to save it.")
+				.ariaLabel("Warning")
+				.ok("Proceed anyway")
+				.cancel("Okay I will log in first");
 
 			$mdDialog.show(confirm).then(function() {
 				var newId = SunnyExpress.addNewTrip(trip);
@@ -106,7 +169,7 @@ sunnyExpressApp.controller('DescriptionCtrl', function ($scope, $location, $root
 	}
 
 	$scope.goToCalendar = function () {
-		$location.path('/calendar');
+		$location.path("/calendar");
 	};
 
 });

@@ -1,0 +1,41 @@
+
+
+<md-dialog aria-label="Help" style="max-width:600px;min-height: 80vh;">
+  <form ng-cloak>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h2>How to use Sunny Express search</h2>
+        <ol>
+          <li><p><b>Select your trip</b>.<br>Type where you are or want to depart from. Then, type in which country you would like to go.</p></li>
+          <li><p><b>Select your time</b>.<br>Enter your departure and return dates. Both should be whithin the 10 days limit of weather forecast accuracy.</p></li>
+          <li><p>
+            Select your dream weather:
+            <ul>
+              <li>
+                <p><b>Choose your temperatures interval</b>.</p><p>Slide to get a <span style="color:blue">minimum of 10</span> and a <span style="color:red">maximum of 20</span> celsius degrees for instance.</p>
+              </li>
+              <li>
+                <p><b>Select your weather preferences</b> by clicking on the icons.</p>
+                <p>Click once means "I want"<br>&nbsp;eg. <md-icon md-svg-src="../images/svg/day.svg" style="color:green"></md-icon> implies I <u>do</u> want sun.</p>
+                <p>Click twice means "I <u>do not</u> want"<br>&nbsp;eg. <md-icon md-svg-src="../images/svg/day.svg" style="color:red"></md-icon> implies I do not want sun at all.</p>
+                <p>Else means "I do not mind"<br>&nbsp;eg. <md-icon md-svg-src="../images/svg/day.svg"></md-icon> implies I do not mind if there is or is not sun.</p>
+              </li>
+              <li>
+                <p><b>Precise your wind preferences</b>.</p>
+                <p><md-icon md-svg-src="../images/svg/wind.svg" class="md-32 mr-15"></md-icon>By default, it means you do not mind.<br>If selected, you do have wind preferences:<ul><li><img src="../images/breeze.png" class="md-32">&nbsp;&nbsp;&nbsp;Slow wind - wind speed inferior to 40 km/h.</li><li><img src="../images/strong-wind.png" class="md-32">&nbsp;&nbsp;&nbsp;Fast wind - wind speed superior to 40 km/h.</li></ul></p>
+              </li>
+            </ul>
+          </p>
+          </li>
+          <li>
+            <p>Finally <b>click search</b> and here you go! Choose your destination, save your trip in your calendar and enjoy your holidays!</p>
+          </li>
+          </ol>
+      </div>
+      <div align="center" style="padding-bottom: 20px">
+        <img id="logo-home" src="../images/logo.png">
+      </div>
+    </md-dialog-content>
+  </form>
+</md-dialog>
+

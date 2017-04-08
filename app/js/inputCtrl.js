@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootScope, SunnyExpress) {
+sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootScope, $mdDialog, SunnyExpress) {
 
 	/**
 	 * Parameters and functions of location inputs
@@ -220,4 +220,18 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 	 $scope.goToSearch = function () {
   		$location.path('/search');
   	};
+
+  	/**
+	 * Display help instruction
+	 */
+
+	 var help = {
+	      templateUrl: 'partials/help.html',
+	      clickOutsideToClose:true
+	    }
+
+	 $scope.helpDisplay = function () {
+  		$mdDialog.show(help);
+	  };
+
 });
