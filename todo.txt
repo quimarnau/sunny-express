@@ -15,4 +15,5 @@ TO DISCUSS / BUGS / MINOR CONCERNS
 - DONE - Feedback when there's no match for the query
 - DONE - Errors in icons of places to visit
 - Feedback if the trips are overlapping when you click on yes I go. -> Mat
+- Calendar view should get the actual forecast, and only allow to remove a trip from departure/return dates
 

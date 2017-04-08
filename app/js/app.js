@@ -8,27 +8,27 @@ var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', '
 
 		$routeProvider.accessWhen = function(path, route){
 			route.resolve = {
-						countries: function(SunnyExpress) {
-							return SunnyExpress.backendGetCountries.query().$promise.then(function(data){
-								return data;
-							});
-						},
-						cities: function(SunnyExpress) {
-							return SunnyExpress.backendGetCities.query().$promise.then(function(data){
-								return data;
-							});
-						},
-						baseConditions: function(SunnyExpress) {
-							return SunnyExpress.backendGetBaseConditions.query().$promise.then(function(data){
-								return data;
-							});
-						},
-						aggregateConditions: function(SunnyExpress) {
-							return SunnyExpress.backendGetAggregateConditions.get().$promise.then(function(data){
-								return data;
-							});
-						}
-					}
+				countries: function(SunnyExpress) {
+					return SunnyExpress.backendGetCountries.query().$promise.then(function(data){
+						return data;
+					});
+				},
+				cities: function(SunnyExpress) {
+					return SunnyExpress.backendGetCities.query().$promise.then(function(data){
+						return data;
+					});
+				},
+				baseConditions: function(SunnyExpress) {
+					return SunnyExpress.backendGetBaseConditions.query().$promise.then(function(data){
+						return data;
+					});
+				},
+				aggregateConditions: function(SunnyExpress) {
+					return SunnyExpress.backendGetAggregateConditions.get().$promise.then(function(data){
+						return data;
+					});
+				}
+			}
 			return $routeProvider.when(path, route);
 		  };   
 
