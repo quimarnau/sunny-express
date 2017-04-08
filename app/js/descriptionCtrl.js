@@ -44,6 +44,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                     flightInfo.quotes.sort(function (a, b) {
                         return a.MinPrice - b.MinPrice;
                     }).slice(0, 3);
+                    console.log(data);
                     console.log(flightInfo);
                     SunnyExpress.setFlights(flightInfo);
                 } else {
