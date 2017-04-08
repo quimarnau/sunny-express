@@ -16,16 +16,13 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var userId = undefined; // Userid from login
 	var isLoggedIn = false; // set this flag to true if logged in
 	var flightInfo = {};
-	var iataCodesAirlines = undefined;
 
 	var weatherApiKey = "8e160eeab587455bb77133238172903";//"4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
 
 	var googleMapsApiKey = "AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0";
 	var googleMapsReqUrl = "https://maps.googleapis.com/maps/api/geocode/json:locationParams";
-
 	var googlePlacesReqUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters";
-
 	var googlePhotosReqUrl = "https://maps.googleapis.com/maps/api/place/photo?";
 
     var skyscannerAPI = "https://crossorigin.me/http://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/:country/:currency/en-US/:depart/:arrive/:departureDate/:arriveDate";
@@ -34,7 +31,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	var cities = undefined;
 	var countries = undefined;
-
+	var iataCodesAirlines = undefined;
 	var baseConditions = undefined;
 	var weatherConditionResolveDB = undefined;
 
@@ -42,7 +39,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 
-	// User preferences concerning the claedar view, to be moved to the back end
 	var forecastDisplay = true;
 	var colorEvent = "white"; // background color: white, blue, green, purple, red
 
@@ -449,9 +445,8 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.searchFlights = function (successCallback, errorCallback) {
         var departDate = this.date2yyyymmdd(this.getDepartDate());
-        //console.log(departDate);
         var arriveDate = this.date2yyyymmdd(this.getReturnDate());
-        //console.log(arriveDate);
+
         this.getFlightPrices.get({depart: departCity.slice(0,4), arrive: selectedCity.slice(0,4), departureDate: departDate, arriveDate: arriveDate}, successCallback,errorCallback);
 	};
 

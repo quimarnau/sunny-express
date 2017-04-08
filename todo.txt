@@ -3,7 +3,7 @@ TODO
 - DONE - Users and log in (via Google maybe) -> Quim, Aleix 
 - DONE - What to visit? (hotels) -> Aleix 
 - DONE - Calendar interaction (color, etc.) -> Laura // Can be further fine tuning
-- Helping the user with the input (?) -> Laura
+- DONE - Helping the user with the input (?) -> Laura
 - Profile view(you can display user information what is now retrieved) + login.html, making it nice -> Quim
 - Database of countries -> Mat, Quim, Aleix
 - Styling -> Everyone
