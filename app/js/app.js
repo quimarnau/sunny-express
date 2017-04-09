@@ -5,7 +5,6 @@
 var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', 'ngMaterial', 'ngMessages',
 'materialCalendar', 'uiGmapgoogle-maps', 'material.svgAssetsCache', 'directive.g+signin'])
 	.config(['$routeProvider', function($routeProvider){
-
 		$routeProvider.accessWhen = function(path, route){
 			route.resolve = {
 				countries: function(SunnyExpress) {
@@ -36,7 +35,6 @@ var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', '
 			}
 			return $routeProvider.when(path, route);
 		  };   
-
    }]);
 
 sunnyExpressApp.config(['$routeProvider',

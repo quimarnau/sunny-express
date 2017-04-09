@@ -3,7 +3,7 @@
 	<md-nav-bar class="md-primary"
 							md-selected-nav-item="currentNavItem"
 	            nav-bar-aria-label="navigation links"
-	            md-no-ink-bar="isLogin">
+	            md-no-ink-bar="isLogin()">
 
 		<md-nav-item md-nav-click="goTo('/home')" name="/home">
 			<p class="nav-item">New search</p>
@@ -17,15 +17,24 @@
 		<md-nav-item md-nav-click="goTo('/calendar')" name="/calendar">
 			<p class="nav-item">My trips</p>
 		</md-nav-item>
+
 		<span flex></span>
 
-		<md-nav-item md-nav-click="goTo('/login')" name="/login" ng-hide="isLoggedIn()">
-			<p class="nav-item">Log In</p>
+
+		<md-nav-item md-nav-click="null" name="/login" ng-hide="isLoggedIn()" aria-label="Login button">
+			<google-plus-signin clientid="644517138642-t17m3v4l7vcju35q6ggtsn5jntj97q43.apps.googleusercontent.com"
+			                    language="en"
+			                    autorender="false"
+			                    customtargetid="login-button">
+				<div id="login-button">
+					<p>Log In with Google</p>
+				</div>
+			</google-plus-signin>
 		</md-nav-item>
 
 		<md-menu-bar layout="column" layout-align="center center" ng-show="isLoggedIn()">
 			<md-menu md-position-mode="target-right target" md-offset="26 78">
-				<md-button aria-label="Open profile interactions menu" class="md-icon-button" ng-click="$mdMenu.open()">
+				<md-button class="md-icon-button" ng-click="$mdMenu.open()">
 					<i class="material-icons">account_circle</i>
 				</md-button>
 				<md-menu-content width="2">
@@ -36,16 +45,9 @@
 						</md-button>
 					</md-menu-item>
 
-					<md-menu-item>
-						<md-button ng-click="">
-							<md-icon><i class="material-icons">flight_takeoff</i></md-icon>
-							My trips
-						</md-button>
-					</md-menu-item>
-
 					<md-menu-divider></md-menu-divider>
 					<md-menu-item>
-						<md-button ng-click="">
+						<md-button ng-click="logout()">
 							<md-icon><i class="material-icons">exit_to_app</i></md-icon>
 							Log out
 						</md-button>
@@ -53,6 +55,5 @@
 				</md-menu-content>
 			</md-menu>
 		</md-menu-bar>
-
 	</md-nav-bar>
 </nav>
