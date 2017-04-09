@@ -55,10 +55,11 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                     flightInfo.quotes.sort(function (a, b) {
                         return a.MinPrice - b.MinPrice;
                     }).slice(0, 3);
-                    console.log(flightInfo);
+                    //console.log(flightInfo);
                     SunnyExpress.setFlights(flightInfo);
                 } else {
                 	$scope.thereAreFlights = false;
+                	$scope.status = "There are no available flights for the selected dates and cities.";
 				}
                 /*if ($scope.firstApiFinished) {
                     $rootScope.$broadcast("loadingEvent", false);
