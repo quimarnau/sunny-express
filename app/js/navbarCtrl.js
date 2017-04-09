@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope, SunnyExpress) {
+sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope, $route, SunnyExpress) {
 
 	$scope.currentNavItem = $location.path();
 	$scope.selectedCity = SunnyExpress.getSelectedCity() != undefined ? SunnyExpress.getSelectedCity().toLowerCase() : undefined;
@@ -51,6 +51,7 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 			SunnyExpress.setUserId(undefined);
 			SunnyExpress.setTrips({});
 			$location.path('/home');
+			$route.reload(); // Not working right now
 		}
 	});
 });

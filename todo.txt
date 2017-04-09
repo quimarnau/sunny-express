@@ -1,6 +1,6 @@
 TODO 12th
 - Users and log in (via Google maybe) -> Quim
-    - Remove login page and add login button in navbar
+    DONE - Remove login page and add login button in navbar
     - Logout (with reload)
     - Profile view (read only)
 - Calendar interaction (color, etc.) -> Laura, Mat
