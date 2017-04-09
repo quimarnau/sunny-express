@@ -5,7 +5,6 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 
 	var selectedCity = SunnyExpress.getSelectedCity();
 	if (selectedCity != undefined) {
-		$scope.firstApiFinished = false;
 		var activeCities = SunnyExpress.getActiveCities();
 		var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
 
@@ -20,15 +19,12 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 					SunnyExpress.setTouristInfo(results.slice(1,10));
 					SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({"maxWidth": 300}));
                     $rootScope.$broadcast("loadingEvent", false);
-					/*if ($scope.firstApiFinished) {
-                        $rootScope.$broadcast("loadingEvent", false);
-                    } else {
-						$scope.firstApiFinished = true;
-					}*/
 				})
 			});
+
+
 		SunnyExpress.searchFlights(function(data) {
-            $timeout(function() {
+            $timeout(function() { //Success function after search
                 var flightInfo = {};
                 flightInfo.quotes = data.Quotes.filter(function(quote) {
                 	return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
@@ -61,15 +57,18 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                 	$scope.thereAreFlights = false;
                 	$scope.status = "There are no available flights for the selected dates and cities.";
 				}
-                /*if ($scope.firstApiFinished) {
-                    $rootScope.$broadcast("loadingEvent", false);
-                } else {
-                    $scope.firstApiFinished = true;
-                }*/
             })
         },
-            function(data) {
-                alert('error flight prices');
+            function(data) { //Error found
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .parent(angular.element(document.querySelector("#general-view")))
+                        .clickOutsideToClose(true)
+                        .title("ERROR SEARCHING FOR FLIGHTS")
+                        .textContent("There has been an error searching a suitable flight for the selected dates and destination")
+                        .ariaLabel("Alert")
+                        .ok("Got it!")
+                );
                 console.log(data);
                 $scope.status = "Error found";
             });
