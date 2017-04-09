@@ -65,7 +65,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                         .parent(angular.element(document.querySelector("#general-view")))
                         .clickOutsideToClose(true)
                         .title("ERROR SEARCHING FOR FLIGHTS")
-                        .textContent("There has been an error searching a suitable flight for the selected dates and destination")
+                        .textContent("There has been an error searching for a suitable flight. Most possibly there is no airport in one of the cities.")
                         .ariaLabel("Alert")
                         .ok("Got it!")
                 );
