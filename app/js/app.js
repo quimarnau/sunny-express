@@ -43,9 +43,6 @@ sunnyExpressApp.config(['$routeProvider',
 			accessWhen('/home', {
 				templateUrl: 'partials/home.html'
 			}).
-			accessWhen('/login', {
-				templateUrl: 'partials/login.html'
-			}).
 			accessWhen('/search', {
 				templateUrl: 'partials/search.html'
 			}).
