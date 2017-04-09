@@ -7,9 +7,6 @@ TODO 12th
     - Correct forecast data ->  For future trips we store forecast data and update date
                                 Past trips don't have forecast
     - Store the colour for each user
-- Flights -> Aleix
-    - Styling
-    - Correct feedback
 - Database of countries -> Everyone
     - Scaling up
 
