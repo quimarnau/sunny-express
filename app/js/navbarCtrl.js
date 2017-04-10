@@ -1,5 +1,5 @@
-sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope, $window, $cookies, SunnyExpress) {
-
+sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope, $window, $timeout, $cookies, SunnyExpress) {
+	var isClickSent = false;
 	$scope.currentNavItem = $location.path();
 	$scope.selectedCity = SunnyExpress.getSelectedCity() != undefined ? SunnyExpress.getSelectedCity().toLowerCase() : undefined;
 	$scope.isDescription = $location.path().includes("description");
@@ -10,6 +10,12 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 
 	$scope.setIsLoginClicked = function() {
 		SunnyExpress.setIsLoginClicked(true);
+		if(!isClickSent) {
+			$timeout(function() {
+				isClickSent = true;
+				angular.element("#login-button").trigger("click");
+			});
+		}
 	};
 
 	$scope.isLoginClicked = function() {
