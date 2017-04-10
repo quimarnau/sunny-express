@@ -122,7 +122,6 @@ app.get("/trips/:userId", function(req, res) {
 
 app.post("/addTrip/:userId", function(req, res) {
 	id = Object.keys(req.body)[0];
-	console.log(req.params.userId);
 	tripsHistoryDb.insert({"id": id,"trip":req.body[id], "userId":req.params.userId}, {w:1}, function(err, result) {
 		if(err) console.log(err);
 		else if(result.result.ok == 1) {
@@ -140,4 +139,3 @@ app.delete("/deleteTrip/:userId/:id", function(req, res) {
 		}
 	});
 });
-
