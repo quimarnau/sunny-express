@@ -30,6 +30,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                 flightInfo.quotes = data.Quotes.filter(function(quote) {
                 	return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
 				});
+
                 var inbounds = data.Quotes.filter(function(quote) {
                 	return quote.InboundLeg != undefined && quote.OutboundLeg == undefined;
 				});
@@ -43,6 +44,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 						});
 					}
 				});
+
                 if (flightInfo.quotes.length >= 1) {
                 	$scope.thereAreFlights = true;
                     flightInfo.carriers = {};
