@@ -234,9 +234,4 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 	 $scope.helpDisplay = function () {
   		$mdDialog.show(help);
 	  };
-
-
-	$rootScope.$on('reload', function (event, bool) {
-		$window.location.reload();
-	});
 });

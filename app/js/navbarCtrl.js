@@ -69,4 +69,8 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 
 		}
 	});
+
+	$rootScope.$on('reload', function (event, bool) {
+		$window.location.reload();
+	});
 });
