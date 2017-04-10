@@ -4,8 +4,12 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 	$scope.selectedCity = SunnyExpress.getSelectedCity() != undefined ? SunnyExpress.getSelectedCity().toLowerCase() : undefined;
 	$scope.isDescription = $location.path().includes("description");
 
-	$scope.isLogin = function() {
+	$scope.isLoginSelected = function() {
 		return this.currentNavItem == '/login';
+	};
+
+	$scope.loginClicked = function() {
+		SunnyExpress.setIsLoginClicked(true);
 	};
 
 	$scope.goTo = function(path) {
@@ -24,8 +28,10 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 	};
 
 	$scope.$on('event:google-plus-signin-success', function (event, authResult) {
-		$rootScope.$broadcast("loadingEvent", true);
-		gapi.client.load('plus', 'v1', apiClientLoaded);
+		if (SunnyExpress.getIsLoginClicked()) {
+			$rootScope.$broadcast("loadingEvent", true);
+			gapi.client.load('plus', 'v1', apiClientLoaded);
+		}
 	});
 
 	function apiClientLoaded() {
@@ -51,7 +57,8 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 			SunnyExpress.setUserId(undefined);
 			SunnyExpress.setTrips({});
 			$location.path('/home');
-			$route.reload(); // Not working right now
+			$rootScope.$broadcast("reload", true);
+			console.log("reload broadcasted");
 		}
 	});
 });

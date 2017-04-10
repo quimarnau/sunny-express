@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootScope, $mdDialog, SunnyExpress) {
+sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootScope, $mdDialog, $window, SunnyExpress) {
 
 	/**
 	 * Parameters and functions of location inputs
@@ -235,4 +235,8 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
   		$mdDialog.show(help);
 	  };
 
+
+	$rootScope.$on('reload', function (event, bool) {
+		$window.location.reload();
+	});
 });

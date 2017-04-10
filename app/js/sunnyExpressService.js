@@ -15,6 +15,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var dayOffset = 0;
 	var userId = undefined; // Userid from login
 	var isLoggedIn = false; // set this flag to true if logged in
+	var isLoginClicked = false;
 	var flightInfo = {};
 
 	var weatherApiKey = "8e160eeab587455bb77133238172903";//"4f1d06b1e44e43099b0180536171603";
@@ -56,6 +57,14 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.getIsLoggedIn = function() {
 		return isLoggedIn;
+	};
+
+	this.setIsLoginClicked = function(flag) {
+		isLoginClicked = flag;
+	};
+
+	this.getIsLoginClicked = function() {
+		return isLoginClicked;
 	};
 
 	this.setForecastDisplay = function(state) {
