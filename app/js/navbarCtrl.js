@@ -51,6 +51,8 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 	function handleResponse(resp) {
 		SunnyExpress.setIsLoggedIn(true);
 		SunnyExpress.setUserId(resp.id);
+		console.log(resp);
+
 		SunnyExpress.backendGetTrips.get({"userId": SunnyExpress.getUserId()}, function(data) {
 			for(tripId in data.data) {
 				data.data[tripId].start = new Date(data.data[tripId].start);

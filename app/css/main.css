@@ -186,3 +186,11 @@ svg {
 	right: 0px;
 }
 .angular-google-map-container { height: 80vh; }
+
+
+/* Profile */
+#profile-container {
+	min-height: 500px;
+	background-color: white;
+	margin-top: 20px;
+}

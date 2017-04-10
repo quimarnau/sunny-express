@@ -1,4 +1,3 @@
-<!-- Navigation bar -->
 <nav ng-controller="NavbarCtrl" ng-cloak >
 	<md-nav-bar class="md-primary"
 							md-selected-nav-item="currentNavItem"
@@ -25,7 +24,7 @@
 			                    language="en"
 			                    autorender="false"
 			                    customtargetid="login-button">
-				<div id="login-button">
+				<div id="login-button" class="nav-item">
 					<p>Log In with Google</p>
 				</div>
 			</google-plus-signin>
@@ -38,7 +37,7 @@
 				</md-button>
 				<md-menu-content width="2">
 					<md-menu-item>
-						<md-button ng-click="">
+						<md-button ng-click="goTo('/profile')">
 							<md-icon><i class="material-icons">person</i></md-icon>
 							Profile
 						</md-button>

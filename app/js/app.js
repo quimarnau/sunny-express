@@ -54,6 +54,9 @@ sunnyExpressApp.config(['$routeProvider',
 				templateUrl: 'partials/calendar.html',
 				controller: 'CalendarCtrl'
 			}).
+			accessWhen('/profile', {
+				templateUrl: 'partials/profile.html',
+			}).
 			otherwise({
 				redirectTo: '/home'
 			});

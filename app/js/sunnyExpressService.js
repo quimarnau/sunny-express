@@ -43,6 +43,8 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var forecastDisplay = true;
 	var colorEvent = "white"; // background color: white, blue, green, purple, red
 
+	var profile = undefined;
+
 	this.setUserId = function(id) {
 		userId = id;
 		if ($cookieStore.get("userId") != undefined) {
@@ -90,6 +92,9 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return forecastDisplay;
 	};
 
+	this.setProfile = function() {
+
+	}
 
 	this.filterCode = function (code) {
 		for (var i in weatherConditionResolveDB) {
