@@ -1,4 +1,4 @@
-sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, $q) {
+sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, $q, $cookieStore) {
 	var windThreshold = "40"; // kmh
 
 	var departCity, arriveCountry = undefined;
@@ -45,14 +45,29 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setUserId = function(id) {
 		userId = id;
-	};
-
-	this.getUserId = function() {
-		return userId;
+		if ($cookieStore.get("userId") != undefined) {
+			$cookieStore.remove("userId");
+		}
+		$cookieStore.put("userId", id);
 	};
 
 	this.setIsLoggedIn = function(flag) {
 		isLoggedIn = flag;
+		if ($cookieStore.get("isLoggedIn") != undefined) {
+			$cookieStore.remove("isLoggedIn");
+		}
+		$cookieStore.put("isLoggedIn", flag);
+	};
+
+	var cookieIsLoggedIn = $cookieStore.get("isLoggedIn");
+	if (cookieIsLoggedIn != undefined) this.setIsLoggedIn(cookieIsLoggedIn);
+	var cookieUserId = $cookieStore.get("userId");
+	if (cookieUserId != undefined) this.setUserId(cookieUserId);
+
+
+
+	this.getUserId = function() {
+		return userId;
 	};
 
 	this.getIsLoggedIn = function() {
@@ -515,11 +530,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		iataCodesAirlines = data;
 	};
 
-
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
-    this.getFlightPrices = $resource(skyscannerAPI, {country: "es", currency: "eur", depart: "@depart", arrive: "@arrive", departureDate: "@departureDate", arriveDate: "@arriveDate", apiKey: "su432392509767429345513163956199"});
+	this.getFlightPrices = $resource(skyscannerAPI, {country: "es", currency: "eur", depart: "@depart", arrive: "@arrive", departureDate: "@departureDate", arriveDate: "@arriveDate", apiKey: "su432392509767429345513163956199"});
 
 	this.backendGetCountries = $resource(backendBaseUrl+"countries");
 	this.backendGetCities = $resource(backendBaseUrl+"cities");
@@ -531,6 +545,16 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendGetTrips = $resource(backendBaseUrl+"trips/:userId");
 	this.backendAddTrip = $resource(backendBaseUrl+"addTrip/:userId",{}, { create: { method: "POST", headers: { "Content-Type": "application/json"}}});
 	this.backendRemoveTrip = $resource(backendBaseUrl+"deleteTrip/:userId/:id");
+
+	if (isLoggedIn) {
+		this.backendGetTrips.get({"userId": this.getUserId()}, function(data) {
+			for(tripId in data.data) {
+				data.data[tripId].start = new Date(data.data[tripId].start);
+				data.data[tripId].end = new Date(data.data[tripId].end);
+			}
+			tripsHistoryDb = data.data;
+		});
+	}
 
 	return this;
 });

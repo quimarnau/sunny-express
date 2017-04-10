@@ -3,7 +3,8 @@ TODO 12th
     DONE - Remove login page and add login button in navbar
     DONE - Logout (with reload)
     - Profile view (read only)
-    - Store cookies
+    DONE - Store cookies
+    DONE - On login in calendar view -> reload somehow and show trips of the user
 - Calendar interaction (color, etc.) -> Laura, Mat
     - Correct forecast data ->  For future trips we store forecast data and update date
                                 Past trips don't have forecast
@@ -17,7 +18,6 @@ TODO 19th
     - Separate coloring for each trip
     - Interaction with the trips separated from the calendar (removal and colouring)
 - Find a proper database of countries
-
 
 TO DISCUSS / BUGS / MINOR CONCERNS
 - Majority vote in case of tie

@@ -1,4 +1,4 @@
-sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope, $route, SunnyExpress) {
+sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope, $window, $cookies, SunnyExpress) {
 
 	$scope.currentNavItem = $location.path();
 	$scope.selectedCity = SunnyExpress.getSelectedCity() != undefined ? SunnyExpress.getSelectedCity().toLowerCase() : undefined;
@@ -8,9 +8,13 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 		return this.currentNavItem == '/login';
 	};
 
-	$scope.loginClicked = function() {
+	$scope.setIsLoginClicked = function() {
 		SunnyExpress.setIsLoginClicked(true);
 	};
+
+	$scope.isLoginClicked = function() {
+		SunnyExpress.getIsLoginClicked();
+	}
 
 	$scope.goTo = function(path) {
 		if (path.includes("description")) {
@@ -24,7 +28,7 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 	};
 
 	$scope.logout = function() {
-		$rootScope.$broadcast("event:google-plus-signin-failure",false);
+		$rootScope.$broadcast("event:google-plus-signin-failure", false);
 	};
 
 	$scope.$on('event:google-plus-signin-success', function (event, authResult) {
@@ -48,6 +52,10 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 			}
 			SunnyExpress.setTrips(data.data);
 			$rootScope.$broadcast("loadingEvent",false);
+
+			if ($location.path() == "/calendar") {
+				$rootScope.$broadcast("reload", true);
+			}
 		});
 	}
 
@@ -58,7 +66,7 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 			SunnyExpress.setTrips({});
 			$location.path('/home');
 			$rootScope.$broadcast("reload", true);
-			console.log("reload broadcasted");
+
 		}
 	});
 });
