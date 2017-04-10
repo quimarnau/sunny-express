@@ -25,10 +25,26 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 
 		SunnyExpress.searchFlights(function(data) {
             $timeout(function() { //Success function after search
+				console.log(data);
                 var flightInfo = {};
                 flightInfo.quotes = data.Quotes.filter(function(quote) {
                 	return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
 				});
+
+                var inbounds = data.Quotes.filter(function(quote) {
+                	return quote.InboundLeg != undefined && quote.OutboundLeg == undefined;
+				});
+                data.Quotes.forEach(function(quoteOut, index) {
+                	if(quoteOut.InboundLeg == undefined && quoteOut.OutboundLeg != undefined) {
+                		inbounds.forEach(function(quoteIn, index) {
+                			var q = angular.copy(quoteOut);
+                			q.MinPrice += quoteIn.MinPrice;
+                			q.InboundLeg = quoteIn.InboundLeg;
+                			flightInfo.quotes.push(q);
+						});
+					}
+				});
+
                 if (flightInfo.quotes.length >= 1) {
                 	$scope.thereAreFlights = true;
                     flightInfo.carriers = {};
@@ -51,7 +67,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                     flightInfo.quotes.sort(function (a, b) {
                         return a.MinPrice - b.MinPrice;
                     }).slice(0, 3);
-                    //console.log(flightInfo);
+                    console.log(flightInfo);
                     SunnyExpress.setFlights(flightInfo);
                 } else {
                 	$scope.thereAreFlights = false;
