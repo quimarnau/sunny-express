@@ -3,7 +3,7 @@
 	<md-nav-bar class="md-primary"
 							md-selected-nav-item="currentNavItem"
 	            nav-bar-aria-label="navigation links"
-	            md-no-ink-bar="isLogin()">
+	            md-no-ink-bar="isLoginSelected()">
 
 		<md-nav-item md-nav-click="goTo('/home')" name="/home">
 			<p class="nav-item">Search</p>
@@ -21,7 +21,7 @@
 		<span flex></span>
 
 
-		<md-nav-item md-nav-click="null" name="/login" ng-hide="isLoggedIn()" aria-label="Login button">
+		<md-nav-item md-nav-click="null" name="/login" ng-hide="isLoggedIn()" aria-label="Login button" ng-click="loginClicked()">
 			<google-plus-signin clientid="644517138642-t17m3v4l7vcju35q6ggtsn5jntj97q43.apps.googleusercontent.com"
 			                    language="en"
 			                    autorender="false"
