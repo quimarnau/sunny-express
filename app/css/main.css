@@ -193,4 +193,12 @@ svg {
 	min-height: 500px;
 	background-color: white;
 	margin-top: 20px;
+	border-radius: 3px;
+}
+#profile-img {
+	border-radius: 100%;
+	margin-top: 15px;
+}
+#profile-content {
+	margin-top: 15px;
 }

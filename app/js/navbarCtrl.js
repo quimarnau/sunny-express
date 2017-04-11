@@ -53,6 +53,20 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 		SunnyExpress.setUserId(resp.id);
 		console.log(resp);
 
+		var url = resp.image.url;
+
+		var profile = {
+			"username": resp.displayName,
+			"email": resp.emails[0],
+			"gender": resp.gender,
+			"image_src": resp.image.url,
+			"language": resp.language,
+			"givenname": resp.givenName,
+			"familyname": resp.name.familyName
+		};
+
+		SunnyExpress.setProfile(profile);
+
 		SunnyExpress.backendGetTrips.get({"userId": SunnyExpress.getUserId()}, function(data) {
 			for(tripId in data.data) {
 				data.data[tripId].start = new Date(data.data[tripId].start);

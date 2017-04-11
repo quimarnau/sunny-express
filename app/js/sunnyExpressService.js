@@ -92,9 +92,13 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return forecastDisplay;
 	};
 
-	this.setProfile = function() {
+	this.setProfile = function(info) {
+		profile = info;
+	};
 
-	}
+	this.getProfile = function() {
+		return profile;
+	};
 
 	this.filterCode = function (code) {
 		for (var i in weatherConditionResolveDB) {
@@ -102,23 +106,23 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 				return i;
 		}
 		return null;
-	}
+	};
 
 	this.setWindPreference = function(windState) {
 		this.windPreference = windState;
-	}
+	};
 
 	this.getWindPreference = function() {
 		return this.windPreference;
-	}
+	};
 
 	this.getTrips = function() {
 		return tripsHistoryDb;
-	}
+	};
 
 	this.setTrips = function(trips) {
 		tripsHistoryDb = trips;
-	}
+	};
 
 	this.checkTripOverlap = function(trip) {
 		var d = new Date();
