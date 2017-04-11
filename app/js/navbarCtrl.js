@@ -10,6 +10,10 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 
 	$scope.setIsLoginClicked = function() {
 		SunnyExpress.setIsLoginClicked(true);
+
+		// This is only needed because of a known bug with Mozilla Firefox browser.
+		// Mozilla does not propagate click event to an element`s children, so we have to trigger it.
+		// Browsers like Opera, Safari, Chrome support this. 
 		if(!isClickSent) {
 			$timeout(function() {
 				isClickSent = true;
