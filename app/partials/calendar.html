@@ -5,7 +5,7 @@
   <div class="row" id="top-spacing-home"></div>
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <md-fab-toolbar md-open="isOpen" md-direction="left">
+      <md-fab-toolbar md-open="isToolBarOpen" md-direction="left">
         <md-fab-trigger class="align-with-text">
           <md-button aria-label="menu" class="md-fab md-primary">
             <md-icon md-svg-src="img/icons/menu.svg" style="color:white"></md-icon>
@@ -13,15 +13,16 @@
         </md-fab-trigger>
 
         <md-toolbar>
-          <md-fab-actions class="md-toolbar-tools">          
-            <md-button aria-label="cancel">
+          <md-fab-actions class="md-toolbar-tools">    
+            <!-- <md-button aria-label="cancel" ng-click = "closeToolBar()">
               <img src="images/cancel.png">
-            </md-button>    
-            <md-switch  aria-label="Weather forecast display" ng-model="forecastDisplay" class="md-primary" md-no-ink="" ng-click="onChange(forecastDisplay)"></md-switch>
-            <p style="padding-top: 10px">Show forecast:</p>
-            <md-button class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key)" aria-label={{key}} style="background-color: {{color}};height: 20px;width: 20px;"></md-button>
-            <p style="padding-top: 8px">Background color:</p>
-            <p>{{tripTxt}}</p>
+            </md-button>  -->
+            <p ng-hide = "tripSelected" style="text-align: center; padding-top: 8px">Click on a trip please</p>   
+            <md-switch  ng-show = "tripSelected" aria-label="Weather forecast display" ng-model="forecastDisplay" class="md-primary" md-no-ink="" ng-click="onChange(forecastDisplay)"></md-switch>
+            <p ng-show = "tripSelected" style="padding-top: 10px">Show forecast:</p>
+            <md-button ng-show = "tripSelected" class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key)" aria-label={{key}} style="background-color: {{color}};height: 20px;width: 20px;"></md-button>
+            <p ng-show = "tripSelected" style="padding-top: 8px">Background color:</p>
+            <p ng-show = "tripSelected">{{tripTxt}}</p>
           </md-fab-actions>
         </md-toolbar>
       </md-fab-toolbar>

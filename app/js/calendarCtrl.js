@@ -1,18 +1,14 @@
 sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, SunnyExpress, MaterialCalendarData) {
+	
+	//Calendar set up
 	$scope.dayFormat = "d";
 	$scope.selectedDate = new Date();
 	$scope.tooltips = true;
 	$scope.firstDayOfWeek = 0; // First day of the week, 0 for Sunday, 1 for Monday, etc.
 
-	$scope.forecastDisplay = SunnyExpress.getForecastDisplay();
-
 	$scope.setDirection = function(direction) {
 	  $scope.direction = direction;
 	  $scope.dayFormat = direction === "vertical" ? "EEEE, MMMM d" : "d";
-	};
-
-	$scope.dayClick = function(date) {
-	  $scope.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
 	};
 
 	$scope.fillCalendar = function(date) {
@@ -20,32 +16,15 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 		setCalendarContent(date, trip);	
 	}
 
+	//Forecast display
+	$scope.forecastDisplay = SunnyExpress.getForecastDisplay();
+
 	$scope.mapConditionIdName = {
 		1000: "sunny",
 		1006: "cloudy",
 		1189: "rain",
 		1219: "snow"
 	};
-
-	$scope.colorPanel = {
-		white: "white",
-		blue: "#99ccff",
-		green: "#66ff66",
-		purple: "#df80ff",
-		red: "#ff6666"
-	};
-
-	$scope.colorEvent = SunnyExpress.getColorEvent();
-
-	$scope.isOpen = false;
-
-	var selectedTrip = undefined;
-
-	if (selectedTrip != undefined) {
-		$scope.tripTxt = "trip selected";
-	} else {
-		$scope.tripTxt = "No trip selected"
-	}
 
 		//temporal trip for testing - to be removed afterwards
 		var departDate = new Date();
@@ -57,34 +36,46 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 		SunnyExpress.addNewTrip(trip);
 		//end temporal trip
 
-	var setCalendarContent = function(date, trip) {
-		if (trip != null) {
-			var departureText;
-			switch (trip.state) {
-				case 0:
-					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">Going to: <br><b>" + trip.data.arriveCity + "</b></p></div>"
+	var selectedTrip = undefined;
+
+	var tripSelection = function () {
+		if (selectedTrip != undefined) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	$scope.isToolBarOpen = false;
+	$scope.tripSelected = tripSelection();
+
+	var closeToolBar = function () {
+		selectedTrip = undefined;
+		$scope.tripSelected = tripSelection();
+		$scope.isToolBarOpen = false;
+	};
+
+	var changeToolBar = function() {
+		if (selectedTrip != undefined) {
+			$scope.isToolBarOpen = true;
+			$scope.tripSelected = true;
+			$scope.tripTxt = "Trip selected";
+		}
+	};
+
+	$scope.selectTrip = function(date) {
+		var trips = SunnyExpress.getTrips();
+		for (id in trips) {
+			var tripDates = getDatesTrip(trips[id]);
+			for (var j = 0; j < tripDates.length; j++) {
+				if (date.getDate() == tripDates[j].getDate()
+				&& date.getMonth() == tripDates[j].getMonth()
+				&& date.getFullYear() == tripDates[j].getFullYear()) {
+					selectedTrip = trips[id];
+					changeToolBar();
 					break;
-				case 1:
-					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">Coming back to: <br><b>" + trip.data.departCity + "</b></p></div>";
-					break;
-				case 2:
-					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">On a trip</p></div>";
-					break;
+				}
 			}
-			if (SunnyExpress.getForecastDisplay() == true) {
-				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
-					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
-					+ departureText + 
-					"<div layout:\"row\">\
-					<img src=\"../images/icons-map/sunny.png\"style=\"min-width: 20px; min-height: 20px;\">\
-					</div></div>");
-			} else {
-				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
-					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
-					+ departureText + "</div>");
-			}
-		} else if (trip == null) {
-			MaterialCalendarData.setDayContent(date, "<div></div>");
 		}
 	};
 
@@ -123,21 +114,36 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			};		
 	};
 
-	$scope.selectTrip = function(date) {
-		var trips = SunnyExpress.getTrips();
-		for (id in trips) {
-			var tripDates = getDatesTrip(trips[id]);
-			for (var j = 0; j < tripDates.length; j++) {
-				if (date.getDate() == tripDates[j].getDate()
-				&& date.getMonth() == tripDates[j].getMonth()
-				&& date.getFullYear() == tripDates[j].getFullYear()) {
-					selectedTrip = trips[id];
+	var setCalendarContent = function(date, trip) {
+		if (trip != null) {
+			var departureText;
+			switch (trip.state) {
+				case 0:
+					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">Going to: <br><b>" + trip.data.arriveCity + "</b></p></div>"
 					break;
-				}
+				case 1:
+					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">Coming back to: <br><b>" + trip.data.departCity + "</b></p></div>";
+					break;
+				case 2:
+					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">On a trip</p></div>";
+					break;
 			}
+			if (SunnyExpress.getForecastDisplay() == true) {
+				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
+					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
+					+ departureText + 
+					"<div layout:\"row\">\
+					<img src=\"../images/icons-map/sunny.png\"style=\"min-width: 20px; min-height: 20px;\">\
+					</div></div>");
+			} else {
+				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
+					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
+					+ departureText + "</div>");
+			}
+		} else if (trip == null) {
+			MaterialCalendarData.setDayContent(date, "<div></div>");
 		}
 	};
-
 
 	var deleteTrip = function(date) {
 	  var trips = SunnyExpress.getTrips();
@@ -205,7 +211,18 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			}
 			
 		}
+		closeToolBar();
 	};
+
+	$scope.colorPanel = {
+		white: "white",
+		blue: "#99ccff",
+		green: "#66ff66",
+		purple: "#df80ff",
+		red: "#ff6666"
+	};
+
+	$scope.colorEvent = SunnyExpress.getColorEvent();
 
 	$scope.changeColor = function(color) {
 		SunnyExpress.setColorEvent(color);
@@ -218,6 +235,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			}
 			
 		}
+		closeToolBar();
 	};
 
 });
