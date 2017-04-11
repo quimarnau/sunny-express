@@ -20,7 +20,7 @@ To try it out type in:
 
 _npm start_
 
-Frontend is running on localhost:8000 while backend is on localhost:3000/<functions>
+Frontend is running on localhost:8000 while backend is on localhost:3000
 
 ### Team
 
