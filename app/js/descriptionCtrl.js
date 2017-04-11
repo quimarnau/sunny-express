@@ -1,10 +1,33 @@
-sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $rootScope, $timeout, $mdDialog, SunnyExpress) {
+sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $rootScope, $timeout, $mdDialog, $routeParams, cities, countries, baseConditions,
+	aggregateConditions, iataCodesAirlines, SunnyExpress) {
 	$rootScope.$broadcast("loadingEvent",true);
+
+	if(SunnyExpress.getCities() == undefined) SunnyExpress.setCities(cities) ;
+	if(SunnyExpress.getCountries() == undefined) SunnyExpress.setCountries(countries);
+	if(SunnyExpress.getBaseConditions() == undefined) SunnyExpress.setBaseConditions(baseConditions);
+	if(SunnyExpress.getAggregateConditions() == undefined) SunnyExpress.setAggregateConditions(aggregateConditions);
+	if(SunnyExpress.getIataCodesAirlines() == undefined) SunnyExpress.setIataCodesAirlines(iataCodesAirlines);
+
 	$scope.thereAreFlights = false;
 	$scope.status = "Loading...";
+	var selectedCity = undefined;
 
-	var selectedCity = SunnyExpress.getSelectedCity();
-	if (selectedCity != undefined) {
+	var init = function() {
+		selectedCity = SunnyExpress.getSelectedCity();
+		// There was a reload, weather search again.
+		if(selectedCity == undefined) {
+			selectedCity = $routeParams.cityName
+			SunnyExpress.setSelectedCity(selectedCity);
+			SunnyExpress.searchWeather(function() {
+				$rootScope.searchPerformed = true;
+				initContent();
+			});
+		} else {
+			initContent();
+		}
+	}
+
+	var initContent = function() {
 		var activeCities = SunnyExpress.getActiveCities();
 		var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
 
@@ -18,74 +41,74 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 				$timeout(function () {
 					SunnyExpress.setTouristInfo(results.slice(1,10));
 					SunnyExpress.setPictureSrc(results[0].photos[0].getUrl({"maxWidth": 300}));
-                    $rootScope.$broadcast("loadingEvent", false);
+					$rootScope.$broadcast("loadingEvent", false);
 				})
 			});
 
 
 		SunnyExpress.searchFlights(function(data) {
-            $timeout(function() { //Success function after search
-                var flightInfo = {};
-                flightInfo.quotes = data.Quotes.filter(function(quote) {
-                	return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
+			$timeout(function() { //Success function after search
+				var flightInfo = {};
+				flightInfo.quotes = data.Quotes.filter(function(quote) {
+					return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
 				});
 
-                var inbounds = data.Quotes.filter(function(quote) {
-                	return quote.InboundLeg != undefined && quote.OutboundLeg == undefined;
+				var inbounds = data.Quotes.filter(function(quote) {
+					return quote.InboundLeg != undefined && quote.OutboundLeg == undefined;
 				});
-                data.Quotes.forEach(function(quoteOut, index) {
-                	if(quoteOut.InboundLeg == undefined && quoteOut.OutboundLeg != undefined) {
-                		inbounds.forEach(function(quoteIn, index) {
-                			var q = angular.copy(quoteOut);
-                			q.MinPrice += quoteIn.MinPrice;
-                			q.InboundLeg = quoteIn.InboundLeg;
-                			flightInfo.quotes.push(q);
+				data.Quotes.forEach(function(quoteOut, index) {
+					if(quoteOut.InboundLeg == undefined && quoteOut.OutboundLeg != undefined) {
+						inbounds.forEach(function(quoteIn, index) {
+							var q = angular.copy(quoteOut);
+							q.MinPrice += quoteIn.MinPrice;
+							q.InboundLeg = quoteIn.InboundLeg;
+							flightInfo.quotes.push(q);
 						});
 					}
 				});
 
-                if (flightInfo.quotes.length >= 1) {
-                	$scope.thereAreFlights = true;
-                    flightInfo.carriers = {};
-                    for (var i = 0; i < data.Carriers.length; ++i) {
-                    	var iataObj = SunnyExpress.getIataCodesAirlines().filter(function (carrier) {
-                            return carrier.name.toLowerCase() == data.Carriers[i].Name.toLowerCase();
-                        })[0];
-                        flightInfo.carriers[data.Carriers[i].CarrierId] = {
-                            name: data.Carriers[i].Name,
-                            iata: (iataObj == undefined ? undefined : iataObj.iata),
+				if (flightInfo.quotes.length >= 1) {
+					$scope.thereAreFlights = true;
+					flightInfo.carriers = {};
+					for (var i = 0; i < data.Carriers.length; ++i) {
+						var iataObj = SunnyExpress.getIataCodesAirlines().filter(function (carrier) {
+							return carrier.name.toLowerCase() == data.Carriers[i].Name.toLowerCase();
+						})[0];
+						flightInfo.carriers[data.Carriers[i].CarrierId] = {
+							name: data.Carriers[i].Name,
+							iata: (iataObj == undefined ? undefined : iataObj.iata),
 							imageSrc: iataObj == undefined ? undefined : "http://pics.avs.io/200/200/" + iataObj.iata + ".png"
-                        };
-                    }
-                    flightInfo.currencies = [];
-                    for (var i = 0; i < data.Currencies.length; ++i)
-                        flightInfo.currencies.push({code: data.Currencies[i].Code, symbol: data.Currencies[i].Symbol});
-                    flightInfo.places = {};
-                    for (var i = 0; i < data.Places.length; ++i)
-                        flightInfo.places[data.Places[i].PlaceId] = data.Places[i];
-                    flightInfo.quotes.sort(function (a, b) {
-                        return a.MinPrice - b.MinPrice;
-                    }).slice(0, 3);
-                    SunnyExpress.setFlights(flightInfo);
-                } else {
-                	$scope.thereAreFlights = false;
-                	$scope.status = "There are no available flights for the selected dates and cities.";
+						};
+					}
+					flightInfo.currencies = [];
+					for (var i = 0; i < data.Currencies.length; ++i)
+						flightInfo.currencies.push({code: data.Currencies[i].Code, symbol: data.Currencies[i].Symbol});
+					flightInfo.places = {};
+					for (var i = 0; i < data.Places.length; ++i)
+						flightInfo.places[data.Places[i].PlaceId] = data.Places[i];
+					flightInfo.quotes.sort(function (a, b) {
+						return a.MinPrice - b.MinPrice;
+					}).slice(0, 3);
+					SunnyExpress.setFlights(flightInfo);
+				} else {
+					$scope.thereAreFlights = false;
+					$scope.status = "There are no available flights for the selected dates and cities.";
 				}
-            })
-        },
-            function(data) { //Error found
-                $mdDialog.show(
-                    $mdDialog.alert()
-                        .parent(angular.element(document.querySelector("#general-view")))
-                        .clickOutsideToClose(true)
-                        .title("ERROR SEARCHING FOR FLIGHTS")
-                        .textContent("There has been an error searching for a suitable flight. Most possibly there is no airport in one of the cities.")
-                        .ariaLabel("Alert")
-                        .ok("Got it!")
-                );
-                console.log(data);
-                $scope.status = "Error found";
-            });
+			})
+		},
+			function(data) { //Error found
+				$mdDialog.show(
+					$mdDialog.alert()
+						.parent(angular.element(document.querySelector("#general-view")))
+						.clickOutsideToClose(true)
+						.title("ERROR SEARCHING FOR FLIGHTS")
+						.textContent("There has been an error searching for a suitable flight. Most possibly there is no airport in one of the cities.")
+						.ariaLabel("Alert")
+						.ok("Got it!")
+				);
+				console.log(data);
+				$scope.status = "Error found";
+			});
 	}
 
 	// TODO: Move to model, map and description views using it
@@ -123,6 +146,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	}
 
 	$scope.getForecast = function() {
+		if(SunnyExpress.getActiveCities()[SunnyExpress.getSelectedCity()] == undefined) return;
 		var forecast = SunnyExpress.getActiveCities()[SunnyExpress.getSelectedCity()].forecast;
 		var max5dayforecast = [];
 		for (var i = 0; i < Math.min(forecast.length, 5); i++) {
@@ -197,5 +221,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	$scope.goToCalendar = function () {
 		$location.path("/calendar");
 	};
+
+	init();
 
 });

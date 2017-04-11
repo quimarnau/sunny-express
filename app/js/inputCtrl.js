@@ -154,38 +154,6 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 		};
 	}
 
-	var searchWeatherCity = function(numDays, city) {
-		var d = $q.defer();
-		var result = SunnyExpress.getCityWeather.get({days: numDays, q: city.lat + "," + city.lon}, function() {
-			d.resolve(result);
-		});
-
-		return d.promise;
-	}
-
-	var searchWeather = function() {
-		$rootScope.$broadcast("loadingEvent",true);
-		
-		var numDays = Math.round(($scope.returnDate-$scope.departureDate)/(1000*60*60*24)) + 1;
-		var dayOffset =  Math.round(($scope.departureDate - $scope.minDepartureDate)/(1000*60*60*24)); // between 0 to 8
-		var numForecastDays = numDays + dayOffset;
-		SunnyExpress.setDayOffset(dayOffset);
-
-		SunnyExpress.backendGetCitiesCountry.query({"country":SunnyExpress.getArriveCountry()}).$promise.then(function(cities){
-			var citiesQueue = [];
-
-			for (var i = 0; i < cities.length; i++) {
-				citiesQueue.push(searchWeatherCity(numForecastDays,cities[i]));
-			};
-
-			$q.all(citiesQueue).then(function(data) {
-				$rootScope.searchPerformed = true;
-				$rootScope.$broadcast("loadingEvent",false);
-				SunnyExpress.setWeatherActiveCities(data,cities);
-			})			
-		});
-	}
-
 	var setWindPreference = function() {
 		if ($scope.careAboutWind && $scope.windPreference == 1) return 1;
 		else if ($scope.careAboutWind && $scope.windPreference == -1) return -1;
@@ -209,8 +177,11 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 		SunnyExpress.setFavourableWeatherConditions(weatherConditions.desired);
 		SunnyExpress.setDisfavourableWeatherConditions(weatherConditions.undesired);
 
-
-		searchWeather();
+		$rootScope.$broadcast("loadingEvent",true);
+		SunnyExpress.searchWeather(function() {
+			$rootScope.searchPerformed = true;
+			$rootScope.$broadcast("loadingEvent",false);
+		});
 
         SunnyExpress.setMapCenter();
 	}

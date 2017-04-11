@@ -1,7 +1,7 @@
 sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope, $window, $timeout, $cookies, SunnyExpress) {
 	var isClickSent = false;
 	$scope.currentNavItem = $location.path();
-	$scope.selectedCity = SunnyExpress.getSelectedCity() != undefined ? SunnyExpress.getSelectedCity().toLowerCase() : undefined;
+	$scope.selectedCity = SunnyExpress.getSelectedCity() != undefined ? SunnyExpress.getSelectedCity() : undefined;
 	$scope.isDescription = $location.path().includes("description");
 
 	$scope.isLoginSelected = function() {
@@ -13,7 +13,7 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 
 		// This is only needed because of a known bug with Mozilla Firefox browser.
 		// Mozilla does not propagate click event to an element`s children, so we have to trigger it.
-		// Browsers like Opera, Safari, Chrome support this. 
+		// Browsers like Opera, Safari, Chrome support this.
 		if(!isClickSent) {
 			$timeout(function() {
 				isClickSent = true;

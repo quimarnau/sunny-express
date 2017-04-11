@@ -1,4 +1,5 @@
 sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, $q, $cookieStore) {
+	var self = this;
 	var windThreshold = "40"; // kmh
 
 	var departCity, arriveCountry = undefined;
@@ -61,13 +62,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		$cookieStore.put("isLoggedIn", flag);
 	};
 
-	var cookieIsLoggedIn = $cookieStore.get("isLoggedIn");
-	if (cookieIsLoggedIn != undefined) this.setIsLoggedIn(cookieIsLoggedIn);
-	var cookieUserId = $cookieStore.get("userId");
-	if (cookieUserId != undefined) this.setUserId(cookieUserId);
-
-
-
 	this.getUserId = function() {
 		return userId;
 	};
@@ -110,6 +104,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setWindPreference = function(windState) {
 		this.windPreference = windState;
+		if ($cookieStore.get("windPreference") != undefined) {
+			$cookieStore.remove("windPreference");
+		}
+		$cookieStore.put("windPreference", windState);
 	};
 
 	this.getWindPreference = function() {
@@ -133,7 +131,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
   			if(tripStatus != null) {
   				return tripStatus.data;
   			}
-  			d.setDate(d.getDate() + 1);	
+  			d.setDate(d.getDate() + 1);
   		}
   		return null;
 	}
@@ -158,7 +156,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		}
 		return null;
 	}
-	
+
 	this.removeTrip = function(id) {
 		delete tripsHistoryDb[id];
 	}
@@ -171,10 +169,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.resolveWeatherCondition = function(id, idToCheck) {
 		if(weatherConditionResolveDB[id].indexOf(idToCheck) >= 0) {
-			return true;		
+			return true;
 		}
 		else {
-			return false;		
+			return false;
 		}
 	}
 
@@ -193,7 +191,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		}
 
 		var majorityId = 0;
-		var majorityNum = 0; 
+		var majorityNum = 0;
 
 		for (var i = 0; i < baseConditions.length; i++) {
 			if(majorityCondition[baseConditions[i]] > majorityNum){
@@ -207,7 +205,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
     /* return 0 if day is dont care, -1 if disfavourable, 1 is favourable*/
 	this.dayWeatherConditionFilter = function(dayForecast) {
-		var windOk = ((windPreference == -1 && dayForecast.maxwind_kph < windThreshold) || 
+		var windOk = ((windPreference == -1 && dayForecast.maxwind_kph < windThreshold) ||
 						(windPreference == 1 && dayForecast.maxwind_kph > windThreshold) ||
 						(windPreference == 0)) ? true : false;
 
@@ -221,7 +219,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 		if(disfavourableWeatherConditions.length == 0) {
 			for (var j = 0; j < favourableWeatherConditions.length; j++) {
-				if(this.resolveWeatherCondition(favourableWeatherConditions[j],dayForecast.condition.code)) {					
+				if(this.resolveWeatherCondition(favourableWeatherConditions[j],dayForecast.condition.code)) {
 					return 1;
 				}
 			}
@@ -230,7 +228,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 		if(favourableWeatherConditions.length == 0) {
 			for (var j = 0; j < disfavourableWeatherConditions.length; j++) {
-				if(this.resolveWeatherCondition(disfavourableWeatherConditions[j],dayForecast.condition.code)) {					
+				if(this.resolveWeatherCondition(disfavourableWeatherConditions[j],dayForecast.condition.code)) {
 					return -1;
 				}
 			}
@@ -239,11 +237,11 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 		var dayOk = undefined;
 		for (var j = 0; j < favourableWeatherConditions.length; j++) {
-			if(this.resolveWeatherCondition(favourableWeatherConditions[j],dayForecast.condition.code)) {					
+			if(this.resolveWeatherCondition(favourableWeatherConditions[j],dayForecast.condition.code)) {
 				dayOk = true;
 			}
 		};
-		for (var j = 0; j < disfavourableWeatherConditions.length; j++) {	
+		for (var j = 0; j < disfavourableWeatherConditions.length; j++) {
 			if (this.resolveWeatherCondition(disfavourableWeatherConditions[j],dayForecast.condition.code)) {
 				dayOk = false;
 			};
@@ -300,7 +298,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 		activeCities = {};
 		var temp = [];
-		
+
 		for (var i = 0; i < forecastData.length; i++) {
 			var weatherState = this.weatherConditionFilter(forecastData[i].forecast.forecastday);
 				if(weatherState.state) {
@@ -320,7 +318,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
                     activeCities[name].mintemp = minTemp;
 				};
 		};
-		
+
 	}
 
 	this.setDayOffset = function(offset) {
@@ -333,6 +331,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setFavourableWeatherConditions = function(weatherConditionsList) {
 		favourableWeatherConditions = weatherConditionsList;
+		if ($cookieStore.get("favourableWeatherConditions") != undefined) {
+			$cookieStore.remove("favourableWeatherConditions");
+		}
+		$cookieStore.put("favourableWeatherConditions", weatherConditionsList);
 	}
 
 	this.getFavourableWeatherConditions = function() {
@@ -341,6 +343,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setDisfavourableWeatherConditions = function(weatherConditionsList) {
 		disfavourableWeatherConditions = weatherConditionsList;
+		if ($cookieStore.get("disfavourableWeatherConditions") != undefined) {
+			$cookieStore.remove("disfavourableWeatherConditions");
+		}
+		$cookieStore.put("disfavourableWeatherConditions", weatherConditionsList);
 	};
 
 	this.getDisfavourableWeatherConditions = function() {
@@ -357,6 +363,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setIconsState = function(state) {
 		iconsState = state;
+		if ($cookieStore.get("iconsState") != undefined) {
+			$cookieStore.remove("iconsState");
+		}
+		$cookieStore.put("iconsState", state);
 	}
 
 	this.getDepartCity = function() {
@@ -365,6 +375,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setDepartCity = function(newDepartCity) {
 		departCity = newDepartCity;
+		if ($cookieStore.get("departCity") != undefined) {
+			$cookieStore.remove("departCity");
+		}
+		$cookieStore.put("departCity", newDepartCity);
 	}
 
 	this.getArriveCountry = function() {
@@ -373,10 +387,18 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setArriveCountry = function(newArriveCountry) {
 		arriveCountry = newArriveCountry;
+		if ($cookieStore.get("arriveCountry") != undefined) {
+			$cookieStore.remove("arriveCountry");
+		}
+		$cookieStore.put("arriveCountry", newArriveCountry);
 	}
 
 	this.setMinTemperature = function(temperature) {
 		minTemperature = temperature;
+		if ($cookieStore.get("minTemperature") != undefined) {
+			$cookieStore.remove("minTemperature");
+		}
+		$cookieStore.put("minTemperature", temperature);
 	}
 
 	this.getMinTemperature = function() {
@@ -385,6 +407,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setMaxTemperature = function(temperature) {
 		maxTemperature = temperature;
+		if ($cookieStore.get("maxTemperature") != undefined) {
+			$cookieStore.remove("maxTemperature");
+		}
+		$cookieStore.put("maxTemperature", temperature);
 	}
 
 	this.getMaxTemperature = function() {
@@ -393,6 +419,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setReturnDate = function(date) {
 		returnDate = date;
+		if ($cookieStore.get("returnDate") != undefined) {
+			$cookieStore.remove("returnDate");
+		}
+		$cookieStore.put("returnDate", date);
 	}
 
 	this.getReturnDate = function() {
@@ -401,6 +431,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setDepartDate = function(date) {
 		departDate = date;
+		if ($cookieStore.get("departDate") != undefined) {
+			$cookieStore.remove("departDate");
+		}
+		$cookieStore.put("departDate", date);
 	}
 
 	this.getDepartDate = function() {
@@ -539,6 +573,35 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		iataCodesAirlines = data;
 	};
 
+	this.searchWeatherCity = function(numDays, city) {
+		var d = $q.defer();
+		var result = self.getCityWeather.get({days: numDays, q: city.lat + "," + city.lon}, function() {
+			d.resolve(result);
+		});
+
+		return d.promise;
+	};
+
+	this.searchWeather = function(successCallback) {
+		var numDays = Math.round((returnDate-departDate)/(1000*60*60*24)) + 1;
+		var dayOffset =  Math.round((departDate - new Date())/(1000*60*60*24)); // between 0 to 8
+		var numForecastDays = numDays + dayOffset;
+		this.setDayOffset(dayOffset);
+
+		this.backendGetCitiesCountry.query({"country":this.getArriveCountry()}).$promise.then(function(cities){
+			var citiesQueue = [];
+
+			for (var i = 0; i < cities.length; i++) {
+				citiesQueue.push(self.searchWeatherCity(numForecastDays,cities[i]));
+			};
+
+			$q.all(citiesQueue).then(function(data) {
+				self.setWeatherActiveCities(data,cities);
+				successCallback();
+			})
+		});
+	};
+
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
@@ -554,6 +617,26 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendGetTrips = $resource(backendBaseUrl+"trips/:userId");
 	this.backendAddTrip = $resource(backendBaseUrl+"addTrip/:userId",{}, { create: { method: "POST", headers: { "Content-Type": "application/json"}}});
 	this.backendRemoveTrip = $resource(backendBaseUrl+"deleteTrip/:userId/:id");
+
+	// Cookie data loading on reload
+
+	if ($cookieStore.get("isLoggedIn") != undefined) this.setIsLoggedIn($cookieStore.get("isLoggedIn"));
+	if ($cookieStore.get("userId") != undefined) this.setUserId($cookieStore.get("userId"));
+
+	if ($cookieStore.get("departCity") != undefined) this.setDepartCity($cookieStore.get("departCity"));
+	if ($cookieStore.get("arriveCountry") != undefined) this.setArriveCountry($cookieStore.get("arriveCountry"));
+
+	if ($cookieStore.get("departDate") != undefined) this.setDepartDate(new Date($cookieStore.get("departDate")));
+	if ($cookieStore.get("returnDate") != undefined) this.setReturnDate(new Date($cookieStore.get("returnDate")));
+
+	if ($cookieStore.get("minTemperature") != undefined) this.setMinTemperature($cookieStore.get("minTemperature"));
+	if ($cookieStore.get("maxTemperature") != undefined) this.setMaxTemperature($cookieStore.get("maxTemperature"));
+
+	if ($cookieStore.get("favourableWeatherConditions") != undefined) this.setFavourableWeatherConditions($cookieStore.get("favourableWeatherConditions"));
+	if ($cookieStore.get("disfavourableWeatherConditions") != undefined) this.setDisfavourableWeatherConditions($cookieStore.get("disfavourableWeatherConditions"));
+
+	if ($cookieStore.get("windPreference") != undefined) this.setWindPreference($cookieStore.get("windPreference"));
+	if ($cookieStore.get("iconsState") != undefined) this.setIconsState($cookieStore.get("iconsState"));
 
 	if (isLoggedIn) {
 		this.backendGetTrips.get({"userId": this.getUserId()}, function(data) {
