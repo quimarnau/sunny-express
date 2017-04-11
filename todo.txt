@@ -1,15 +1,8 @@
 TODO 12th
-- Users and log in (via Google maybe) -> Quim
-    DONE - Remove login page and add login button in navbar
-    DONE - Logout (with reload)
-    - Profile view (read only)
-    DONE - Store cookies
-    DONE - On login in calendar view -> reload somehow and show trips of the user
 - Calendar interaction (color, etc.) -> Laura, Mat
     - Correct forecast data ->  For future trips we store forecast data and update date
                                 Past trips don't have forecast
     - Store the colour for each user
-- Handle reloading page in City Details view - Mat
 
 TODO 19th
 - Calendar interaction

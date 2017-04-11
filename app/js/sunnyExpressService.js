@@ -88,6 +88,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.setProfile = function(info) {
 		profile = info;
+		if ($cookieStore.get("profile") != undefined) {
+			$cookieStore.remove("profile");
+		}
+		$cookieStore.put("profile", info);
 	};
 
 	this.getProfile = function() {
@@ -646,6 +650,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 			}
 			tripsHistoryDb = data.data;
 		});
+		if ($cookieStore.get("profile") != undefined) this.setProfile($cookieStore.get("profile"));
 	}
 
 	return this;
