@@ -29,6 +29,21 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                 flightInfo.quotes = data.Quotes.filter(function(quote) {
                 	return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
 				});
+
+                var inbounds = data.Quotes.filter(function(quote) {
+                	return quote.InboundLeg != undefined && quote.OutboundLeg == undefined;
+				});
+                data.Quotes.forEach(function(quoteOut, index) {
+                	if(quoteOut.InboundLeg == undefined && quoteOut.OutboundLeg != undefined) {
+                		inbounds.forEach(function(quoteIn, index) {
+                			var q = angular.copy(quoteOut);
+                			q.MinPrice += quoteIn.MinPrice;
+                			q.InboundLeg = quoteIn.InboundLeg;
+                			flightInfo.quotes.push(q);
+						});
+					}
+				});
+
                 if (flightInfo.quotes.length >= 1) {
                 	$scope.thereAreFlights = true;
                     flightInfo.carriers = {};
@@ -51,7 +66,6 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                     flightInfo.quotes.sort(function (a, b) {
                         return a.MinPrice - b.MinPrice;
                     }).slice(0, 3);
-                    //console.log(flightInfo);
                     SunnyExpress.setFlights(flightInfo);
                 } else {
                 	$scope.thereAreFlights = false;
@@ -65,7 +79,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
                         .parent(angular.element(document.querySelector("#general-view")))
                         .clickOutsideToClose(true)
                         .title("ERROR SEARCHING FOR FLIGHTS")
-                        .textContent("There has been an error searching a suitable flight for the selected dates and destination")
+                        .textContent("There has been an error searching for a suitable flight. Most possibly there is no airport in one of the cities.")
                         .ariaLabel("Alert")
                         .ok("Got it!")
                 );

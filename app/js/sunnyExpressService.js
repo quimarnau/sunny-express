@@ -1,4 +1,4 @@
-sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, $q) {
+sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, $q, $cookieStore) {
 	var windThreshold = "40"; // kmh
 
 	var departCity, arriveCountry = undefined;
@@ -15,6 +15,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var dayOffset = 0;
 	var userId = undefined; // Userid from login
 	var isLoggedIn = false; // set this flag to true if logged in
+	var isLoginClicked = false;
 	var flightInfo = {};
 
 	var weatherApiKey = "8e160eeab587455bb77133238172903";//"4f1d06b1e44e43099b0180536171603";
@@ -42,20 +43,45 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var forecastDisplay = true;
 	var colorEvent = "white"; // background color: white, blue, green, purple, red
 
+	var profile = undefined;
+
 	this.setUserId = function(id) {
 		userId = id;
+		if ($cookieStore.get("userId") != undefined) {
+			$cookieStore.remove("userId");
+		}
+		$cookieStore.put("userId", id);
 	};
+
+	this.setIsLoggedIn = function(flag) {
+		isLoggedIn = flag;
+		if ($cookieStore.get("isLoggedIn") != undefined) {
+			$cookieStore.remove("isLoggedIn");
+		}
+		$cookieStore.put("isLoggedIn", flag);
+	};
+
+	var cookieIsLoggedIn = $cookieStore.get("isLoggedIn");
+	if (cookieIsLoggedIn != undefined) this.setIsLoggedIn(cookieIsLoggedIn);
+	var cookieUserId = $cookieStore.get("userId");
+	if (cookieUserId != undefined) this.setUserId(cookieUserId);
+
+
 
 	this.getUserId = function() {
 		return userId;
 	};
 
-	this.setIsLoggedIn = function(flag) {
-		isLoggedIn = flag;
-	};
-
 	this.getIsLoggedIn = function() {
 		return isLoggedIn;
+	};
+
+	this.setIsLoginClicked = function(flag) {
+		isLoginClicked = flag;
+	};
+
+	this.getIsLoginClicked = function() {
+		return isLoginClicked;
 	};
 
 	this.setForecastDisplay = function(state) {
@@ -66,6 +92,13 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return forecastDisplay;
 	};
 
+	this.setProfile = function(info) {
+		profile = info;
+	};
+
+	this.getProfile = function() {
+		return profile;
+	};
 
 	this.filterCode = function (code) {
 		for (var i in weatherConditionResolveDB) {
@@ -73,23 +106,23 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 				return i;
 		}
 		return null;
-	}
+	};
 
 	this.setWindPreference = function(windState) {
 		this.windPreference = windState;
-	}
+	};
 
 	this.getWindPreference = function() {
 		return this.windPreference;
-	}
+	};
 
 	this.getTrips = function() {
 		return tripsHistoryDb;
-	}
+	};
 
 	this.setTrips = function(trips) {
 		tripsHistoryDb = trips;
-	}
+	};
 
 	this.checkTripOverlap = function(trip) {
 		var d = new Date();
@@ -506,11 +539,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		iataCodesAirlines = data;
 	};
 
-
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
-    this.getFlightPrices = $resource(skyscannerAPI, {country: "es", currency: "eur", depart: "@depart", arrive: "@arrive", departureDate: "@departureDate", arriveDate: "@arriveDate", apiKey: "su432392509767429345513163956199"});
+	this.getFlightPrices = $resource(skyscannerAPI, {country: "es", currency: "eur", depart: "@depart", arrive: "@arrive", departureDate: "@departureDate", arriveDate: "@arriveDate", apiKey: "su432392509767429345513163956199"});
 
 	this.backendGetCountries = $resource(backendBaseUrl+"countries");
 	this.backendGetCities = $resource(backendBaseUrl+"cities");
@@ -522,6 +554,16 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendGetTrips = $resource(backendBaseUrl+"trips/:userId");
 	this.backendAddTrip = $resource(backendBaseUrl+"addTrip/:userId",{}, { create: { method: "POST", headers: { "Content-Type": "application/json"}}});
 	this.backendRemoveTrip = $resource(backendBaseUrl+"deleteTrip/:userId/:id");
+
+	if (isLoggedIn) {
+		this.backendGetTrips.get({"userId": this.getUserId()}, function(data) {
+			for(tripId in data.data) {
+				data.data[tripId].start = new Date(data.data[tripId].start);
+				data.data[tripId].end = new Date(data.data[tripId].end);
+			}
+			tripsHistoryDb = data.data;
+		});
+	}
 
 	return this;
 });

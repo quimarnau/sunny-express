@@ -1,4 +1,0 @@
-Client ID
-456204887534-ljgijh6r5bntkad13kbrfv770gcatdfl.apps.googleusercontent.com
-Client secret
-m8fUHKzv1j5H8r9bb2JCKzL4

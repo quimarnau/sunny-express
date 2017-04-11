@@ -3,9 +3,8 @@
  * @type {angular.Module} Main module of sunny express app
  */
 var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', 'ngMaterial', 'ngMessages',
-'materialCalendar', 'uiGmapgoogle-maps', 'material.svgAssetsCache', 'directive.g+signin'])
+'materialCalendar', 'uiGmapgoogle-maps', 'material.svgAssetsCache', 'directive.g+signin', 'ngCookies'])
 	.config(['$routeProvider', function($routeProvider){
-
 		$routeProvider.accessWhen = function(path, route){
 			route.resolve = {
 				countries: function(SunnyExpress) {
@@ -36,7 +35,6 @@ var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', '
 			}
 			return $routeProvider.when(path, route);
 		  };   
-
    }]);
 
 sunnyExpressApp.config(['$routeProvider',
@@ -44,9 +42,6 @@ sunnyExpressApp.config(['$routeProvider',
 		$routeProvider.
 			accessWhen('/home', {
 				templateUrl: 'partials/home.html'
-			}).
-			accessWhen('/login', {
-				templateUrl: 'partials/login.html'
 			}).
 			accessWhen('/search', {
 				templateUrl: 'partials/search.html'
@@ -58,6 +53,9 @@ sunnyExpressApp.config(['$routeProvider',
 			accessWhen('/calendar', {
 				templateUrl: 'partials/calendar.html',
 				controller: 'CalendarCtrl'
+			}).
+			accessWhen('/profile', {
+				templateUrl: 'partials/profile.html',
 			}).
 			otherwise({
 				redirectTo: '/home'
