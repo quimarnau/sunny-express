@@ -55,17 +55,22 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 	function handleResponse(resp) {
 		SunnyExpress.setIsLoggedIn(true);
 		SunnyExpress.setUserId(resp.id);
-		console.log(resp);
 
-		var url = resp.image.url;
+		var url = resp.image.url.replace('sz=50', 'sz=200');
+		var gender = resp.gender != undefined?
+			resp.gender.charAt(0).toUpperCase() + resp.gender.slice(1):
+			"Undefined";
+		var language = resp.language != undefined?
+			resp.language.charAt(0).toUpperCase() + resp.language.slice(1):
+			"Unknown";
 
 		var profile = {
 			"username": resp.displayName,
-			"email": resp.emails[0],
-			"gender": resp.gender,
-			"image_src": resp.image.url,
-			"language": resp.language,
-			"givenname": resp.givenName,
+			"email": resp.emails[0].value,
+			"gender": gender,
+			"image_src": url,
+			"language": language,
+			"givenname": resp.name.givenName,
 			"familyname": resp.name.familyName
 		};
 
