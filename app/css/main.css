@@ -173,6 +173,9 @@ svg {
 .delete-btn {
 	min-height: 30px;
 }
+.white {
+	background-color: white;
+}
 
 /*purple, blue, green, */
 

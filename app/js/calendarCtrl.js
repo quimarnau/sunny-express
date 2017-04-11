@@ -39,20 +39,23 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 	$scope.isOpen = false;
 
-      // $scope.demo = {
-      //   isOpen: false,
+	var selectedTrip = undefined;
 
-      // };
+	if (selectedTrip != undefined) {
+		$scope.tripTxt = "trip selected";
+	} else {
+		$scope.tripTxt = "No trip selected"
+	}
 
-		// //temporal trip for testing - to be removed afterwards
-		// var departDate = new Date();
-		// var returnDate = new Date();
-		// returnDate.setDate(departDate.getDate() + 2);
-		// var departCity = 'Stockholm';
-		// var returnCity = 'Madrid';
-		// var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
-		// SunnyExpress.addNewTrip(trip);
-		// //end temporal trip
+		//temporal trip for testing - to be removed afterwards
+		var departDate = new Date();
+		var returnDate = new Date();
+		returnDate.setDate(departDate.getDate() + 2);
+		var departCity = 'Stockholm';
+		var returnCity = 'Madrid';
+		var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
+		SunnyExpress.addNewTrip(trip);
+		//end temporal trip
 
 	var setCalendarContent = function(date, trip) {
 		if (trip != null) {
@@ -120,14 +123,23 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			};		
 	};
 
+	$scope.selectTrip = function(date) {
+		var trips = SunnyExpress.getTrips();
+		for (id in trips) {
+			var tripDates = getDatesTrip(trips[id]);
+			for (var j = 0; j < tripDates.length; j++) {
+				if (date.getDate() == tripDates[j].getDate()
+				&& date.getMonth() == tripDates[j].getMonth()
+				&& date.getFullYear() == tripDates[j].getFullYear()) {
+					selectedTrip = trips[id];
+					break;
+				}
+			}
+		}
+	};
 
-	// Appending dialog to document.body to cover sidenav in docs app
-	
 
-	
-
-
-	$scope.deleteTrip = function(date) {
+	var deleteTrip = function(date) {
 	  var trips = SunnyExpress.getTrips();
 	  var deletedTrip = {};
 		for (id in trips) {

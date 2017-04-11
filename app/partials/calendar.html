@@ -3,32 +3,36 @@
     <ng-include src="'partials/navbar.html'" class="col-md-8 col-md-offset-2"></ng-include>
   </div>
   <div class="row" id="top-spacing-home"></div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <md-fab-toolbar md-open="isOpen" md-direction="left">
+        <md-fab-trigger class="align-with-text">
+          <md-button aria-label="menu" class="md-fab md-primary">
+            <md-icon md-svg-src="img/icons/menu.svg" style="color:white"></md-icon>
+          </md-button>
+        </md-fab-trigger>
+
+        <md-toolbar>
+          <md-fab-actions class="md-toolbar-tools">          
+            <md-button aria-label="cancel">
+              <img src="images/cancel.png">
+            </md-button>    
+            <md-switch  aria-label="Weather forecast display" ng-model="forecastDisplay" class="md-primary" md-no-ink="" ng-click="onChange(forecastDisplay)"></md-switch>
+            <p style="padding-top: 10px">Show forecast:</p>
+            <md-button class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key)" aria-label={{key}} style="background-color: {{color}};height: 20px;width: 20px;"></md-button>
+            <p style="padding-top: 8px">Background color:</p>
+            <p>{{tripTxt}}</p>
+          </md-fab-actions>
+        </md-toolbar>
+      </md-fab-toolbar>
+    </div>
+  </div>
+
   <div class="container" style="max-height: 80vh;overflow-y: scroll;">
-
-    <md-fab-toolbar md-open="isOpen" md-direction="left">
-      <md-fab-trigger class="align-with-text">
-        <md-button aria-label="menu" class="md-fab md-primary">
-          <md-icon md-svg-src="img/icons/menu.svg" style="color:white"></md-icon>
-        </md-button>
-      </md-fab-trigger>
-
-      <md-toolbar>
-        <md-fab-actions class="md-toolbar-tools">          
-          <md-button aria-label="menu">
-            <md-icon md-svg-src="images/cancel.svg" style="color:white"></md-icon>
-          </md-button>    
-          <md-switch  aria-label="Weather forecast display" ng-model="forecastDisplay" class="md-primary" md-no-ink="" ng-click="onChange(forecastDisplay)"></md-switch>
-          <p style="padding-top: 10px">Show forecast:</p>
-          <md-button class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key)" aria-label={{key}} style="background-color: {{color}};height: 20px;width: 20px;"></md-button>
-          <p style="padding-top: 8px">Background color:</p>      
-        </md-fab-actions>
-      </md-toolbar>
-    </md-fab-toolbar>
-
     <div class="row" style="padding:10px">
       <calendar-md flex layout layout-fill
         calendar-direction="direction"
-        on-day-click="deleteTrip"
+        on-day-click="selectTrip"
         title-format="'MMMM y'"
         ng-model='selectedDate'
         week-starts-on="firstDayOfWeek"
