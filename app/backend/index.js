@@ -130,8 +130,17 @@ app.post("/addTrip/:userId", function(req, res) {
 	});
 });
 
+app.post("/updateTrip/:userId/", function(req, res) {
+	id = Object.keys(req.body)[0];
+	tripsHistoryDb.update({"id": id, "userId":req.params.userId}, {"id": id,"trip":req.body[id], "userId":req.params.userId}, {w:1}, function(err, result) {
+		if(err) console.log(err);
+		else if(result.result.ok == 1) {
+			res.json({"resp": "OK"});
+		}
+	});
+});
+
 app.delete("/deleteTrip/:userId/:id", function(req, res) {
-	console.log(req.params.userId);
 	tripsHistoryDb.remove({"userId": req.params.userId,"id":req.params.id}, {w:1}, function(err, result) {
 		if(err) console.log(err);
 		else if(result.result.ok == 1) {
