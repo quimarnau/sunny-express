@@ -44,8 +44,8 @@ MongoClient.connect("mongodb://root:sunny-express@ds145220.mlab.com:45220/sunny-
 
 // weatherConditionsDb  Format in DB - [{"baseCode": 1000, "resolveCodes": [1000,1003]}]
 
-// tripsHistoryDb  - Format in DB - [{"id": "1", "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city}},
-						//		{"id": 2, "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city}}]
+// tripsHistoryDb  - Format in DB - [{"id": "1", "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": color}},
+						//		{"id": 2, "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": color}}]
 
 // iataCodesAirlines = Format in DB         { "iata":"ZY", "name":"Sky Airlines"}
 

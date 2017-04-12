@@ -37,12 +37,12 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var baseConditions = undefined;
 	var weatherConditionResolveDB = undefined;
 
-	var tripsHistoryDb = {}; // One trip data - 1: {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city}
+	var tripsHistoryDb = {}; // One trip data - 1: {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": string}
 
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 
 	var forecastDisplay = true;
-	var colorEvent = "white"; // background color: white, blue, green, purple, red
+	var defaultColor ="white"; // Default color for new added trip. Background color can be: white, blue, green, purple or red.
 
 	var profile = undefined;
 
@@ -167,6 +167,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.addNewTrip = function(trip) {
 		var newId = Object.keys(tripsHistoryDb).length != 0 ? Math.max.apply(Math,Object.keys(tripsHistoryDb)) + 1 : 0;
+		trip.color = defaultColor;
 		tripsHistoryDb[newId] = trip;
 		return newId;
 	}
@@ -544,14 +545,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.getSelectedCity = function() {
 		return selectedCity;
 	};
-
-	this.getColorEvent = function () {
-		return colorEvent;
-	}
-
-	this.setColorEvent = function(color) {
-		colorEvent = color;
-	}
 
 	this.setBaseConditions = function(data) {
 		baseConditions = data;

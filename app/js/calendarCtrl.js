@@ -32,11 +32,13 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 		// returnDate.setDate(departDate.getDate() + 2);
 		// var departCity = 'Stockholm';
 		// var returnCity = 'Madrid';
-		// var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
+		// var col = "red";
+		// var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity, "color": col};
 		// SunnyExpress.addNewTrip(trip);
 		// //end temporal trip
 
 	var selectedTrip = undefined;
+	var selectedTripId = undefined;
 
 	var tripSelection = function () {
 		if (selectedTrip != undefined) {
@@ -51,6 +53,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 	var closeToolBar = function () {
 		selectedTrip = undefined;
+		selectedTripId = undefined;
 		$scope.tripSelected = tripSelection();
 		$scope.isToolBarOpen = false;
 	};
@@ -72,6 +75,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 				&& date.getMonth() == tripDates[j].getMonth()
 				&& date.getFullYear() == tripDates[j].getFullYear()) {
 					selectedTrip = trips[id];
+					selectedTripId = id;
 					changeToolBar();
 					break;
 				}
@@ -119,13 +123,13 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			var departureText;
 			switch (trip.state) {
 				case 0:
-					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">Going to: <br><b>" + trip.data.arriveCity + "</b></p></div>"
+					departureText = "<div layout:\"row\"><p class=\"" + trip.data.color + "-event\">Going to: <br><b>" + trip.data.arriveCity + "</b></p></div>"
 					break;
 				case 1:
-					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">Coming back to: <br><b>" + trip.data.departCity + "</b></p></div>";
+					departureText = "<div layout:\"row\"><p class=\"" + trip.data.color + "-event\">Coming back to: <br><b>" + trip.data.departCity + "</b></p></div>";
 					break;
 				case 2:
-					departureText = "<div layout:\"row\"><p class=\"" + SunnyExpress.getColorEvent() + "-event\">On a trip</p></div>";
+					departureText = "<div layout:\"row\"><p class=\"" + trip.data.color + "-event\">On a trip</p></div>";
 					break;
 			}
 			if (SunnyExpress.getForecastDisplay() == true) {
@@ -222,11 +226,9 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 		red: "#ff6666"
 	};
 
-	$scope.colorEvent = SunnyExpress.getColorEvent();
-
 	$scope.changeColor = function(color) {
-		SunnyExpress.setColorEvent(color);
 		var trips = SunnyExpress.getTrips();
+		trips[selectedTripId].color = color;
 		for (id in trips) {
 			var tripDates = getDatesTrip(trips[id]);
 			for (var j = 0; j < tripDates.length; j++) {
