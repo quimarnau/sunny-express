@@ -119,6 +119,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	};
 
 	var setCalendarContent = function(date, trip) {
+		today = new Date();
 		if (trip != null) {
 			var departureText;
 			switch (trip.state) {
@@ -132,7 +133,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 					departureText = "<div layout:\"row\"><p class=\"" + trip.data.color + "-event\">On a trip</p></div>";
 					break;
 			}
-			if (SunnyExpress.getForecastDisplay() == true) {
+			if ((SunnyExpress.getForecastDisplay() == true) && (date.getTime() >= today.getTime())) {
 				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
 					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
 					+ departureText + 
