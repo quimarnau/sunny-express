@@ -18,10 +18,13 @@
               <img src="images/cancel.png">
             </md-button>  -->
             <p ng-hide = "tripSelected" style="text-align: center; padding-top: 8px">Click on a trip please</p>   
-            <md-switch  ng-show = "tripSelected" aria-label="Weather forecast display" ng-model="forecastDisplay" class="md-primary" md-no-ink="" ng-click="onChange(forecastDisplay)"></md-switch>
+            <md-switch  ng-show = "tripSelected" aria-label="Weather forecast display" ng-model="forecastDisplay" class="md-primary" md-no-ink="" ng-click="onChange(forecastDisplay); $event.stopPropagation();"></md-switch>
             <p ng-show = "tripSelected" style="padding-top: 10px">Show forecast:</p>
-            <md-button ng-show = "tripSelected" class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key)" aria-label={{key}} style="background-color: {{color}};height: 20px;width: 20px;"></md-button>
+            <md-button ng-show = "tripSelected" class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key); $event.stopPropagation();" aria-label={{key}} style="background-color: {{color}};height: 30px;width: 30px;"></md-button>
             <p ng-show = "tripSelected" style="padding-top: 8px">Background color:</p>
+            <md-button ng-show = "tripSelected" aria-label="Delete" ng-click="deleteTrip()">
+              <img src="images/garbage.png">
+            </md-button>
             <p ng-show = "tripSelected">{{tripTxt}}</p>
           </md-fab-actions>
         </md-toolbar>

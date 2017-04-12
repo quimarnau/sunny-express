@@ -150,15 +150,11 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 		}
 	};
 
-	var deleteTrip = function(date) {
+	$scope.deleteTrip = function() {
 	  var trips = SunnyExpress.getTrips();
 	  var deletedTrip = {};
 		for (id in trips) {
-			var tripDates = getDatesTrip(trips[id]);
-			for (var j = 0; j < tripDates.length; j++) {
-				if (date.getDate() == tripDates[j].getDate()
-				&& date.getMonth() == tripDates[j].getMonth()
-				&& date.getFullYear() == tripDates[j].getFullYear()) {
+				if (id == selectedTripId) {
 					var confirmDeletion = $mdDialog.confirm()
 					  .title('Do you really want us to delete your trip?')
 					  .textContent('Your trip to '+ trips[id].arriveCity +
@@ -200,7 +196,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 						}
 					}, function() {
 					});
-				}
+				
 			}
 		}
 	};
