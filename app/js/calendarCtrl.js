@@ -134,15 +134,13 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 					break;
 			}
 			if ((SunnyExpress.getForecastDisplay() == true) && (date.getTime() >= today.getTime())) {
-				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
-					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
+				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">"
 					+ departureText + 
 					"<div layout:\"row\">\
 					<img src=\"../images/icons-map/sunny.png\"style=\"min-width: 20px; min-height: 20px;\">\
 					</div></div>");
 			} else {
-				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
-					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
+				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">"
 					+ departureText + "</div>");
 			}
 		} else if (trip == null) {
