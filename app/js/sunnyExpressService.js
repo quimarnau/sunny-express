@@ -18,6 +18,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var isLoggedIn = false; // set this flag to true if logged in
 	var isLoginClicked = false;
 	var flightInfo = {};
+	var mapConditionIdName = {};
 
 	var weatherApiKey = "8e160eeab587455bb77133238172903";//"4f1d06b1e44e43099b0180536171603";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
@@ -36,15 +37,21 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var iataCodesAirlines = undefined;
 	var baseConditions = undefined;
 	var weatherConditionResolveDB = undefined;
+	var mapConditionIdName = undefined;
 
-	var tripsHistoryDb = {}; // One trip data - 1: {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": string}
-
+	var tripsHistoryDb = {}; // One trip data - 1: {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": string, "forecast": Array, "updateDate": Date()}
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 
 	var forecastDisplay = true;
-	var defaultColor ="white"; // Default color for new added trip. Background color can be: white, blue, green, purple or red.
-
 	var profile = undefined;
+
+	this.getMapConditionIdName = function() {
+		return mapConditionIdName;
+	}
+
+	this.setMapConditionIdName = function(data) {
+		mapConditionIdName = data;
+	}
 
 	this.setUserId = function(id) {
 		userId = id;
@@ -167,7 +174,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
 	this.addNewTrip = function(trip) {
 		var newId = Object.keys(tripsHistoryDb).length != 0 ? Math.max.apply(Math,Object.keys(tripsHistoryDb)) + 1 : 0;
-		trip.color = defaultColor;
 		tripsHistoryDb[newId] = trip;
 		return newId;
 	}
@@ -613,6 +619,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendGetBaseConditions = $resource(backendBaseUrl+"baseConditions");
 	this.backendGetAggregateConditions = $resource(backendBaseUrl+"aggregateConditions");
 	this.backendGetIataCodesAirlines = $resource(backendBaseUrl+"iataCodesAirlines");
+	this.backendGetMapConditionIdName = $resource(backendBaseUrl+"mapConditionIdName");
 
 	this.backendGetCitiesCountry = $resource(backendBaseUrl+"citiesCountry/:country");
 	this.backendGetTrips = $resource(backendBaseUrl+"trips/:userId");

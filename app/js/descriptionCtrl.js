@@ -1,5 +1,6 @@
 sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $rootScope, $timeout, $mdDialog, $routeParams, cities, countries, baseConditions,
-	aggregateConditions, iataCodesAirlines, SunnyExpress) {
+	aggregateConditions, iataCodesAirlines, mapConditionIdName, SunnyExpress) {
+	var defaultColor = "white";
 	$rootScope.$broadcast("loadingEvent",true);
 
 	if(SunnyExpress.getCities() == undefined) SunnyExpress.setCities(cities) ;
@@ -7,6 +8,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	if(SunnyExpress.getBaseConditions() == undefined) SunnyExpress.setBaseConditions(baseConditions);
 	if(SunnyExpress.getAggregateConditions() == undefined) SunnyExpress.setAggregateConditions(aggregateConditions);
 	if(SunnyExpress.getIataCodesAirlines() == undefined) SunnyExpress.setIataCodesAirlines(iataCodesAirlines);
+	if(SunnyExpress.getMapConditionIdName() == undefined) SunnyExpress.setMapConditionIdName(mapConditionIdName);
 
 	$scope.thereAreFlights = false;
 	$scope.status = "Loading...";
@@ -112,12 +114,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	}
 
 	// TODO: Move to model, map and description views using it
-	$scope.mapConditionIdName = {
-		1000: "sunny",
-		1006: "cloudy",
-		1189: "rain",
-		1219: "snow"
-	};
+	$scope.mapConditionIdName = SunnyExpress.getMapConditionIdName();
 
     $scope.getQuotes = function() {
         $scope.getFlights = SunnyExpress.getFlights();
@@ -164,8 +161,17 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 		var returnDate = SunnyExpress.getReturnDate();
 		var departCity = SunnyExpress.getDepartCity();
 		var returnCity = SunnyExpress.getSelectedCity();
+		var forecasts = SunnyExpress.getActiveCities()[SunnyExpress.getSelectedCity()].forecast;
+		var aggregatedForecast = [];
+		var tempDate = new Date(departDate);
 
-		var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity};
+		for(dayForecast in forecasts) {
+			aggregatedForecast.push({"date": new Date(tempDate), "condition": SunnyExpress.filterCode(forecasts[dayForecast].day.condition.code)});
+			tempDate.setDate(tempDate.getDate() + 1);
+			tempDate = new Date(tempDate);
+		}
+
+		var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity, "color": defaultColor, "forecast": aggregatedForecast, "updateDate": new Date()};
 		var tripStatus = SunnyExpress.checkTripOverlap(trip);
 		if(tripStatus != null) {
 			$mdDialog.show(

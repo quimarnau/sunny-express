@@ -1,11 +1,6 @@
 sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress, $rootScope, $mdDialog) {
 
-	$scope.mapConditionIdName = {
-		1000: "sunny",
-		1006: "cloudy",
-		1189: "rain",
-		1219: "snow"
-	};
+	$scope.mapConditionIdName = SunnyExpress.getMapConditionIdName();
 
 	$scope.iconPath = '../images/icons-map/';
 	$scope.ext = '.png';

@@ -90,6 +90,16 @@ app.get("/baseConditions", function(req, res) {
 	})
 });
 
+app.get("/mapConditionIdName", function(req, res) {
+	weatherConditionsDb.find({}).toArray(function(err, docs) {
+		var mapConditionIdName = {};
+		for (var i = 0; i < docs.length; i++) {
+			mapConditionIdName[docs[i].baseCode] = docs[i].name;
+		};
+		res.json(mapConditionIdName);
+	})
+});
+
 app.get("/aggregateConditions", function(req, res) {
 	weatherConditionsDb.find({}).toArray(function(err, docs) {
 		var weatherResolveDb = {};

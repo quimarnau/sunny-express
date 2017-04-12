@@ -31,6 +31,11 @@ var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', '
 					return SunnyExpress.backendGetIataCodesAirlines.query().$promise.then(function(data){
 						return data;
 					});
+				},
+				mapConditionIdName: function(SunnyExpress) {
+					return SunnyExpress.backendGetMapConditionIdName.get().$promise.then(function(data){
+						return data;
+					});
 				}
 			}
 			return $routeProvider.when(path, route);

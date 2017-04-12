@@ -1,10 +1,13 @@
-sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, SunnyExpress, MaterialCalendarData) {
+sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, mapConditionIdName, SunnyExpress, MaterialCalendarData) {
+
+	if(SunnyExpress.getMapConditionIdName() == undefined) SunnyExpress.setMapConditionIdName(mapConditionIdName);
 	
 	//Calendar set up
 	$scope.dayFormat = "d";
 	$scope.selectedDate = new Date();
 	$scope.tooltips = true;
 	$scope.firstDayOfWeek = 0; // First day of the week, 0 for Sunday, 1 for Monday, etc.
+	var today = new Date();
 
 	$scope.setDirection = function(direction) {
 	  $scope.direction = direction;
@@ -19,24 +22,12 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	//Forecast display
 	$scope.forecastDisplay = SunnyExpress.getForecastDisplay();
 
-	$scope.mapConditionIdName = {
-		1000: "sunny",
-		1006: "cloudy",
-		1189: "rain",
-		1219: "snow"
+	var mapConditionIdName = SunnyExpress.getMapConditionIdName();
+
+	$scope.getWeatherIcon = function(code) {
+		return SunnyExpress.filterCode(code);
 	};
-
-		// //temporal trip for testing - to be removed afterwards
-		// var departDate = new Date();
-		// var returnDate = new Date();
-		// returnDate.setDate(departDate.getDate() + 2);
-		// var departCity = 'Stockholm';
-		// var returnCity = 'Madrid';
-		// var col = "red";
-		// var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity, "color": col};
-		// SunnyExpress.addNewTrip(trip);
-		// //end temporal trip
-
+	
 	var selectedTrip = undefined;
 	var selectedTripId = undefined;
 
@@ -119,7 +110,6 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	};
 
 	var setCalendarContent = function(date, trip) {
-		today = new Date();
 		if (trip != null) {
 			var departureText;
 			switch (trip.state) {
@@ -133,11 +123,18 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 					departureText = "<div layout:\"row\"><p class=\"" + trip.data.color + "-event\">On a trip</p></div>";
 					break;
 			}
-			if ((SunnyExpress.getForecastDisplay() == true) && (date.getTime() >= today.getTime())) {
+			if ((SunnyExpress.getForecastDisplay() == true) && ((date.getTime() > today.getTime()) || (date.toDateString() == today.toDateString()))) {
+				var dayConditionName = undefined;
+				for(var i = 0; i< trip.data.forecast.length; i++) {
+					var tempDate = new Date(trip.data.forecast[i].date);
+					if(date.toDateString() === tempDate.toDateString()){
+						dayConditionName = mapConditionIdName[trip.data.forecast[i].condition];
+					}
+				}
 				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">"
 					+ departureText + 
 					"<div layout:\"row\">\
-					<img src=\"../images/icons-map/sunny.png\"style=\"min-width: 20px; min-height: 20px;\">\
+					<img src=\"../images/icons-map/"+dayConditionName+".png\"style=\"min-width: 20px; min-height: 20px;\">\
 					</div></div>");
 			} else {
 				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">"
