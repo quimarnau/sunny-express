@@ -161,16 +161,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return null;
 	}
 
-	// this.getTripIdForDay = function(checkDate) {
-	// 	for (tripId in tripsHistoryDb) {
-	// 		if ((checkDate.toDateString() === tripsHistoryDb[tripId].start.toDateString())
-	// 			|| (checkDate.toDateString() === tripsHistoryDb[tripId].end.toDateString())
-	// 			|| ((checkDate.getTime() <= tripsHistoryDb[tripId].end.getTime()) && (checkDate.getTime() >= tripsHistoryDb[tripId].start.getTime()))) {
-	// 			return tripId;
-	// 		};
-	// 	};
-	// };
-
 	this.removeTrip = function(id) {
 		delete tripsHistoryDb[id];
 	}
@@ -613,46 +603,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		});
 	};
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////:
-	// var tripsWeather = [];
-
-	// this.setTripsWeather = function(idTrip, forecast) {
-	// 	tripsWeather.push({"id": idTrip, "forecast": forecast});
-	// };
-
-	// this.getTripsWeather = function() {
-	// 	return tripsWeather;
-	// };
-
-	// this.searchTripsWeather = function(trips) {
-	// 	var weatherTrips = [];
-	// 	for (id in trips) {
-	// 		var numDays = Math.round((trips[id].end-trips[id].start)/(1000*60*60*24)) + 1;
-	// 		var dayOffset =  Math.round((trips[id].start - new Date())/(1000*60*60*24)); // between 0 to 8
-	// 		var numForecastDays = numDays + dayOffset;
-	// 		this.setDayOffset(dayOffset);
-
-	// 		this.backendGetCity.query({"city":trips[id].returnCity}).$promise.then(function(city){
-	// 			var cityForecast = self.searchWeatherCity(numForecastDays,city);
-
-	// 			$q.all(cityForecast).then(function(data) {
-	// 				var forecastTrip = self.filterForecastData(data);
-	// 				self.setTripsWeather(id, forecastTrip);
-	// 				successCallback();
-	// 			})
-	// 		});
-	// 	};
-	// 	return weatherTrips;
-	// };
-
-	
-
-		// request not working
-	// this.backendGetCity = $resource(backendBaseUrl+"city/:city");
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
 	this.getNearbyPlaces = $resource(googlePlacesReqUrl, {parameters: "", key: googleMapsApiKey, location: "@location", radius: "5000"});
 	this.getLocationCoordinates = $resource(googleMapsReqUrl, {locationParams: "", key: googleMapsApiKey, address: "@address"});
 	this.getCityWeather = $resource(weatherReqUrl, {forecastParams: "", key: weatherApiKey, days: "@days", q: "@q"});
@@ -669,7 +619,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendAddTrip = $resource(backendBaseUrl+"addTrip/:userId",{}, { create: { method: "POST", headers: { "Content-Type": "application/json"}}});
 	this.backendUpdateTrip = $resource(backendBaseUrl+"updateTrip/:userId",{}, { update: { method: "POST", headers: { "Content-Type": "application/json"}}});
 	this.backendRemoveTrip = $resource(backendBaseUrl+"deleteTrip/:userId/:id");
-	
 
 	// Cookie data loading on reload
 
