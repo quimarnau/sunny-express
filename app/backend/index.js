@@ -74,6 +74,22 @@ app.get("/cities", function(req, res) {
 	})
 });
 
+// //In order to get the longitude and latitude of the destination city of registered trips
+// app.get("/city/:city", function(req, res) {
+// 	countryCitiesDb.find({}).toArray(function(err, docs) {
+// 		for (var i = 0; i < docs.length; i++) {
+// 			var city = undefined;
+// 			for (var j = 0; j < docs[i].cities.length; j++) {
+// 				if (docs[i].cities[j].name == req.params.city) {
+// 					city = docs[i].cities[j];
+// 					break;
+// 				};
+// 		 	};
+// 		};
+// 		res.json(city);
+// 	})
+// });
+
 app.get("/citiesCountry/:country", function(req, res) {
 	countryCitiesDb.find({name:req.params.country}).toArray(function(err, docs) {
 		res.json(docs[0].cities);
@@ -130,17 +146,8 @@ app.post("/addTrip/:userId", function(req, res) {
 	});
 });
 
-app.post("/updateTrip/:userId/", function(req, res) {
-	id = Object.keys(req.body)[0];
-	tripsHistoryDb.update({"id": id, "userId":req.params.userId}, {"id": id,"trip":req.body[id], "userId":req.params.userId}, {w:1}, function(err, result) {
-		if(err) console.log(err);
-		else if(result.result.ok == 1) {
-			res.json({"resp": "OK"});
-		}
-	});
-});
-
 app.delete("/deleteTrip/:userId/:id", function(req, res) {
+	console.log(req.params.userId);
 	tripsHistoryDb.remove({"userId": req.params.userId,"id":req.params.id}, {w:1}, function(err, result) {
 		if(err) console.log(err);
 		else if(result.result.ok == 1) {

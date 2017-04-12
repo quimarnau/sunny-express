@@ -13,29 +13,25 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 	$scope.fillCalendar = function(date) {
 		var trip = SunnyExpress.getTripForDay(date);
-		setCalendarContent(date, trip);	
+	//	var id = SunnyExpress.getTripIdForDay(date);
+		setCalendarContent(date, trip);//, id);	
 	}
+
+
+	var today = new Date();
+	var trips = SunnyExpress.getTrips();
+
+
 
 	//Forecast display
 	$scope.forecastDisplay = SunnyExpress.getForecastDisplay();
 
-	$scope.mapConditionIdName = {
+	var mapConditionIdName = {
 		1000: "sunny",
 		1006: "cloudy",
 		1189: "rain",
 		1219: "snow"
 	};
-
-		// //temporal trip for testing - to be removed afterwards
-		// var departDate = new Date();
-		// var returnDate = new Date();
-		// returnDate.setDate(departDate.getDate() + 2);
-		// var departCity = 'Stockholm';
-		// var returnCity = 'Madrid';
-		// var col = "red";
-		// var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity, "color": col};
-		// SunnyExpress.addNewTrip(trip);
-		// //end temporal trip
 
 	var selectedTrip = undefined;
 	var selectedTripId = undefined;
@@ -67,7 +63,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	};
 
 	$scope.selectTrip = function(date) {
-		var trips = SunnyExpress.getTrips();
+		
 		for (id in trips) {
 			var tripDates = getDatesTrip(trips[id]);
 			for (var j = 0; j < tripDates.length; j++) {
@@ -118,8 +114,44 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			};		
 	};
 
-	var setCalendarContent = function(date, trip) {
-		today = new Date();
+	// var tripsWeatherSearched = {"day": new Date(), "state": false};
+
+	// var updateTripsWeatherSearched = function() {
+	// 	tripsWeatherSearched.day = today;
+	// 	tripsWeatherSearched.state = true;
+	// }
+
+	// if (tripsWeatherSearched.state == false
+	// 	|| ((tripsWeatherSearched.day.getTime() < today.getTime()) && (tripsWeatherSearched.state == true))) {
+		
+	// 	SunnyExpress.searchTripsWeather(trips);
+	// 	updateTripsWeatherSearched();
+
+	// }
+	
+	// var tripsForecast = SunnyExpress.getTripsWeather();
+
+	// var getWeatherIcon = function(date, id) {
+	// 	var tripDates = getDatesTrip(trips[id]);
+
+	// 	for (var i = 0; i < tripDates.length; i++) {
+	// 		if (date.getDate() == tripDates[i].getDate()
+	// 		&& date.getMonth() == tripDates[i].getMonth()
+	// 		&& date.getFullYear() == tripDates[i].getFullYear()) {
+	// 			for (j = 0; j < tripsForecast.length; j++) {
+	// 				if (tripsForecast[j].id == id) {
+	// 					var tripForecast = tripsForecast[j].forecast;
+	// 					break;
+	// 				}
+	// 			}
+				
+	// 			var code = tripForecast[i].day.condition.code;
+	// 			return SunnyExpress.filterCode(code);
+	// 		}
+	// 	}
+	// };
+
+	var setCalendarContent = function(date, trip, id) {
 		if (trip != null) {
 			var departureText;
 			switch (trip.state) {
@@ -135,14 +167,16 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			}
 			if ((SunnyExpress.getForecastDisplay() == true) && (date.getTime() >= today.getTime())) {
 				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
-					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
+					<div layout:\"row\"></div>"
 					+ departureText + 
 					"<div layout:\"row\">\
-					<img src=\"../images/icons-map/sunny.png\"style=\"min-width: 20px; min-height: 20px;\">\
+					<img src=\"../images/icons-map/sunny" +
+					// + mapConditionIdName[getWeatherIcon(date, trip, id)] +
+					".png\"style=\"min-width: 20px; min-height: 20px;\">\
 					</div></div>");
 			} else {
 				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">\
-					<div class=\"delete-btn\" layout:\"row\"><img src=\"../images/delete.png\"></div>"
+					<div layout:\"row\"></div>"
 					+ departureText + "</div>");
 			}
 		} else if (trip == null) {
@@ -151,8 +185,9 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	};
 
 	$scope.deleteTrip = function() {
-	  var trips = SunnyExpress.getTrips();
+	  
 	  var deletedTrip = {};
+	  var deletedTripId = undefined;
 		for (id in trips) {
 				if (id == selectedTripId) {
 					var confirmDeletion = $mdDialog.confirm()
@@ -167,6 +202,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 					$mdDialog.show(confirmDeletion).then(function() {
 						deletedTrip = trips[id];
+						deletedTripId = id;
 						SunnyExpress.removeTrip(id);
 
 						if(SunnyExpress.getIsLoggedIn()) {
@@ -191,7 +227,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 						while (d.getTime() <= deletedTrip.end.getTime()) {
 							var tmp = new Date();
 							tmp.setDate(d.getDate() +1);
-							setCalendarContent(d, null);
+							setCalendarContent(d, null, deletedTripId);
 							d.setDate(tmp.getDate());	
 						}
 					}, function() {
@@ -203,12 +239,12 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 	$scope.onChange = function(state) {
 		SunnyExpress.setForecastDisplay(!state);
-		var trips = SunnyExpress.getTrips();
+		
 		for (id in trips) {
 			var tripDates = getDatesTrip(trips[id]);
 			for (var j = 0; j < tripDates.length; j++) {
 				var dateState = getDateState(tripDates[j], trips[id]);
-				setCalendarContent(tripDates[j], dateState);
+				setCalendarContent(tripDates[j], dateState, id);
 			}
 			
 		}
@@ -224,7 +260,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	};
 
 	$scope.changeColor = function(color) {
-		var trips = SunnyExpress.getTrips();
+		
 		trips[selectedTripId].color = color;
 		SunnyExpress.updateTrip(selectedTripId, trips[selectedTripId]);
 		var data = {};
@@ -248,7 +284,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			var tripDates = getDatesTrip(trips[id]);
 			for (var j = 0; j < tripDates.length; j++) {
 				var dateState = getDateState(tripDates[j], trips[id]);
-				setCalendarContent(tripDates[j], dateState);
+				setCalendarContent(tripDates[j], dateState, id);
 			}
 			
 		}
