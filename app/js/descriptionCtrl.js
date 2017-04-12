@@ -11,7 +11,9 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	if(SunnyExpress.getMapConditionIdName() == undefined) SunnyExpress.setMapConditionIdName(mapConditionIdName);
 
 	$scope.thereAreFlights = false;
-	$scope.status = "Loading...";
+	$scope.status = "Loading...";	
+	$scope.mapConditionIdName = SunnyExpress.getMapConditionIdName();
+
 	var selectedCity = undefined;
 
 	var init = function() {
@@ -47,9 +49,8 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 				})
 			});
 
-
 		SunnyExpress.searchFlights(function(data) {
-			$timeout(function() { //Success function after search
+			$timeout(function() { 
 				var flightInfo = {};
 				flightInfo.quotes = data.Quotes.filter(function(quote) {
 					return quote.InboundLeg != undefined && quote.OutboundLeg != undefined;
@@ -98,7 +99,9 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 				}
 			})
 		},
-			function(data) { //Error found
+			function(data) { 
+				console.log(data);
+				$scope.status = "Error found";
 				$mdDialog.show(
 					$mdDialog.alert()
 						.parent(angular.element(document.querySelector("#general-view")))
@@ -108,13 +111,8 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 						.ariaLabel("Alert")
 						.ok("Got it!")
 				);
-				console.log(data);
-				$scope.status = "Error found";
 			});
 	}
-
-	// TODO: Move to model, map and description views using it
-	$scope.mapConditionIdName = SunnyExpress.getMapConditionIdName();
 
     $scope.getQuotes = function() {
         $scope.getFlights = SunnyExpress.getFlights();

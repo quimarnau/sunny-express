@@ -1,11 +1,10 @@
 sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress, $rootScope, $mdDialog) {
 
 	$scope.mapConditionIdName = SunnyExpress.getMapConditionIdName();
-
 	$scope.iconPath = '../images/icons-map/';
 	$scope.ext = '.png';
-
 	$scope.mapFeatures = SunnyExpress.getMapFeatures();
+	
 	$scope.getCityCoords = function() {
 		var activeCities = SunnyExpress.getActiveCities();
 		if (Object.keys(activeCities).length == 0 && $rootScope.searchPerformed == true) {

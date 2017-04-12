@@ -1,13 +1,8 @@
-TODO 12th
+TODO
 - Calendar interaction (color, etc.) -> Laura, Mat
-    - Correct forecast data ->  For future trips we store forecast data and update date
-                                Past trips don't have forecast
-    - Store the colour for each user
-
-TODO 19th
-- Calendar interaction
-    - Separate coloring for each trip
-    - Interaction with the trips separated from the calendar (removal and colouring)
+    - Correct forecast data ->  For future trips we update weather max once every day
+                            ->  Calendar trip selection correct (if clicked elsewhere then on a trip, set selected trip to undefined
+- Solve bug on profile page if logged out.
 
 TO DISCUSS / BUGS / MINOR CONCERNS
 - Majority vote in case of tie
