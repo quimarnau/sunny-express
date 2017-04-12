@@ -229,6 +229,24 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	$scope.changeColor = function(color) {
 		var trips = SunnyExpress.getTrips();
 		trips[selectedTripId].color = color;
+		SunnyExpress.updateTrip(selectedTripId, trips[selectedTripId]);
+		var data = {};
+		data[selectedTripId] = trips[selectedTripId];
+
+		SunnyExpress.backendUpdateTrip.update({"userId": SunnyExpress.getUserId()},data, function(data){
+			if(data.resp != "OK") {
+				$mdDialog.show(
+					$mdDialog.alert()
+						.parent(angular.element(document.querySelector("#general-view")))
+						.clickOutsideToClose(true)
+						.title("ERROR WHILE UPDATING TRIP IN DB")
+						.textContent("The trip updating to the DB was unsuccessful due to an error.")
+						.ariaLabel("Alert")
+						.ok("Got it!")
+				);
+			}
+		});
+
 		for (id in trips) {
 			var tripDates = getDatesTrip(trips[id]);
 			for (var j = 0; j < tripDates.length; j++) {

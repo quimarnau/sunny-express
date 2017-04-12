@@ -172,6 +172,10 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 		return newId;
 	}
 
+	this.updateTrip = function(id, newTrip) {
+		tripsHistoryDb[id] = newTrip;
+	}
+
 	this.resolveWeatherCondition = function(id, idToCheck) {
 		if(weatherConditionResolveDB[id].indexOf(idToCheck) >= 0) {
 			return true;
@@ -613,6 +617,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	this.backendGetCitiesCountry = $resource(backendBaseUrl+"citiesCountry/:country");
 	this.backendGetTrips = $resource(backendBaseUrl+"trips/:userId");
 	this.backendAddTrip = $resource(backendBaseUrl+"addTrip/:userId",{}, { create: { method: "POST", headers: { "Content-Type": "application/json"}}});
+	this.backendUpdateTrip = $resource(backendBaseUrl+"updateTrip/:userId",{}, { update: { method: "POST", headers: { "Content-Type": "application/json"}}});
 	this.backendRemoveTrip = $resource(backendBaseUrl+"deleteTrip/:userId/:id");
 
 	// Cookie data loading on reload
