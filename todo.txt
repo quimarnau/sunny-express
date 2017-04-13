@@ -1,8 +1,6 @@
 TODO
 - Calendar interaction (color, etc.) -> Laura, Mat
-    - Correct forecast data ->  For future trips we update weather max once every day
-
-- Go over overall style -> Harmonization of the app and remove the most of inline style as possible of description view (Laura)
+    - Correct forecast data ->  For future trips we update weather max once every day - POSTPONED ( bigger bug to be investigated, for the moment the submission without it)
 
 TO DISCUSS / BUGS / MINOR CONCERNS
 - Majority vote in case of tie

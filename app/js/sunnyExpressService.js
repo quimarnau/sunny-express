@@ -114,7 +114,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	};
 
 	this.setWindPreference = function(windState) {
-		this.windPreference = windState;
+		windPreference = windState;
 		if ($cookieStore.get("windPreference") != undefined) {
 			$cookieStore.remove("windPreference");
 		}
@@ -122,7 +122,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	};
 
 	this.getWindPreference = function() {
-		return this.windPreference;
+		return windPreference;
 	};
 
 	this.getTrips = function() {
