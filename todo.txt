@@ -4,7 +4,7 @@ TODO
 
 - Solve bug on profile page if logged out.
 
-- Go over overall style -> Harmonization of the app and remove the most of inline style as possible (Laura)
+- Go over overall style -> Harmonization of the app and remove the most of inline style as possible of description view (Laura)
 
 TO DISCUSS / BUGS / MINOR CONCERNS
 - Majority vote in case of tie
