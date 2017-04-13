@@ -8,7 +8,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-10 col-md-offset-1"  style="background-color: white; border-radius: 3px; box-shadow: 0px 5px 5px #1f2e2e;max-height: 60%; margin-top: 20px;">
+		<div class="col-md-10 col-md-offset-1" id="card-effect">
 
 				<div class="row">
 					<div class="col-md-1 col-md-offset-11 padding-0" align="right">
@@ -20,49 +20,47 @@
 
 				<div class="row md-padding">
 					<div class="col-md-5">
-							<md-card class="card">
-									<md-card-title>
-											<md-card-title-text>
-													<span class="md-headline">My trip plan to {{getArriveCity()}}</span>
-											</md-card-title-text>
-									</md-card-title>
-									<md-card-content layout="row" layout-align="space-between">
-											<div layout="column">
-												<img ng-src="{{cityPic()}}" style="max-width:350px;max-height:150px">
-											</div>
-											<md-card-actions layout="column" layout-align="end center" >
-													<md-button class="md-icon-button" aria-label="Favorite">
-															<md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-													</md-button>
-											</md-card-actions>
+  					<md-card class="card">
+							<md-card-title>
+								<md-card-title-text>
+										<span class="md-headline">My trip plan to {{getArriveCity()}}</span>
+								</md-card-title-text>
+							</md-card-title>
+							<md-card-content layout="row" layout-align="space-between">
+								<div layout="column">
+									<img ng-src="{{cityPic()}}" id="city-pic">
+								</div>
+								<md-card-actions layout="column" layout-align="end center" >
+										<md-button class="md-icon-button" aria-label="Favorite">
+												<md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+										</md-button>
+								</md-card-actions>
 
-									</md-card-content>
-							</md-card>
-
-
+							</md-card-content>
+  					</md-card>
 					</div>
-					<div class="col-md-6" layout="row" layout-align="space-around center">
+				<div class="col-md-6" layout="row" layout-align="space-around center">
 							<div ng-repeat="dayForecast in getForecast()" layout="column" layout-align="space-around center">
 									<p>{{dayForecast.date | date:'MMM dd'}}</p>
 									<img ng-src="../images/icons-map/{{mapConditionIdName[getWeatherIcon(dayForecast.day.condition.code)]}}.png"
-								 style="min-width: 70px; min-width: 70px;">
-						<div class="row">
+								 id="md-weather-icon">
+						      <div class="row">
 											<div class="col-md-6" align="center">
-												<p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{dayForecast.day.mintemp_c}}ºC</p>
+												<p> <img src="../images/temperature-min.png" id="temp-info-icon"> {{dayForecast.day.mintemp_c}}ºC</p>
 											</div>
 											<div class="col-md-6" align="center">
-												<p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{dayForecast.day.maxtemp_c}}ºC</p>
+												<p> <img src="../images/temperature-max.png" id="temp-info-icon"> {{dayForecast.day.maxtemp_c}}ºC</p>
 											</div>
 									</div>
-									<p> <img src="../images/svg/wind.svg" style="max-width: 18px;"> {{dayForecast.day.maxwind_kph}} km/h</p>
+									<p> <img src="../images/svg/wind.svg" id="temp-info-icon"> {{dayForecast.day.maxwind_kph}} km/h</p>
 							</div>
-					</div>
+					  </div>
 					</div>
 
-					<div class="row" style="max-height: 20vh">
-						<div class="col-md-6"  style="max-height: 30vh; padding-left: 3%">
+					<div class="row box-container">
+						<div class="col-md-5 outter-box">
 								<h2>What to visit in {{getArriveCity()}}</h2>
-									<div style="max-height:110px;overflow-y: scroll">
+									<div class="inner-box">
 										<div ng-repeat="act in getTouristInfo()">
 										<p>
 												<img ng-src="{{act.icon}}" class="md-18">
@@ -71,22 +69,22 @@
 									</div>
 									</div>
 						</div>
-						<div class="col-md-6" style="max-height: 30vh; padding-left: 3%">
+						<div class="col-md-7 outter-box">
 						<h2>Flights from {{getDepartCity()}} to {{getArriveCity()}}</h2>
-							<div style="max-height:110px;overflow-y: scroll">
+							<div class="inner-box">
 								<md-content>
 									<md-list>
 										<md-list-item class="md-2-line" ng-repeat="quote in getQuotes()" ng-if="thereAreFlights">
 											<div class="col-md-5">
 												<div class="md-list-item-text">
-													<img ng-src="{{getFlights.carriers[quote.OutboundLeg.CarrierIds[0]].imageSrc}}" style="max-height: 60px">
+													<img ng-src="{{getFlights.carriers[quote.OutboundLeg.CarrierIds[0]].imageSrc}}" id="logo-airline">
 													<h3>{{getFlights.carriers[quote.OutboundLeg.CarrierIds[0]].name}} </h3>
 													<h4>{{getFlights.places[quote.OutboundLeg.OriginId].Name}} to {{getFlights.places[quote.OutboundLeg.DestinationId].Name}}</h4>
 												</div>
 											</div>
 											<div class="col-md-5">
 												<div class="md-list-item-text">
-													<img ng-src="{{getFlights.carriers[quote.InboundLeg.CarrierIds[0]].imageSrc}}" style="max-height: 60px;">
+													<img ng-src="{{getFlights.carriers[quote.InboundLeg.CarrierIds[0]].imageSrc}}" id="logo-airline">
 													<h3>{{getFlights.carriers[quote.InboundLeg.CarrierIds[0]].name}}: </h3>
 													<h4>{{getFlights.places[quote.InboundLeg.OriginId].Name}} to {{getFlights.places[quote.InboundLeg.DestinationId].Name}}</h4>
 												</div>
@@ -107,7 +105,7 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-12" align = "right" style="padding-bottom: 5px">
+				<div class="col-md-12 pb-10" align = "right">
 							<md-button class="md-raised" ng-click="addTrip()" id="confirm-btn">Yes, I go!</md-button>
 				</div>
 			</div>

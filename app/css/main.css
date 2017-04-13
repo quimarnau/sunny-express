@@ -86,6 +86,9 @@ nav {
 .pt-30 {
 	padding-top:30px;
 }
+.pb-5 {
+	padding-bottom: 5px;
+}
 .pb-10 {
 	padding-bottom: 10px;
 }
@@ -212,6 +215,43 @@ svg {
 	height: 18px;
 	width: 18px;
 }
+#card-effect {
+	background-color: white;
+	border-radius: 3px;
+	box-shadow: 0px 5px 5px #1f2e2e;
+	max-height: 60%;
+	margin-top: 20px;
+}
+#city-pic {
+	max-width:350px;
+	max-height:150px
+}
+#md-weather-icon {
+	min-width: 70px;
+	min-width: 70px;
+}
+#sm-weather-icon {
+	min-width: 20px;
+	min-height: 20px;
+}
+.box-container {
+	margin-top:-10px;
+	max-height: 20vh;
+	margin-bottom: 50px;
+
+}
+.outter-box {
+	max-height: 30vh;
+	padding-left: 3%
+}
+.inner-box {
+	max-height:110px;
+	overflow-y: scroll;
+}
+#logo-airline {
+	max-height: 60px;
+}
+
 /* ------------------------------------------------------ */
 
 /* Calendar view ---------------------------------------- */

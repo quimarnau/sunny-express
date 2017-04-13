@@ -158,7 +158,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">"
 					+ departureText + 
 					"<div layout:\"row\">\
-					<img src=\"../images/icons-map/"+dayConditionName+".png\"style=\"min-width: 20px; min-height: 20px;\">\
+					<img src=\"../images/icons-map/"+dayConditionName+".png\" id=\"sm-weather-icon\">\
 					</div></div>");
 			} else {
 				MaterialCalendarData.setDayContent(date, "<div align=\"center\" layout:\"column\">"
