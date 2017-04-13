@@ -79,14 +79,14 @@
 				<img src="../images/temperature-min.png">
 				<md-slider flex md-discrete ng-model="minTemperature" min="-20" max="{{maxTemperature}}"
 				           aria-label="Min" class="md-primary"></md-slider>
-				<p style="color:blue;font-size: 20px;margin-top: 3px;">{{minTemperature}}</p>
+				<p id="min-temp-value>{{minTemperature}}</p>
 			</md-slider-container>
 
 			<md-slider-container>
 				<img src="../images/temperature-max.png">
 				<md-slider flex md-discrete ng-model="maxTemperature" min="{{minTemperature}}" max="40"
 				           aria-label="Max" class="md-warn"></md-slider>
-				<p style="color:red;font-size: 20px;margin-top: 3px;">{{maxTemperature}}</p>
+				<p id="max-temp-value">{{maxTemperature}}</p>
 			</md-slider-container>
 
 			<div layout="row" layout-align="space-between center">
