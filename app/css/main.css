@@ -133,10 +133,14 @@ nav {
 
 
 /* - Search view ---------------------------------------- */
+#main-container {
+	padding-left: 1.2%
+}
 #input-container {
 	background-color: white;
 }
 #map-container {
+	min-height: 500px;
 	height: 100%;
 }
 #input-container, #map-container{
