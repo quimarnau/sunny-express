@@ -39,21 +39,19 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 		}
 	}
 
-	$scope.isToolBarOpen = false;
+	
 	$scope.tripSelected = tripSelection();
 
 	var closeToolBar = function () {
 		selectedTrip = undefined;
 		selectedTripId = undefined;
 		$scope.tripSelected = tripSelection();
-		$scope.isToolBarOpen = false;
 	};
 
-	var changeToolBar = function() {
+	var openToolBar = function() {
 		if (selectedTrip != undefined) {
-			$scope.isToolBarOpen = true;
 			$scope.tripSelected = true;
-			$scope.tripTxt = "Trip selected";
+			$scope.tripTxt = "trip to " + selectedTrip.arriveCity;
 		}
 	};
 
@@ -67,7 +65,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 				&& date.getFullYear() == tripDates[j].getFullYear()) {
 					selectedTrip = trips[id];
 					selectedTripId = id;
-					changeToolBar();
+					openToolBar();
 					break;
 				}
 			}
