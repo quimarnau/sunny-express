@@ -7,9 +7,9 @@
 
   <div class="row" id = "toolbar">
     <div class="col-md-10 col-md-offset-1">
-      <div class="row" style="color:white">
+      <div class="row">
         <div class="col-md-12" ng-hide = "tripSelected" align="center">
-          <p style="text-align: center; padding-top: 8px">Click on a trip to modify it</p>
+          <p class="centered-txt pt-8">Click on a trip to modify it</p>
         </div> 
         <div ng-show = "tripSelected" class="col-md-12">
           <div class="row" align = "center">
@@ -17,12 +17,12 @@
           </div>
           <div class="row" align = "center">
             <div class="col-md-2 col-md-offset-1" layout = "row" layout-align="space-between center">
-              <p style="padding-top: 10px">Show forecast:</p>
+              <p class="pt-8">Show forecast:</p>
               <md-switch aria-label="Weather forecast display" ng-model="forecastDisplay" md-no-ink="" ng-click="onChange(forecastDisplay); $event.stopPropagation();"></md-switch>
             </div>
             <div class="col-md-4 col-md-offset-1" layout = "row" layout-align="space-between center">
-              <p style="padding-top: 8px">Background color:</p>
-              <md-button class="md-fab md-mini" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key); $event.stopPropagation();" aria-label={{key}} style="background-color: {{color}};height: 30px;width: 30px;"></md-button>
+              <p class="pt-8">Background color:</p>
+              <md-button class="md-fab md-mini sm-color" ng-repeat="(key, color) in colorPanel" ng-click="changeColor(key); $event.stopPropagation();" aria-label={{key}} style="background-color: {{color}};"></md-button>
               </div>
               <div class="col-md-1 col-md-offset-2" layout = "row" layout-align="space-between center">
                 <md-button aria-label="Delete" ng-click="deleteTrip()">
@@ -39,10 +39,9 @@
         </div> 
       </div>
     </div>
-  </div>
   
   <div class="container {{calendarSize}}">
-    <div class="row" style="padding:10px">
+    <div class="row" id = "calendar">
       <calendar-md flex layout layout-fill
         calendar-direction="direction"
         on-day-click="selectTrip"
@@ -58,6 +57,6 @@
         disable-future-selection="false">
       </calendar-md>
     </div>
-    <div class="row" style="height: 3vh"></div>
+    <div class="row" id="bottom-spacing-calendar"></div>
   </div>
 </div>

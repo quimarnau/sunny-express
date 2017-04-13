@@ -68,14 +68,20 @@ nav {
 	border-bottom-right-radius:25px;
 	padding: 0px 20px 20px 20px;
 }
+.centered-txt {
+	text-align: center;
+}
 .pl-25 {
 	padding-left:25px;
 }
-.pt-10 {
-	padding-top:10px;
-}
 .pt-5 {
 	padding-top: 5px;
+}
+.pt-8 {
+	padding-top: 8px;
+}
+.pt-10 {
+	padding-top:10px;
 }
 .pt-30 {
 	padding-top:30px;
@@ -212,7 +218,12 @@ svg {
 .mb-15 {
 	margin-bottom: 15px;
 }
-
+#toolbar {
+	color: white;
+}
+#calendar {
+	padding: 10px;
+}
 .sm-cal {
 	max-height: 65vh;
 	overflow-y: scroll;
@@ -259,17 +270,15 @@ svg {
 .white {
 	background-color: white;
 }
-
-/*purple, blue, green, */
-
 .small-icon {
 	max-height: 50px;
 }
-#map {
-	bottom:0px;
-	height: 100%;
-	position: absolute;
-	right: 0px;
+.sm-color{
+	height: 30px;
+	width: 30px;
+}
+#bottom-spacing-calendar {
+	height: 3vh;
 }
 .angular-google-map-container { height: 80vh; }
 /* ------------------------------------------------------ */
