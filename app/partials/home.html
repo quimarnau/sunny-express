@@ -17,7 +17,7 @@
             </div>
             <div class="col-md-1 help-div" align="center">
               <md-button  ng-mouseover="helpDisplay()" ng-click="helpDisplay()" aria-label="Help display">
-                <img src="../images/help.svg" id="help-icon">
+                <img src="../images/help.png" id="help-icon">
               </md-button>
             </div> 
           
@@ -152,7 +152,7 @@
                   </div>
                   <div class="col-md-6">
                       <md-slider-container>
-                      <p class="visible-md visible-lg" id="max-temp-value">{{maxTemperature}}</p>
+                        <p class="visible-md visible-lg" id="max-temp-value">{{maxTemperature}}</p>
                         <img class="visible-sm visible-xs temp-icon" src="../images/temperature-max.png">
                         <md-slider flex md-discrete ng-model="maxTemperature" ng-change="setMaxTemperature(maxTemperature)"
                        min="{{minTemperature}}" max="40" aria-label="Max" class="md-warn"></md-slider>

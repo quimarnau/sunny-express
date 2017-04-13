@@ -236,10 +236,10 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 	$scope.colorPanel = {
 		white: "white",
-		blue: "#99ccff",
-		green: "#66ff66",
-		purple: "#df80ff",
-		red: "#ff6666"
+		blue: "var(--bg-blue)",
+		green: "var(--bg-green)",
+		purple: "var(--bg-purple)",
+		red: "var(--bg-red)"
 	};
 
 	$scope.changeColor = function(color) {

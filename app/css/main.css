@@ -1,3 +1,23 @@
+:root {
+	/*Basic theme colors for Sunny Express*/
+	--main-bg-color: #ffffff;
+	--bg-search-btn: #d3e6f9;
+	--toolbar-font: #ffffff;
+	/*Svg icon color fill*/
+	--validation-green: #59e65c;
+	--rejection-red: #ff4433;
+	/*Temperature color-theme*/
+	--min-temp: #3f51b5;
+	--max-temp: #ff5722;
+	/*Nav bar color theme*/
+	--nav-color: #003c9e;
+	/*Background colors for customized trips*/
+	--bg-blue: #99ccff;
+	--bg-green: #66ff66;
+	--bg-purple: #df80ff;
+	--bg-red: #ff6666;
+}
+
 html, body, .ng-scope, .container-fluid#main-container {
 	height: 100%;
 	/* For the moment don't add width: 100%, it messes the date picker style */
@@ -20,15 +40,15 @@ md-progress-circular {
 
 /* Navigation bar */
 md-nav-bar md-nav-ink-bar {
-	background: darkslateblue;
+	background: var(--nav-color);
 }
 nav {
-	background: white;
+	background: var(--main-bg-color);
 	border-radius: 3px;
 	margin: 10px 0px;
 }
 .nav-item {
-	color: darkslateblue;
+	color: var(--nav-color);
 }
 
 #top-spacing-from-navbar {
@@ -37,7 +57,6 @@ nav {
 }
 
 /* -- Home view ------------------------------------------ */
-
 
 #center-spacing-home {
 	height: 80vh;
@@ -48,7 +67,7 @@ nav {
 	width: 100vw;
 }
 #header-form-home {
-	background-color: white;
+	background-color: var(--main-bg-color);
 	border-top-left-radius:25px;
 	border-top-right-radius:25px;
 	padding-top: 10px;
@@ -63,7 +82,7 @@ nav {
 	padding: 6px;
 }
 #body-form-home {
-	background-color: white;
+	background-color: var(--main-bg-color);
 	border-bottom-left-radius:25px;
 	border-bottom-right-radius:25px;
 	padding: 0px 20px 20px 20px;
@@ -97,18 +116,18 @@ nav {
 	padding-right:10px;
 }
 #max-temp-value {
-	color: red;
+	color: var(--max-temp);
 	font-size: 20px;
 	margin-top: 3px;
 }
 #min-temp-value {
-	color: blue;
+	color: var(--min-temp);
 	font-size: 20px;
 	margin-top: 3px;
 }
 .temp-icon {
-	width: 10%;
-	height:10%;
+	width: 25px;
+	height: 25px;
 }
 #weather-icons {
 	padding-top: 2%
@@ -120,20 +139,21 @@ nav {
 	height:20px;
 	width: 20px;
 }
-
-/* Inside help dialog*/
 #help-dialog {
 	max-width:600px;
 	min-height: 80vh;	
 }
-.blue {
-	color: blue;
+.min-temp {
+	color: var(--min-temp);
+}
+.max-temp {
+	color: var(--max-temp);
 }
 .red {
-	color: red;
+	color: var(--rejection-red);
 }
 .green {
-	color: green;
+	color: var(--validation-green);
 }
 #logo-ending {
 	padding-bottom: 20px;
@@ -146,7 +166,7 @@ nav {
 	padding-left: 1.2%
 }
 #input-container {
-	background-color: white;
+	background-color: var(--main-bg-color);
 }
 #map-container {
 	min-height: 500px;
@@ -156,7 +176,7 @@ nav {
 	border-radius: 3px;
 }
 #location-form {
-	background-color: white;
+	background-color: var(--main-bg-color);
 	height: 80%;
 }
 #date-departure-label, #date-return-label {
@@ -164,7 +184,7 @@ nav {
 }
 #search-btn {
 	width:100%;
-	background-color: #d7e2f2;
+	background-color: var(--bg-search-btn);
 	margin: 15px 0px 0px 0px;
 }
 svg {
@@ -216,7 +236,7 @@ svg {
 	width: 18px;
 }
 #card-effect {
-	background-color: white;
+	background-color: var(--main-bg-color);
 	border-radius: 3px;
 	box-shadow: 0px 5px 5px #1f2e2e;
 	max-height: 60%;
@@ -259,7 +279,7 @@ svg {
 	margin-bottom: 15px;
 }
 #toolbar {
-	color: white;
+	color: var(--toolbar-font);
 }
 #calendar {
 	padding: 10px;
@@ -284,31 +304,31 @@ svg {
 	min-height: 40px;
 }
 .blue-event {
-	background-color: #99ccff;
+	background-color: var(--bg-blue);
 	padding:10px;
 	border-radius: 3px;
 	min-height: 40px;
 }
 .green-event {
-	background-color: #66ff66;
+	background-color: var(--bg-green);
 	padding:10px;
 	border-radius: 3px;
 	min-height: 40px;
 }
 .purple-event {
-	background-color: #df80ff;
+	background-color: var(--bg-purple);
 	padding:10px;
 	border-radius: 3px;
 	min-height: 40px;
 }
 .red-event {
-	background-color: #ff6666;
+	background-color: var(--bg-red);
 	padding:10px;
 	border-radius: 3px;
 	min-height: 40px;
 }
 .white {
-	background-color: white;
+	background-color: var(--main-bg-color);
 }
 .small-icon {
 	max-height: 50px;
@@ -326,7 +346,7 @@ svg {
 /* -- Profile ------------------------------------------- */
 #profile-container {
 	min-height: 500px;
-	background-color: white;
+	background-color: var(--main-bg-color);
 	margin-top: 20px;
 	border-radius: 3px;
 }

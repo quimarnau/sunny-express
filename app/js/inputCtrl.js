@@ -58,7 +58,7 @@ sunnyExpressApp.controller('InputCtrl', function ($scope, $location, $q, $rootSc
 	/**
 	 * Parameters of weather conditions
 	 */
-	$scope.statesDicc = {"0": "none", "1": "green", "2": "red"};
+	$scope.statesDicc = {"0": "none", "1": "var(--validation-green)", "2": "var(--rejection-red)"};
 	$scope.iconsName = ["day", "mostly-cloudy", "rain", "snowshowers"];
 	$scope.iconsState = SunnyExpress.getIconsState();
 	$scope.careAboutWind = SunnyExpress.getWindPreference() ? true : false;
