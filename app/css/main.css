@@ -365,7 +365,6 @@ svg {
 #loading-dialog {
 	height:180px !important;
 	overflow: hidden;
-	position: absolute;
 	height: 50%;
 	text-align:center;
 }

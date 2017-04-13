@@ -1,34 +1,47 @@
-sunnyExpressApp.controller('ProfileCtrl', function ($scope, SunnyExpress) {
+sunnyExpressApp.controller('ProfileCtrl', function ($scope, $location, SunnyExpress) {
+
+	$scope.testAfterLogout = function() {
+		if(!SunnyExpress.getIsLoggedIn() && $location.path().includes("profile")) {
+			$location.path("/home");
+		} 
+	};
 
 	$scope.getProfile = function() {
 		return SunnyExpress.getProfile();
 	};
 
 	$scope.getUsername = function() {
-		return SunnyExpress.getProfile().username;
+		if(SunnyExpress.getProfile() == undefined) return;
+		else return SunnyExpress.getProfile().username;
 	};
 
 	$scope.getEmail = function() {
-		return SunnyExpress.getProfile().email;
+		if(SunnyExpress.getProfile() == undefined) return;
+		else return SunnyExpress.getProfile().email;
 	};
 
 	$scope.getGender = function() {
-		return SunnyExpress.getProfile().gender;
+		if(SunnyExpress.getProfile() == undefined) return;
+		else return SunnyExpress.getProfile().gender;
 	};
 
 	$scope.getImageSrc = function() {
-		return SunnyExpress.getProfile().image_src;
+		if(SunnyExpress.getProfile() == undefined) return;
+		else return SunnyExpress.getProfile().image_src;
 	};
 
 	$scope.getLanguage = function() {
-		return SunnyExpress.getProfile().language;
+		if(SunnyExpress.getProfile() == undefined) return;
+		else return SunnyExpress.getProfile().language;
 	};
 
 	$scope.getGivenName = function() {
-		return SunnyExpress.getProfile().givenname;
+		if(SunnyExpress.getProfile() == undefined) return;
+		else return SunnyExpress.getProfile().givenname;
 	};
 
 	$scope.getFamilyName = function() {
-		return SunnyExpress.getProfile().familyname;
+		if(SunnyExpress.getProfile() == undefined) return;
+		else return SunnyExpress.getProfile().familyname;
 	};
 });
