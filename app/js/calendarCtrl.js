@@ -8,6 +8,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	$scope.tooltips = true;
 	$scope.firstDayOfWeek = 0; // First day of the week, 0 for Sunday, 1 for Monday, etc.
 	var today = new Date();
+	var trips = SunnyExpress.getTrips();
 
 	$scope.setDirection = function(direction) {
 	  $scope.direction = direction;
@@ -38,25 +39,49 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			return false;
 		}
 	}
-
 	
 	$scope.tripSelected = tripSelection();
+
+	var isToolBarOpen = false;
+
+	var setCalendarSize = function () {
+		if (angular.equals(trips, {})) {
+			$scope.calendarSize = "lg-cal";
+		} else {
+			if (isToolBarOpen) {
+				$scope.calendarSize = "sm-cal";
+			} else {
+				$scope.calendarSize = "md-cal";
+			}
+		}
+	}
+
+	setCalendarSize();
 
 	var closeToolBar = function () {
 		selectedTrip = undefined;
 		selectedTripId = undefined;
+		isToolBarOpen = false;
 		$scope.tripSelected = tripSelection();
+		setCalendarSize();
+
 	};
 
 	var openToolBar = function() {
 		if (selectedTrip != undefined) {
 			$scope.tripSelected = true;
+			isToolBarOpen = true;
 			$scope.tripTxt = "trip to " + selectedTrip.arriveCity;
+			setCalendarSize();
 		}
 	};
 
+	$scope.doneModifying = function() {
+		closeToolBar();
+	};
+
 	$scope.selectTrip = function(date) {
-		var trips = SunnyExpress.getTrips();
+		
 		closeToolBar();
 		for (id in trips) {
 			var tripDates = getDatesTrip(trips[id]);
@@ -145,7 +170,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	};
 
 	$scope.deleteTrip = function() {
-	  var trips = SunnyExpress.getTrips();
+	  
 	  var deletedTrip = {};
 		for (id in trips) {
 				if (id == selectedTripId) {
@@ -188,6 +213,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 							setCalendarContent(d, null);
 							d.setDate(tmp.getDate());	
 						}
+						closeToolBar();
 					}, function() {
 					});
 				
@@ -197,7 +223,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 	$scope.onChange = function(state) {
 		SunnyExpress.setForecastDisplay(!state);
-		var trips = SunnyExpress.getTrips();
+		
 		for (id in trips) {
 			var tripDates = getDatesTrip(trips[id]);
 			for (var j = 0; j < tripDates.length; j++) {
@@ -206,7 +232,6 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			}
 			
 		}
-		closeToolBar();
 	};
 
 	$scope.colorPanel = {
@@ -218,7 +243,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 	};
 
 	$scope.changeColor = function(color) {
-		var trips = SunnyExpress.getTrips();
+		
 		trips[selectedTripId].color = color;
 		SunnyExpress.updateTrip(selectedTripId, trips[selectedTripId]);
 		var data = {};
@@ -246,7 +271,6 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 			}
 			
 		}
-		closeToolBar();
 	};
 
 });

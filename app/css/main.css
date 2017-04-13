@@ -141,6 +141,20 @@ svg {
 	margin-bottom: 15px;
 }
 
+.sm-cal {
+	max-height: 65vh;
+	overflow-y: scroll;
+}
+
+.md-cal {
+	max-height: 80vh;
+	overflow-y: scroll;
+}
+
+.lg-cal {
+	max-height: 80vh;
+}
+
 .white-event {
 	padding:10px;
 	border-radius: 3px;
