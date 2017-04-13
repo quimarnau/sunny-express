@@ -181,6 +181,11 @@ svg {
 .md-datepicker-input-container {
     max-width: 60%;
 }
+
+/*Map view*/
+#temp-info-icon {
+	max-width: 18px;
+}
 /* ------------------------------------------------------ */
 
 /* Description view ------------------------------------- */
@@ -282,4 +287,16 @@ svg {
 }
 #profile-content {
 	margin-top: 15px;
+}
+
+/* Loading */
+#loading {
+	visibility: hidden
+}
+#loading-dialog {
+	height:180px !important;
+	overflow: hidden;
+	position: absolute;
+	height: 50%;
+	text-align:center;
 }

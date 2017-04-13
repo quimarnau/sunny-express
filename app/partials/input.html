@@ -74,21 +74,21 @@
 					</div>
 				</md-input-container>
 			</div>
-
+			
 			<md-slider-container class="mts-10">
 				<img src="../images/temperature-min.png">
 				<md-slider flex md-discrete ng-model="minTemperature" min="-20" max="{{maxTemperature}}"
 				           aria-label="Min" class="md-primary"></md-slider>
-				<p id="min-temp-value>{{minTemperature}}</p>
+				<p id="min-temp-value">{{minTemperature}}</p>
 			</md-slider-container>
-
+			
 			<md-slider-container>
 				<img src="../images/temperature-max.png">
 				<md-slider flex md-discrete ng-model="maxTemperature" min="{{minTemperature}}" max="40"
 				           aria-label="Max" class="md-warn"></md-slider>
 				<p id="max-temp-value">{{maxTemperature}}</p>
 			</md-slider-container>
-
+			
 			<div layout="row" layout-align="space-between center">
 					<md-icon md-svg-src="../images/svg/wind.svg" class="md-32 mr-15"></md-icon>
 					<md-switch ng-model="careAboutWind" class="md-primary" aria-label="Wind preference"></md-switch>

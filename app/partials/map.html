@@ -1,5 +1,4 @@
 <div class="row"  ng-controller="MapCtrl">
-    <!--<div id="map" class="col-md-12"></div>-->
     <ui-gmap-google-map id="map-div" class="col-md-12" center='mapFeatures.center' zoom='mapFeatures.zoom' ng-click="closeInfoWin()">
         <ui-gmap-marker ng-repeat='city in getCityCoords()'
                 idKey='city.name'
@@ -19,8 +18,8 @@
                     <img  ng-src="{{infoWindow.imageSrc}}">
                 </div>
                 <div>
-                <p> <img src="../images/temperature-min.png" style="max-width: 18px;"> {{infoWindow.weatherResumeMin}}</p>
-                <p> <img src="../images/temperature-max.png" style="max-width: 18px;"> {{infoWindow.weatherResumeMax}}</p>
+                <p> <img src="../images/temperature-min.png" id="temp-info-icon"> {{infoWindow.weatherResumeMin}}</p>
+                <p> <img src="../images/temperature-max.png" id="temp-info-icon"> {{infoWindow.weatherResumeMax}}</p>
                 </div>
                 <a ng-href="#!/description/{{infoWindow.cityName.toString()}}">Click</a> for details.
             </div>
