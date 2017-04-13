@@ -57,6 +57,7 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 	$scope.selectTrip = function(date) {
 		var trips = SunnyExpress.getTrips();
+		closeToolBar();
 		for (id in trips) {
 			var tripDates = getDatesTrip(trips[id]);
 			for (var j = 0; j < tripDates.length; j++) {
