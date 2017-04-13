@@ -14,6 +14,15 @@
     "mongodb": "^2.2.25",
     "npm-run-all": "^4.0.2"
   },
+    "dependencies": {
+    "body-parser": "^1.17.1",
+    "bower": "^1.8.x",
+    "cors": "^2.8.3",
+    "express": "^4.x",
+    "http-server": "^0.9.0",
+    "mongodb": "^2.2.25",
+    "npm-run-all": "^4.0.2"
+  },
   "scripts": {
     "postinstall": "bower install",
     "prestart": "npm install",
