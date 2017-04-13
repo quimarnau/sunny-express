@@ -1,8 +1,10 @@
 TODO
 - Calendar interaction (color, etc.) -> Laura, Mat
     - Correct forecast data ->  For future trips we update weather max once every day
-                            ->  Calendar trip selection correct (if clicked elsewhere then on a trip, set selected trip to undefined
+
 - Solve bug on profile page if logged out.
+
+- Go over overall style -> Harmonization of the app and remove the most of inline style as possible (Laura)
 
 TO DISCUSS / BUGS / MINOR CONCERNS
 - Majority vote in case of tie
