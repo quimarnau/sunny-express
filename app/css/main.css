@@ -32,7 +32,7 @@ nav {
 }
 
 
-/* Home view */
+/* -- Home view ------------------------------------------ */
 #top-spacing-home {
 	height:2vh;
 	width: 100vw;
@@ -67,7 +67,27 @@ nav {
 	padding: 0px 20px 20px 20px;
 }
 
-/* Search view */
+/* Help dialog*/
+#help-dialog {
+	max-width:600px;
+	min-height: 80vh;	
+}
+.blue {
+	color: blue;
+}
+.red {
+	color: red;
+}
+.green {
+	color: green;
+}
+#logo-ending {
+	padding-bottom: 20px;
+}
+/* ------------------------------------------------------ */
+
+
+/* - Search view ---------------------------------------- */
 #input-container {
 	background-color: white;
 }
@@ -112,8 +132,9 @@ svg {
 .md-datepicker-input-container {
     max-width: 60%;
 }
+/* ------------------------------------------------------ */
 
-/* Description view */
+/* Description view ------------------------------------- */
 #top-spacing-description {
 	min-height:2vh;
 	width: 100vw;
@@ -135,8 +156,9 @@ svg {
 	height: 18px;
 	width: 18px;
 }
+/* ------------------------------------------------------ */
 
-/* Calendar view */
+/* Calendar view ---------------------------------------- */
 .mb-15 {
 	margin-bottom: 15px;
 }
@@ -200,9 +222,9 @@ svg {
 	right: 0px;
 }
 .angular-google-map-container { height: 80vh; }
+/* ------------------------------------------------------ */
 
-
-/* Profile */
+/* -- Profile ------------------------------------------- */
 #profile-container {
 	min-height: 500px;
 	background-color: white;

@@ -1,6 +1,4 @@
-
-
-<md-dialog aria-label="Help" style="max-width:600px;min-height: 80vh;">
+<md-dialog aria-label="Help" id= "help-dialog">
   <form ng-cloak>
     <md-dialog-content>
       <div class="md-dialog-content">
@@ -12,12 +10,12 @@
             Select your dream weather:
             <ul>
               <li>
-                <p><b>Choose your temperatures interval</b>.</p><p>Slide to get a <span style="color:blue">minimum of 10</span> and a <span style="color:red">maximum of 20</span> celsius degrees for instance.</p>
+                <p><b>Choose your temperatures interval</b>.</p><p>Slide to get a <span class = "blue">minimum of 10</span> and a <span class="red">maximum of 20</span> celsius degrees for instance.</p>
               </li>
               <li>
                 <p><b>Select your weather preferences</b> by clicking on the icons.</p>
-                <p>Click once means "I want"<br>&nbsp;eg. <md-icon md-svg-src="../images/svg/day.svg" style="color:green"></md-icon> implies I <u>do</u> want sun.</p>
-                <p>Click twice means "I <u>do not</u> want"<br>&nbsp;eg. <md-icon md-svg-src="../images/svg/day.svg" style="color:red"></md-icon> implies I do not want sun at all.</p>
+                <p>Click once means "I want"<br>&nbsp;eg. <md-icon md-svg-src="../images/svg/day.svg" class = "green"></md-icon> implies I <u>do</u> want sun.</p>
+                <p>Click twice means "I <u>do not</u> want"<br>&nbsp;eg. <md-icon md-svg-src="../images/svg/day.svg" class="red"></md-icon> implies I do not want sun at all.</p>
                 <p>Else means "I do not mind"<br>&nbsp;eg. <md-icon md-svg-src="../images/svg/day.svg"></md-icon> implies I do not mind if there is or is not sun.</p>
               </li>
               <li>
@@ -32,7 +30,7 @@
           </li>
           </ol>
       </div>
-      <div align="center" style="padding-bottom: 20px">
+      <div align="center" id = "logo-ending">
         <img id="logo-home" src="../images/logo.png">
       </div>
     </md-dialog-content>
