@@ -31,12 +31,14 @@ nav {
 	color: darkslateblue;
 }
 
-
-/* -- Home view ------------------------------------------ */
-#top-spacing-home {
+#top-spacing-from-navbar {
 	height:2vh;
 	width: 100vw;
 }
+
+/* -- Home view ------------------------------------------ */
+
+
 #center-spacing-home {
 	height: 80vh;
 	width: 100vw;
@@ -135,10 +137,6 @@ svg {
 /* ------------------------------------------------------ */
 
 /* Description view ------------------------------------- */
-#top-spacing-description {
-	min-height:2vh;
-	width: 100vw;
-}
 #bottom-spacing-description {
 	min-height:2vh;
 	width: 100vw;
