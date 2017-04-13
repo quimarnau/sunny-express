@@ -3,7 +3,7 @@
 		<div class="col-md-8 col-md-offset-2">
 			<ng-include src="'partials/navbar.html'"></ng-include>
 
-			<div id="profile-container" ng-controller="ProfileCtrl">
+			<div id="profile-container" ng-controller="ProfileCtrl" ng-init="testAfterLogout()">
 				<div class="md-padding">
 					<div class="col-md-4">
 						<img id="profile-img" ng-src="{{getImageSrc()}}">
