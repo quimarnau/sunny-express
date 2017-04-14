@@ -42,8 +42,6 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress, $rootScope
 	};
 
 	$scope.infoWindow = {
-		coords: { latitude: 48.856461, longitude: 2.35236 },
-		showInfo: false
 	};
 
 	$scope.onCloseInfoWindow = function() {
