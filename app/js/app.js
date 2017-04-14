@@ -68,7 +68,7 @@ sunnyExpressApp.config(['$routeProvider',
 			}).
 			accessWhen('/calendar', {
 				templateUrl: 'partials/calendar.html',
-				controller: 'CalendarCtrl',
+				controller: 'CalendarCtrl'
 			}).
 			accessWhen('/profile', {
 				templateUrl: 'partials/profile.html',
