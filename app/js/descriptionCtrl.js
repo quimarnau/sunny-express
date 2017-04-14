@@ -9,7 +9,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	if(SunnyExpress.getAggregateConditions() == undefined) SunnyExpress.setAggregateConditions(aggregateConditions);
 	if(SunnyExpress.getIataCodesAirlines() == undefined) SunnyExpress.setIataCodesAirlines(iataCodesAirlines);
 	if(SunnyExpress.getMapConditionIdName() == undefined) SunnyExpress.setMapConditionIdName(mapConditionIdName);
-	if(SunnyExpress.getIsLoggedIn()) SunnyExpress.setTrips(trips);
+	if((SunnyExpress.getIsLoggedIn()) && (Object.keys(SunnyExpress.getTrips()).length == 0)) SunnyExpress.setTrips(trips);
 
 	$scope.thereAreFlights = false;
 	$scope.status = "Loading...";	
