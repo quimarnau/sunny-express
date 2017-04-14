@@ -38,17 +38,12 @@ sunnyExpressApp.controller('MapCtrl', function ($scope, SunnyExpress, $rootScope
 			SunnyExpress.setSelectedCity($scope.infoWindow.cityName);
 
 		}
-	},
-		icon: {
-			url:    "../images/cloud-green.png",
-			size: new google.maps.Size(10, 55)
-		}
+	}
 	};
 
 	$scope.infoWindow = {
 		coords: { latitude: 48.856461, longitude: 2.35236 },
-		showInfo: false,
-		imageSrc: "../images/cloud-green.png"
+		showInfo: false
 	};
 
 	$scope.onCloseInfoWindow = function() {
