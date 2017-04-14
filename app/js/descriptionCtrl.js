@@ -15,6 +15,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	$scope.mapConditionIdName = SunnyExpress.getMapConditionIdName();
 
 	var selectedCity = undefined;
+	var activeCities = undefined;
 
 	var init = function() {
 		selectedCity = SunnyExpress.getSelectedCity();
@@ -32,7 +33,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	}
 
 	var initContent = function() {
-		var activeCities = SunnyExpress.getActiveCities();
+		activeCities = SunnyExpress.getActiveCities();
 		var latlong = {lat: activeCities[selectedCity].location.latitude , lng: activeCities[selectedCity].location.longitude};
 
 		service = new google.maps.places.PlacesService(new google.maps.Map("",{}));
@@ -169,7 +170,9 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 			tempDate = new Date(tempDate);
 		}
 
-		var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity, "color": defaultColor, "forecast": aggregatedForecast, "updateDate": new Date()};
+		var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity, "color": defaultColor, 
+		"forecast": aggregatedForecast, "updateDate": new Date(), "arriveCityLat": activeCities[selectedCity].location.latitude, "arriveCityLon": activeCities[selectedCity].location.longitude};
+
 		var tripStatus = SunnyExpress.checkTripOverlap(trip);
 		if(tripStatus != null) {
 			$mdDialog.show(

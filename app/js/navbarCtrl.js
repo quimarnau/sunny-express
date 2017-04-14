@@ -76,18 +76,11 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 
 		SunnyExpress.setProfile(profile);
 
-		SunnyExpress.backendGetTrips.get({"userId": SunnyExpress.getUserId()}, function(data) {
-			for(tripId in data.data) {
-				data.data[tripId].start = new Date(data.data[tripId].start);
-				data.data[tripId].end = new Date(data.data[tripId].end);
-			}
-			SunnyExpress.setTrips(data.data);
-			$rootScope.$broadcast("loadingEvent",false);
+		$rootScope.$broadcast("loadingEvent",false);
 
-			if ($location.path() == "/calendar") {
+		if ($location.path() == "/calendar") {
 				$rootScope.$broadcast("reload", true);
-			}
-		});
+		}
 	}
 
 	$scope.$on('event:google-plus-signin-failure', function (event, authResult) {
@@ -95,7 +88,6 @@ sunnyExpressApp.controller('NavbarCtrl', function ($scope, $location, $rootScope
 			SunnyExpress.setIsLoggedIn(false);
 			SunnyExpress.setUserId(undefined);
 			SunnyExpress.setTrips({});
-			$location.path('/home');
 			$rootScope.$broadcast("reload", true);
 
 		}

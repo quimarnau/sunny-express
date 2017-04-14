@@ -1,6 +1,7 @@
-sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, mapConditionIdName, SunnyExpress, MaterialCalendarData) {
+sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, mapConditionIdName, trips, SunnyExpress, MaterialCalendarData) {
 
 	if(SunnyExpress.getMapConditionIdName() == undefined) SunnyExpress.setMapConditionIdName(mapConditionIdName);
+	if(SunnyExpress.getIsLoggedIn()) SunnyExpress.setTrips(trips);
 	
 	//Calendar set up
 	$scope.dayFormat = "d";

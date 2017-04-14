@@ -39,7 +39,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var weatherConditionResolveDB = undefined;
 	var mapConditionIdName = undefined;
 
-	var tripsHistoryDb = {}; // One trip data - 1: {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": string, "forecast": Array, "updateDate": Date()}
+	var tripsHistoryDb = {}; // One trip data - 1: {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": string, "forecast": Array, "updateDate": Date(), "arriveCityLat": real,"arriveCityLon": real}
 	var mapFeatures = { center: { latitude: 48.856461, longitude: 2.35236 }, zoom: 5 };
 
 	var forecastDisplay = true;
@@ -648,13 +648,6 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	if ($cookieStore.get("iconsState") != undefined) this.setIconsState($cookieStore.get("iconsState"));
 
 	if (isLoggedIn) {
-		this.backendGetTrips.get({"userId": this.getUserId()}, function(data) {
-			for(tripId in data.data) {
-				data.data[tripId].start = new Date(data.data[tripId].start);
-				data.data[tripId].end = new Date(data.data[tripId].end);
-			}
-			tripsHistoryDb = data.data;
-		});
 		if ($cookieStore.get("profile") != undefined) this.setProfile($cookieStore.get("profile"));
 	}
 

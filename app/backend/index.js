@@ -44,8 +44,8 @@ MongoClient.connect("mongodb://root:sunny-express@ds145220.mlab.com:45220/sunny-
 
 // weatherConditionsDb  Format in DB - [{"baseCode": 1000, "resolveCodes": [1000,1003]}]
 
-// tripsHistoryDb  - Format in DB - [{"id": "1", "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": color}},
-						//		{"id": 2, "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": color}}]
+// tripsHistoryDb  - Format in DB - [{"id": "1", "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": color "forecast": Array, "updateDate": Date(), "arriveCityLat": real,"arriveCityLon": real}},
+						//		{"id": 2, "trip": {"start": Date(), "end": Date(), "departCity": city, "arriveCity": city, "color": color, "forecast": Array, "updateDate": Date(), "arriveCityLat": real,"arriveCityLon": real}}]
 
 // iataCodesAirlines = Format in DB         { "iata":"ZY", "name":"Sky Airlines"}
 
@@ -142,6 +142,7 @@ app.post("/addTrip/:userId", function(req, res) {
 
 app.post("/updateTrip/:userId/", function(req, res) {
 	id = Object.keys(req.body)[0];
+	console.log(req.body[id]);
 	tripsHistoryDb.update({"id": id, "userId":req.params.userId}, {"id": id,"trip":req.body[id], "userId":req.params.userId}, {w:1}, function(err, result) {
 		if(err) console.log(err);
 		else if(result.result.ok == 1) {

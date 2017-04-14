@@ -32,6 +32,21 @@ var sunnyExpressApp = angular.module('sunnyExpress', ['ngRoute', 'ngResource', '
 					return SunnyExpress.backendGetMapConditionIdName.get().$promise.then(function(data){
 						return data;
 					});
+				},
+				trips: function(SunnyExpress, $q) {
+					if (SunnyExpress.getIsLoggedIn()) {
+						return SunnyExpress.backendGetTrips.get({"userId": SunnyExpress.getUserId()}).$promise.then(function(data) {
+							for(tripId in data.data) {
+								data.data[tripId].start = new Date(data.data[tripId].start);
+								data.data[tripId].end = new Date(data.data[tripId].end);
+								data.data[tripId].updateDate = new Date(data.data[tripId].updateDate);
+							}
+							return data.data;
+						});
+					}
+					else {
+						return $q.resolve(0);
+					}
 				}
 			}
 			return $routeProvider.when(path, route);
@@ -53,7 +68,7 @@ sunnyExpressApp.config(['$routeProvider',
 			}).
 			accessWhen('/calendar', {
 				templateUrl: 'partials/calendar.html',
-				controller: 'CalendarCtrl'
+				controller: 'CalendarCtrl',
 			}).
 			accessWhen('/profile', {
 				templateUrl: 'partials/profile.html',
