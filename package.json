@@ -26,8 +26,7 @@
   "scripts": {
     "postinstall": "bower install",
     "prestart": "npm install",
-    "start": "npm-run-all --parallel start-frontend start-backend",
-    "start-backend": "node app/backend/index.js",
-    "start-frontend": "http-server app/ -a 0.0.0.0 -p 8000"
+    "start": "npm-run-all start-frontend",
+    "start-frontend": "http-server app/ -a 0.0.0.0 -p $PORT"
   }
 }

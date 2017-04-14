@@ -30,7 +30,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 
     var skyscannerAPI = "https://crossorigin.me/http://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/:country/:currency/en-US/:depart/:arrive/:departureDate/:arriveDate";
 
-	var backendBaseUrl = "http://localhost:3000/";
+	var backendBaseUrl = "https://sunny-express-backend.herokuapp.com/";
 
 	var cities = undefined;
 	var countries = undefined;
