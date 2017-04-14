@@ -1,5 +1,5 @@
 sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $rootScope, $timeout, $mdDialog, $routeParams, cities, countries, baseConditions,
-	aggregateConditions, iataCodesAirlines, mapConditionIdName, SunnyExpress) {
+	aggregateConditions, iataCodesAirlines, mapConditionIdName, trips, SunnyExpress) {
 	var defaultColor = "white";
 	$rootScope.$broadcast("loadingEvent",true);
 
@@ -9,6 +9,7 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 	if(SunnyExpress.getAggregateConditions() == undefined) SunnyExpress.setAggregateConditions(aggregateConditions);
 	if(SunnyExpress.getIataCodesAirlines() == undefined) SunnyExpress.setIataCodesAirlines(iataCodesAirlines);
 	if(SunnyExpress.getMapConditionIdName() == undefined) SunnyExpress.setMapConditionIdName(mapConditionIdName);
+	if(SunnyExpress.getIsLoggedIn()) SunnyExpress.setTrips(trips);
 
 	$scope.thereAreFlights = false;
 	$scope.status = "Loading...";	
