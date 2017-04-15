@@ -174,6 +174,54 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 		var trip = {"start": departDate, "end": returnDate, "departCity": departCity, "arriveCity": returnCity, "color": defaultColor, 
 		"forecast": aggregatedForecast, "updateDate": new Date(), "arriveCityLat": activeCities[selectedCity].location.latitude, "arriveCityLon": activeCities[selectedCity].location.longitude};
 
+		if(SunnyExpress.getIsLoggedIn()) {
+			if(Object.keys(SunnyExpress.getTrips()).length == 0) {
+				$rootScope.$broadcast("loadingEvent",true);
+				SunnyExpress.backendGetTrips.get({"userId": SunnyExpress.getUserId()},function(data) {
+					$rootScope.$broadcast("loadingEvent",false);
+					for(tripId in data.data) {
+						data.data[tripId].start = new Date(data.data[tripId].start);
+						data.data[tripId].end = new Date(data.data[tripId].end);
+						data.data[tripId].updateDate = new Date(data.data[tripId].updateDate);
+					}
+					SunnyExpress.setTrips(data.data);
+					if(checkOverlap(trip)) {
+						return;
+					} else {
+						addTrip(trip);
+						$scope.goToCalendar();
+					}
+				})
+			} else {
+				if(checkOverlap(trip)) {
+						return;
+				} else {
+					addTrip(trip);
+					$scope.goToCalendar();
+				}
+			}
+		} else {
+			var confirm = $mdDialog.confirm()
+				.parent(angular.element(document.querySelector("#general-view")))
+				.title("WARNING! YOU ARE NOT LOGGED IN")
+				.textContent("The trip will not be saved permanently because you are not logged in. Log in to save it.")
+				.ariaLabel("Warning")
+				.ok("Proceed anyway")
+				.cancel("Okay I will log in first");
+
+			$mdDialog.show(confirm).then(function() {
+				if(checkOverlap(trip)) {
+						return;
+					} else {
+						SunnyExpress.addNewTrip(trip);
+						$scope.goToCalendar();
+					}
+			}, function() {
+			});
+		}
+	}
+
+	var checkOverlap = function(trip) {
 		var tripStatus = SunnyExpress.checkTripOverlap(trip);
 		if(tripStatus != null) {
 			$mdDialog.show(
@@ -188,42 +236,28 @@ sunnyExpressApp.controller("DescriptionCtrl", function ($scope, $location, $root
 					.ariaLabel("Alert")
 					.ok("Got it!")
 			);
-			return;
+			return true;
 		}
+		return false;
+	}
 
-		if(SunnyExpress.getIsLoggedIn()) {
-			var newId = SunnyExpress.addNewTrip(trip);
-			var data = {};
-			data[newId] = trip;
-			SunnyExpress.backendAddTrip.create({"userId": SunnyExpress.getUserId()},data, function(data){
-				if(data.resp != "OK") {
-					$mdDialog.show(
-						$mdDialog.alert()
-							.parent(angular.element(document.querySelector("#general-view")))
-							.clickOutsideToClose(true)
-							.title("ERROR WHILE SAVING TRIP TO DB")
-							.textContent("The trip saving to the DB was unsuccessful due to an error.")
-							.ariaLabel("Alert")
-							.ok("Got it!")
-					);
-				}
-			});
-			$scope.goToCalendar();
-		} else {
-			var confirm = $mdDialog.confirm()
-				.parent(angular.element(document.querySelector("#general-view")))
-				.title("WARNING! YOU ARE NOT LOGGED IN")
-				.textContent("The trip will not be saved permanently because you are not logged in. Log in to save it.")
-				.ariaLabel("Warning")
-				.ok("Proceed anyway")
-				.cancel("Okay I will log in first");
-
-			$mdDialog.show(confirm).then(function() {
-				var newId = SunnyExpress.addNewTrip(trip);
-				$scope.goToCalendar();
-			}, function() {
-			});
-		}
+	var addTrip = function(trip) {
+		var newId = SunnyExpress.addNewTrip(trip);
+		var data = {};
+		data[newId] = trip;
+		SunnyExpress.backendAddTrip.create({"userId": SunnyExpress.getUserId()},data, function(data){
+			if(data.resp != "OK") {
+				$mdDialog.show(
+					$mdDialog.alert()
+						.parent(angular.element(document.querySelector("#general-view")))
+						.clickOutsideToClose(true)
+						.title("ERROR WHILE SAVING TRIP TO DB")
+						.textContent("The trip saving to the DB was unsuccessful due to an error.")
+						.ariaLabel("Alert")
+						.ok("Got it!")
+				);
+			}
+		});
 	}
 
 	$scope.goToCalendar = function () {
