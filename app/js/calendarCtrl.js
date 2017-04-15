@@ -172,54 +172,51 @@ sunnyExpressApp.controller('CalendarCtrl', function($scope, $filter, $mdDialog, 
 
 	$scope.deleteTrip = function() {
 	  
-	  var deletedTrip = {};
-		for (id in trips) {
-				if (id == selectedTripId) {
-					var confirmDeletion = $mdDialog.confirm()
-					  .title('Do you really want us to delete your trip?')
-					  .textContent('Your trip to '+ trips[id].arriveCity +
-						' from ' + trips[id].start.toLocaleString("en-us",{month: "long"}) + ' '
-						+ trips[id].start.getDate() + ' to ' + trips[id].end.toLocaleString("en-us",{month: "long"}) + ' '
-						+ trips[id].end.getDate() + ' would be entirely deleted from your trips history.')
-					  .ariaLabel('Trip deletion')
-					  .ok('Please do it!')
-					  .cancel('No, thanks');
+		var deletedTrip = {};
 
-					$mdDialog.show(confirmDeletion).then(function() {
-						deletedTrip = trips[id];
-						SunnyExpress.removeTrip(id);
+		var confirmDeletion = $mdDialog.confirm()
+		  .title('Do you really want us to delete your trip?')
+		  .textContent('Your trip to '+ trips[selectedTripId].arriveCity +
+			' from ' + trips[selectedTripId].start.toLocaleString("en-us",{month: "long"}) + ' '
+			+ trips[selectedTripId].start.getDate() + ' to ' + trips[selectedTripId].end.toLocaleString("en-us",{month: "long"}) + ' '
+			+ trips[selectedTripId].end.getDate() + ' would be entirely deleted from your trips history.')
+		  .ariaLabel('Trip deletion')
+		  .ok('Please do it!')
+		  .cancel('No, thanks');
 
-						if(SunnyExpress.getIsLoggedIn()) {
-							SunnyExpress.backendRemoveTrip.delete({"id":id, "userId": SunnyExpress.getUserId()}, function(data){
-								if(data.resp != "OK") {
-									$mdDialog.show(
-										$mdDialog.alert()
-											.parent(angular.element(document.querySelector('#general-view')))
-											.clickOutsideToClose(true)
-											.title('ERROR WHILE DELETING TRIP IN DB')
-											.textContent('The trip deleting in the DB was unsuccessful due to an error.')
-											.ariaLabel('Alert')
-											.ok('Got it!')
-									);
-								}
-							});
-						}
+		$mdDialog.show(confirmDeletion).then(function() {
+			deletedTrip = trips[selectedTripId];
+			SunnyExpress.removeTrip(selectedTripId);
 
-						var d = new Date();
-						d.setTime(deletedTrip.start.getTime());
-
-						while (d.getTime() <= deletedTrip.end.getTime()) {
-							var tmp = new Date();
-							tmp.setDate(d.getDate() +1);
-							setCalendarContent(d, null);
-							d.setDate(tmp.getDate());	
-						}
-						closeToolBar();
-					}, function() {
-					});
-				
+			if(SunnyExpress.getIsLoggedIn()) {
+				SunnyExpress.backendRemoveTrip.delete({"id":selectedTripId, "userId": SunnyExpress.getUserId()}, function(data){
+					if(data.resp != "OK") {
+						$mdDialog.show(
+							$mdDialog.alert()
+								.parent(angular.element(document.querySelector('#general-view')))
+								.clickOutsideToClose(true)
+								.title('ERROR WHILE DELETING TRIP IN DB')
+								.textContent('The trip deleting in the DB was unsuccessful due to an error.')
+								.ariaLabel('Alert')
+								.ok('Got it!')
+						);
+					}
+				});
 			}
-		}
+
+			var d = new Date();
+			d.setTime(deletedTrip.start.getTime());
+
+			while (d.getTime() <= deletedTrip.end.getTime()) {
+				var tmp = new Date();
+				tmp.setDate(d.getDate() +1);
+				setCalendarContent(d, null);
+				d.setDate(tmp.getDate());	
+			}
+			closeToolBar();
+		}, function() {
+		});
+
 	};
 
 	$scope.onChange = function(state) {
