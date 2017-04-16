@@ -20,7 +20,7 @@ sunnyExpressApp.factory("SunnyExpress", function ($resource, $filter, $timeout, 
 	var flightInfo = {};
 	var mapConditionIdName = {};
 
-	var weatherApiKey = "4f1d06b1e44e43099b0180536171603";//"8e160eeab587455bb77133238172903"; brand-new one: "b445ef18833e44ad9ef141042171304";
+	var weatherApiKey = "b445ef18833e44ad9ef141042171304";//"4f1d06b1e44e43099b0180536171603";//"8e160eeab587455bb77133238172903";
 	var weatherReqUrl = "http://api.apixu.com/v1/forecast.json:forecastParams";
 
 	var googleMapsApiKey = "AIzaSyA9468jXny8bSZUnrtONE3SSh9epY2ctR0";
